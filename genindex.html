@@ -37,7 +37,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">1. Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">2. Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Run.html">3. Run FitSNAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pytorch.html">4. PyTorch Models</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Programmer Guide</span></p>
 <ul>
@@ -76,15 +79,25 @@
  | <a href="#D"><strong>D</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
  | <a href="#P"><strong>P</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#W"><strong>W</strong></a>
  
 </div>
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Library.html#fitsnap3lib.io.input.Config">Config (class in fitsnap3lib.io.input)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Library.html#fitsnap3lib.solvers.pytorch.PYTORCH.create_datasets">create_datasets() (fitsnap3lib.solvers.pytorch.PYTORCH method)</a>
+</li>
+      <li><a href="Library.html#fitsnap3lib.lib.neural_networks.pytorch.create_torch_network">create_torch_network() (in module fitsnap3lib.lib.neural_networks.pytorch)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -109,13 +122,18 @@
         <li><a href="Library.html#module-fitsnap3lib.fitsnap">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     fitsnap3lib.io.input
 
       <ul>
         <li><a href="Library.html#module-fitsnap3lib.io.input">module</a>
+</li>
+      </ul></li>
+      <li>
+    fitsnap3lib.lib.neural_networks.pytorch
+
+      <ul>
+        <li><a href="Library.html#module-fitsnap3lib.lib.neural_networks.pytorch">module</a>
 </li>
       </ul></li>
       <li>
@@ -125,6 +143,28 @@
         <li><a href="Library.html#module-fitsnap3lib.parallel_tools">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    fitsnap3lib.solvers.pytorch
+
+      <ul>
+        <li><a href="Library.html#module-fitsnap3lib.solvers.pytorch">module</a>
+</li>
+      </ul></li>
+      <li>
+    fitsnap3lib.solvers.solver
+
+      <ul>
+        <li><a href="Library.html#module-fitsnap3lib.solvers.solver">module</a>
+</li>
+      </ul></li>
+      <li><a href="Library.html#fitsnap3lib.lib.neural_networks.pytorch.FitTorch">FitTorch (class in fitsnap3lib.lib.neural_networks.pytorch)</a>
+</li>
+      <li><a href="Library.html#fitsnap3lib.lib.neural_networks.pytorch.FitTorch.forward">forward() (fitsnap3lib.lib.neural_networks.pytorch.FitTorch method)</a>
+</li>
+      <li><a href="Library.html#fitsnap3lib.lib.neural_networks.pytorch.from_numpy">from_numpy() (in module fitsnap3lib.lib.neural_networks.pytorch)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -140,6 +180,22 @@
   </ul></td>
 </tr></table>
 
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Library.html#fitsnap3lib.lib.neural_networks.pytorch.FitTorch.import_wb">import_wb() (fitsnap3lib.lib.neural_networks.pytorch.FitTorch method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Library.html#fitsnap3lib.lib.neural_networks.pytorch.FitTorch.load_lammps_torch">load_lammps_torch() (fitsnap3lib.lib.neural_networks.pytorch.FitTorch method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -151,7 +207,13 @@
 </li>
         <li><a href="Library.html#module-fitsnap3lib.io.input">fitsnap3lib.io.input</a>
 </li>
+        <li><a href="Library.html#module-fitsnap3lib.lib.neural_networks.pytorch">fitsnap3lib.lib.neural_networks.pytorch</a>
+</li>
         <li><a href="Library.html#module-fitsnap3lib.parallel_tools">fitsnap3lib.parallel_tools</a>
+</li>
+        <li><a href="Library.html#module-fitsnap3lib.solvers.pytorch">fitsnap3lib.solvers.pytorch</a>
+</li>
+        <li><a href="Library.html#module-fitsnap3lib.solvers.solver">fitsnap3lib.solvers.solver</a>
 </li>
       </ul></li>
   </ul></td>
@@ -170,6 +232,8 @@
 </li>
       <li><a href="Library.html#fitsnap3lib.parallel_tools.ParallelTools.new_slice_dgrad">new_slice_dgrad() (fitsnap3lib.parallel_tools.ParallelTools method)</a>
 </li>
+      <li><a href="Library.html#fitsnap3lib.parallel_tools.ParallelTools.new_slice_t">new_slice_t() (fitsnap3lib.parallel_tools.ParallelTools method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -177,6 +241,28 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Library.html#fitsnap3lib.parallel_tools.ParallelTools">ParallelTools (class in fitsnap3lib.parallel_tools)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Library.html#fitsnap3lib.solvers.pytorch.PYTORCH.perform_fit">perform_fit() (fitsnap3lib.solvers.pytorch.PYTORCH method)</a>
+</li>
+      <li><a href="Library.html#fitsnap3lib.solvers.pytorch.PYTORCH">PYTORCH (class in fitsnap3lib.solvers.pytorch)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Library.html#fitsnap3lib.solvers.solver.Solver">Solver (class in fitsnap3lib.solvers.solver)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Library.html#fitsnap3lib.lib.neural_networks.pytorch.FitTorch.write_lammps_torch">write_lammps_torch() (fitsnap3lib.lib.neural_networks.pytorch.FitTorch method)</a>
 </li>
   </ul></td>
 </tr></table>

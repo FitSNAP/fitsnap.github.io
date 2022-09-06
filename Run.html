@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3. Run FitSNAP &mdash; FitSNAP  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="4. PyTorch Models" href="Pytorch.html" />
+    <link rel="prev" title="2. Usage" href="usage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> FitSNAP
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">2. Usage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Run FitSNAP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#executable">3.1. Executable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#input-scripts">3.2. Input Scripts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bispectrum">3.2.1. [BISPECTRUM]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#calculator">3.2.2. [CALCULATOR]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#eshift">3.2.3. [ESHIFT]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#solver">3.2.4. [SOLVER]</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#library">3.3. Library</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Pytorch.html">4. PyTorch Models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Programmer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Executable.html">1. Executable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Library.html">2. Library</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FitSNAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">3. </span>Run FitSNAP</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Run.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="run-fitsnap">
+<h1><span class="section-number">3. </span>Run FitSNAP<a class="headerlink" href="#run-fitsnap" title="Permalink to this heading"></a></h1>
+<p>There are two ways to run FitSNAP: (1) the python executable or (2) as a python library. The
+executable version is reserved for the most basic operation of fitting on a dataset, where data
+is scraped from a directory, configurations are input to LAMMPS to calculate descriptors, and the
+machine learning problem is solved. The python library provides more flexibility and allows one to
+modify the steps in that fitting process.</p>
+<section id="executable">
+<h2><span class="section-number">3.1. </span>Executable<a class="headerlink" href="#executable" title="Permalink to this heading"></a></h2>
+<p>Before using the executable, you must set the path to your FitSNAP directoy in your
+<code class="code docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> environment variable, e.g.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export PYTHONPATH=&quot;path/to/FitSNAP:$PYTHONPATH&quot;</span>
+</pre></div>
+</div>
+<p>which is conveniently placed in a <code class="code docutils literal notranslate"><span class="pre">~/.bashrc</span></code> or <code class="code docutils literal notranslate"><span class="pre">~/.bash_profile</span></code> file. Then fits
+can be performed with the executable by doing</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m fitsnap3 input.in</span>
+</pre></div>
+</div>
+<p>where <code class="code docutils literal notranslate"><span class="pre">input.in</span></code> is a FitSNAP input script, which is explained in the next section.</p>
+</section>
+<section id="input-scripts">
+<h2><span class="section-number">3.2. </span>Input Scripts<a class="headerlink" href="#input-scripts" title="Permalink to this heading"></a></h2>
+<p>Input scripts contain settings that tell FitSNAP how to perform a fit. Our input scripts take the
+form of configuration files with a format explained by
+<a class="reference external" href="https://docs.python.org/3/library/configparser.html">Python’s native ConfigParser class</a>. These configuration files are composed of
+sections, each of which contains keys with values, e.g. like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">SECTION1</span><span class="p">]</span>
+<span class="n">key1</span> <span class="o">=</span> <span class="n">value1</span>
+<span class="n">key2</span> <span class="o">=</span> <span class="n">value2</span>
+
+<span class="p">[</span><span class="n">SECTION2</span><span class="p">]</span>
+<span class="n">key3</span> <span class="o">=</span> <span class="n">value3</span>
+<span class="n">key4</span> <span class="o">=</span> <span class="n">value4</span>
+<span class="n">key5</span> <span class="o">=</span> <span class="n">value5</span>
+</pre></div>
+</div>
+<p>In FitSNAP, each section declares a setting for a certain aspect of the machine learning problem.
+For example we have a <code class="code docutils literal notranslate"><span class="pre">BISPECTRUM</span></code> section whose keys determine settings for the bispectrum
+descriptors that describe interatomic geometry, a <code class="code docutils literal notranslate"><span class="pre">CALCULATOR</span></code> section whose keys determine
+which LAMMPS computes to use for calculating the descriptors, a <code class="code docutils literal notranslate"><span class="pre">SOLVER</span></code> section whose keys
+determine which numerical solver to use for performing the fit, and so forth.</p>
+<p>There are many examples on the GitHub repo, for example the linear SNAP tantalum example has the
+following input script:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">BISPECTRUM</span><span class="p">]</span>
+<span class="n">numTypes</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">twojmax</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">rcutfac</span> <span class="o">=</span> <span class="mf">4.67637</span>
+<span class="n">rfac0</span> <span class="o">=</span> <span class="mf">0.99363</span>
+<span class="n">rmin0</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">wj</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">radelem</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="nb">type</span> <span class="o">=</span> <span class="n">Ta</span>
+<span class="n">wselfallflag</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">chemflag</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">bzeroflag</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">quadraticflag</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="p">[</span><span class="n">CALCULATOR</span><span class="p">]</span>
+<span class="n">calculator</span> <span class="o">=</span> <span class="n">LAMMPSSNAP</span>
+<span class="n">energy</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">force</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">stress</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="p">[</span><span class="n">ESHIFT</span><span class="p">]</span>
+<span class="n">Ta</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+<span class="p">[</span><span class="n">SOLVER</span><span class="p">]</span>
+<span class="n">solver</span> <span class="o">=</span> <span class="n">SVD</span>
+<span class="n">compute_testerrs</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">detailed_errors</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="p">[</span><span class="n">SCRAPER</span><span class="p">]</span>
+<span class="n">scraper</span> <span class="o">=</span> <span class="n">JSON</span>
+
+<span class="p">[</span><span class="n">PATH</span><span class="p">]</span>
+<span class="n">dataPath</span> <span class="o">=</span> <span class="n">JSON</span>
+
+<span class="p">[</span><span class="n">OUTFILE</span><span class="p">]</span>
+<span class="n">metrics</span> <span class="o">=</span> <span class="n">Ta_metrics</span><span class="o">.</span><span class="n">md</span>
+<span class="n">potential</span> <span class="o">=</span> <span class="n">Ta_pot</span>
+
+<span class="p">[</span><span class="n">REFERENCE</span><span class="p">]</span>
+<span class="n">units</span> <span class="o">=</span> <span class="n">metal</span>
+<span class="n">atom_style</span> <span class="o">=</span> <span class="n">atomic</span>
+<span class="n">pair_style</span> <span class="o">=</span> <span class="n">hybrid</span><span class="o">/</span><span class="n">overlay</span> <span class="n">zero</span> <span class="mf">10.0</span> <span class="n">zbl</span> <span class="mf">4.0</span> <span class="mf">4.8</span>
+<span class="n">pair_coeff1</span> <span class="o">=</span> <span class="o">*</span> <span class="o">*</span> <span class="n">zero</span>
+<span class="n">pair_coeff2</span> <span class="o">=</span> <span class="o">*</span> <span class="o">*</span> <span class="n">zbl</span> <span class="mi">73</span> <span class="mi">73</span>
+
+<span class="p">[</span><span class="n">GROUPS</span><span class="p">]</span>
+<span class="c1"># name size eweight fweight vweight</span>
+<span class="n">group_sections</span> <span class="o">=</span> <span class="n">name</span> <span class="n">training_size</span> <span class="n">testing_size</span> <span class="n">eweight</span> <span class="n">fweight</span> <span class="n">vweight</span>
+<span class="n">group_types</span> <span class="o">=</span> <span class="nb">str</span> <span class="nb">float</span> <span class="nb">float</span> <span class="nb">float</span> <span class="nb">float</span> <span class="nb">float</span>
+<span class="n">smartweights</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">random_sampling</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">Displaced_A15</span> <span class="o">=</span>  <span class="mf">1.0</span>    <span class="mf">0.0</span>       <span class="mi">100</span>             <span class="mi">1</span>               <span class="mf">1.00E-08</span>
+<span class="n">Displaced_BCC</span> <span class="o">=</span>  <span class="mf">1.0</span>    <span class="mf">0.0</span>       <span class="mi">100</span>             <span class="mi">1</span>               <span class="mf">1.00E-08</span>
+<span class="n">Displaced_FCC</span> <span class="o">=</span>  <span class="mf">1.0</span>    <span class="mf">0.0</span>       <span class="mi">100</span>             <span class="mi">1</span>               <span class="mf">1.00E-08</span>
+<span class="n">Elastic_BCC</span>   <span class="o">=</span>  <span class="mf">1.0</span>    <span class="mf">0.0</span>     <span class="mf">1.00E-08</span>        <span class="mf">1.00E-08</span>        <span class="mf">0.0001</span>
+<span class="n">Elastic_FCC</span>   <span class="o">=</span>  <span class="mf">1.0</span>    <span class="mf">0.0</span>     <span class="mf">1.00E-09</span>        <span class="mf">1.00E-09</span>        <span class="mf">1.00E-09</span>
+<span class="n">GSF_110</span>       <span class="o">=</span>  <span class="mf">1.0</span>    <span class="mf">0.0</span>      <span class="mi">100</span>             <span class="mi">1</span>               <span class="mf">1.00E-08</span>
+<span class="n">GSF_112</span>       <span class="o">=</span>  <span class="mf">1.0</span>    <span class="mf">0.0</span>      <span class="mi">100</span>             <span class="mi">1</span>               <span class="mf">1.00E-08</span>
+<span class="n">Liquid</span>        <span class="o">=</span>  <span class="mf">1.0</span>    <span class="mf">0.0</span>       <span class="mf">4.67E+02</span>        <span class="mi">1</span>               <span class="mf">1.00E-08</span>
+<span class="n">Surface</span>       <span class="o">=</span>  <span class="mf">1.0</span>    <span class="mf">0.0</span>       <span class="mi">100</span>             <span class="mi">1</span>               <span class="mf">1.00E-08</span>
+<span class="n">Volume_A15</span>    <span class="o">=</span>  <span class="mf">1.0</span>    <span class="mf">0.0</span>      <span class="mf">1.00E+00</span>        <span class="mf">1.00E-09</span>        <span class="mf">1.00E-09</span>
+<span class="n">Volume_BCC</span>    <span class="o">=</span>  <span class="mf">1.0</span>    <span class="mf">0.0</span>      <span class="mf">1.00E+00</span>        <span class="mf">1.00E-09</span>        <span class="mf">1.00E-09</span>
+<span class="n">Volume_FCC</span>    <span class="o">=</span>  <span class="mf">1.0</span>    <span class="mf">0.0</span>      <span class="mf">1.00E+00</span>        <span class="mf">1.00E-09</span>        <span class="mf">1.00E-09</span>
+
+<span class="p">[</span><span class="n">EXTRAS</span><span class="p">]</span>
+<span class="n">dump_descriptors</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">dump_truth</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">dump_weights</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">dump_dataframe</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="p">[</span><span class="n">MEMORY</span><span class="p">]</span>
+<span class="n">override</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>We explain the sections and their keys in more detail below.</p>
+<section id="bispectrum">
+<h3><span class="section-number">3.2.1. </span>[BISPECTRUM]<a class="headerlink" href="#bispectrum" title="Permalink to this heading"></a></h3>
+</section>
+<section id="calculator">
+<h3><span class="section-number">3.2.2. </span>[CALCULATOR]<a class="headerlink" href="#calculator" title="Permalink to this heading"></a></h3>
+</section>
+<section id="eshift">
+<h3><span class="section-number">3.2.3. </span>[ESHIFT]<a class="headerlink" href="#eshift" title="Permalink to this heading"></a></h3>
+</section>
+<section id="solver">
+<h3><span class="section-number">3.2.4. </span>[SOLVER]<a class="headerlink" href="#solver" title="Permalink to this heading"></a></h3>
+</section>
+</section>
+<section id="library">
+<h2><span class="section-number">3.3. </span>Library<a class="headerlink" href="#library" title="Permalink to this heading"></a></h2>
+<p>FitSNAP may also be run through the library interface. More documentation coming soon, but for now
+the <a class="reference external" href="https://github.com/FitSNAP/FitSNAP/tree/master/examples/library">GitHub repo examples</a> may help set up scripts for your needs.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="usage.html" class="btn btn-neutral float-left" title="2. Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Pytorch.html" class="btn btn-neutral float-right" title="4. PyTorch Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Sandia Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
