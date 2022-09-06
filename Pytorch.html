@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4. PyTorch Models &mdash; FitSNAP  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="1. Executable" href="Executable.html" />
+    <link rel="prev" title="3. Run FitSNAP" href="Run.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> FitSNAP
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">2. Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Run.html">3. Run FitSNAP</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. PyTorch Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fitting-neural-network-potentials">4.1. Fitting Neural Network Potentials</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Programmer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Executable.html">1. Executable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Library.html">2. Library</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FitSNAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">4. </span>PyTorch Models</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Pytorch.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pytorch-models">
+<h1><span class="section-number">4. </span>PyTorch Models<a class="headerlink" href="#pytorch-models" title="Permalink to this heading"></a></h1>
+<p>Interfacing with PyTorch allows us to conveniently fit neural network potentials using descriptors
+that exist in LAMMPS. We may then use these neural network models to run high-performance MD
+simulations in LAMMPS. These capabilities are explained below.</p>
+<section id="fitting-neural-network-potentials">
+<h2><span class="section-number">4.1. </span>Fitting Neural Network Potentials<a class="headerlink" href="#fitting-neural-network-potentials" title="Permalink to this heading"></a></h2>
+<p>Similarly to how we fit linear models, we can input descriptors into nonlinear models such as
+neural networks. To do this, we can use the same FitSNAP input script that we use for linear
+models, with some slight changes to the sections. First we must add a <code class="code docutils literal notranslate"><span class="pre">PYTORCH</span></code> section,
+which for the tantalum example looks like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PYTORCH</span><span class="p">]</span>
+<span class="n">layer_sizes</span> <span class="o">=</span>  <span class="n">num_desc</span> <span class="mi">60</span> <span class="mi">60</span> <span class="mi">1</span>
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">1.5e-4</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">save_state_output</span> <span class="o">=</span> <span class="n">Ta_Pytorch</span><span class="o">.</span><span class="n">pt</span>
+<span class="n">energy_weight</span> <span class="o">=</span> <span class="mf">1e-2</span>
+<span class="n">force_weight</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">training_fraction</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">multi_element_option</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">num_elements</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>We must also add a <code class="code docutils literal notranslate"><span class="pre">nonlinear</span> <span class="pre">=</span> <span class="pre">1</span></code> key in the <code class="code docutils literal notranslate"><span class="pre">CALCULATOR</span></code> section, and set
+<code class="code docutils literal notranslate"><span class="pre">solver</span> <span class="pre">=</span> <span class="pre">PYTORCH</span></code> in the <code class="code docutils literal notranslate"><span class="pre">SOLVER</span></code> section. Now the input script is ready to fit a
+neural network potential.</p>
+<p>The <code class="code docutils literal notranslate"><span class="pre">PYTORCH</span></code> section keys are explained in more detail below.</p>
+<ul>
+<li><p><code class="code docutils literal notranslate"><span class="pre">layer_sizes</span></code> determines the network architecture. We lead with a <code class="code docutils literal notranslate"><span class="pre">num_desc</span></code> parameter
+which tells FitSNAP that the number of nodes in the first layer are equal to the number of
+descriptors. The argument here is a list where each element determines the number of nodes in
+each layer.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">learning_rate</span></code> determines how fast the network minimizes the loss function. We find that
+a learning rate around <code class="code docutils literal notranslate"><span class="pre">1e-4</span></code> works well when fitting to forces, and when using our current
+loss function.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">num_epochs</span></code> sets the number of gradient descent iterations.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">batch_size</span></code> determines how many configs to average gradients for when looping over batches
+in a single epoch. We find that a batch size around 4 works well for our models.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">save_state_output</span></code> is the name of the PyTorch model file to write after every
+epoch. This model can be loaded for testing purposes later.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">save_state_input</span></code> is the name of a PyTorch model that may be loaded for the purpose of
+restarting an existing fit, or for calculating test errors.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">energy_weight</span></code> is a scalar constant multiplied by the mean squared energy error in the
+loss function.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">force_weight</span></code> is a scalar constant multiplied by the mean squared force error in the loss
+function</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">training_fraction</span></code> is a decimal fraction of how much of the total data should be trained
+on. The leftover code:<cite>1.0 - training_fraction</cite> portion is used for calculating validation errors
+during a fit.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">multi_element_option</span></code> is a scalar that determines how to handle multiple element types.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>1: All element types share the same network. Descriptors may still be different per type.</p></li>
+<li><p>2: Each element type has its own network.</p></li>
+<li><p>3: (Coming soon) One-hot encoding of element types, where each type shares the same network.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">num_elements</span></code> number of unique atom elements, or more specifically number of unique
+networks.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Run.html" class="btn btn-neutral float-left" title="3. Run FitSNAP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Executable.html" class="btn btn-neutral float-right" title="1. Executable" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Sandia Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

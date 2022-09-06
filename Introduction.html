@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>1. Executable &mdash; FitSNAP  documentation</title>
+  <title>1. Introduction &mdash; FitSNAP  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="2. Library" href="Library.html" />
-    <link rel="prev" title="4. PyTorch Models" href="Pytorch.html" /> 
+    <link rel="next" title="2. Usage" href="usage.html" />
+    <link rel="prev" title="Welcome to FitSNAP’s documentation!" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -39,15 +39,18 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="Introduction.html">1. Introduction</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview-of-fitsnap">1.1. Overview of FitSNAP</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">2. Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Run.html">3. Run FitSNAP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Pytorch.html">4. PyTorch Models</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Programmer Guide</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Executable</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Executable.html">1. Executable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Library.html">2. Library</a></li>
 </ul>
 
@@ -65,9 +68,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li><span class="section-number">1. </span>Executable</li>
+      <li><span class="section-number">1. </span>Introduction</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/Executable.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/Introduction.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -75,23 +78,28 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="executable">
-<h1><span class="section-number">1. </span>Executable<a class="headerlink" href="#executable" title="Permalink to this heading"></a></h1>
-<p>When running FitSNAP as an executable with</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m fitsnap3 input.in</span>
-</pre></div>
-</div>
-<p>there is a certain sequence of functions that is explained here, and coded in
-code:<cite>fitsnap3/__main__.py</cite>. Specifically, the code:<cite>main()</cite> function uses the FitSNAP library to execute
-the following sequence of functions that perform a fit.</p>
+  <section id="introduction">
+<h1><span class="section-number">1. </span>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h1>
+<section id="overview-of-fitsnap">
+<h2><span class="section-number">1.1. </span>Overview of FitSNAP<a class="headerlink" href="#overview-of-fitsnap" title="Permalink to this heading"></a></h2>
+<p>FitSNAP is a machine learning software that focuses on modelling how interatomic interactions, or
+potential energy, depends on geometry between atoms. In this sense the machine learning problem is
+learning the mapping between atomic coordinates and potential energy. Since the physics of
+interatomic interactions are invariant to translation, rotation, and permutation, we must describe
+interatomic geometry in such a way that these symmetries are satisfied. We do this using invariant
+“descriptors” such as <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0021999114008353">SNAP descriptors</a>, and others.</p>
+<p>The resulting machine learned models therefore predict interatomic interaction energies as a
+function of these geometric descriptors. Once these models are obtained from FitSNAP, they may be
+used directly in <a class="reference external" href="https://docs.lammps.org/">LAMMPS</a> to perform high-performance molecular dynamics simulations.</p>
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Pytorch.html" class="btn btn-neutral float-left" title="4. PyTorch Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Library.html" class="btn btn-neutral float-right" title="2. Library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to FitSNAP’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="usage.html" class="btn btn-neutral float-right" title="2. Usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
