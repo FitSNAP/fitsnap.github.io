@@ -82,8 +82,42 @@
 </pre></div>
 </div>
 <p>there is a certain sequence of functions that is explained here, and coded in
-code:<cite>fitsnap3/__main__.py</cite>. Specifically, the code:<cite>main()</cite> function uses the FitSNAP library to execute
-the following sequence of functions that perform a fit.</p>
+<code class="code docutils literal notranslate"><span class="pre">fitsnap3/__main__.py</span></code>. Specifically, the <code class="code docutils literal notranslate"><span class="pre">main()</span></code> function uses the FitSNAP library to
+execute the following sequence of functions that perform a fit.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">from fitsnap3lib.parallel_tools import ParallelTools</span>
+<span class="go">pt = ParallelTools()</span>
+<span class="go">from fitsnap3lib.io.input import Config</span>
+<span class="go">config = Config(arguments_lst = [&quot;/path/to/FitSNAP/input/script&quot;, &quot;--overwrite&quot;])</span>
+<span class="go">from fitsnap3lib.fitsnap import FitSnap</span>
+
+<span class="go">def main():</span>
+<span class="go">    try:</span>
+<span class="go">        initialize_fitsnap_run()</span>
+<span class="go">        snap = FitSnap()</span>
+<span class="go">        snap.scrape_configs()</span>
+<span class="go">        snap.process_configs()</span>
+<span class="go">        pt.all_barrier()</span>
+<span class="go">        snap.perform_fit()</span>
+<span class="go">        snap.write_output()</span>
+<span class="go">    except Exception as e:</span>
+<span class="go">        output.exception(e)</span>
+</pre></div>
+</div>
+<p>From the above code, it is seen that we first run the
+<code class="code docutils literal notranslate"><span class="pre">fitsnap3lib.initialize.initialize_fitsnap_run()</span></code> function. This simply prepares necessary
+imports and outputs settings. The rest of the main program execution relies on functions in the
+FitSNAP library. These are accessed by declaring a FitSNAP object with</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">snap = FitSNAP()</span>
+</pre></div>
+</div>
+<p>This can be achieved in any external python script, provided the necessary imports shown above
+are used, and instatiating the <code class="code docutils literal notranslate"><span class="pre">pt</span></code> and <code class="code docutils literal notranslate"><span class="pre">config</span></code> objects as we did above. This
+<code class="code docutils literal notranslate"><span class="pre">snap</span></code> object has functions located in <code class="code docutils literal notranslate"><span class="pre">fitsnap3lib.fitsnap</span></code>, and the code that these
+functions depends on can be seen by observing <code class="code docutils literal notranslate"><span class="pre">fitsnap3lib/fitsnap.py</span></code>. These functions can
+be executed in any order desired by the user. The library also provides a deeper level of control,
+that we will explain in the next section. Examples of using the library to perform a variety of
+tasks outside the usual FitSNAP main program execution are located in
+<a class="reference external" href="https://github.com/FitSNAP/FitSNAP/tree/master/examples/library">https://github.com/FitSNAP/FitSNAP/tree/master/examples/library</a>.</p>
 </section>
 
 
