@@ -122,12 +122,18 @@ epoch. This model can be loaded for testing purposes later.</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">save_state_input</span></code> is the name of a PyTorch model that may be loaded for the purpose of
 restarting an existing fit, or for calculating test errors.</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">energy_weight</span></code> is a scalar constant multiplied by the mean squared energy error in the
-loss function.</p></li>
+loss function. Declaring this parameter will override the weights in the GROUPS section for all
+configs. We therefore call this the <em>global energy weight</em>. If you want to specify energy weights
+for each group, do so in the GROUPS section.</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">force_weight</span></code> is a scalar constant multiplied by the mean squared force error in the loss
-function</p></li>
+function. Declaring this parameter will override the weights in the GROUPS section for all
+configs. We therefore call this the <em>global force weight</em>. If you want to specify force weights
+for each group, do so in the GROUPS section.</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">training_fraction</span></code> is a decimal fraction of how much of the total data should be trained
-on. The leftover code:<cite>1.0 - training_fraction</cite> portion is used for calculating validation errors
-during a fit.</p></li>
+on. The leftover <code class="code docutils literal notranslate"><span class="pre">1.0</span> <span class="pre">-</span> <span class="pre">training_fraction</span></code> portion is used for calculating validation errors
+during a fit. Declaring this parameter will override the training/testing fractions in the GROUPS
+section for all configs. We therefore call this the <em>global training fraction</em>. If you want to
+specify training/testing fractions for each group, do so in the GROUPS section.</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">multi_element_option</span></code> is a scalar that determines how to handle multiple element types.</p>
 <blockquote>
 <div><ul class="simple">
@@ -139,6 +145,8 @@ during a fit.</p></li>
 </li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">num_elements</span></code> number of unique atom elements, or more specifically number of unique
 networks.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">manual_seed_flag</span></code> set to 0 by default, can set to 1 if want to force a random seed which is
+useful for debugging purposes.</p></li>
 </ul>
 </section>
 </section>
