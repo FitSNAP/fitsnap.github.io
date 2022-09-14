@@ -45,6 +45,12 @@
 <li class="toctree-l1"><a class="reference internal" href="Run.html">3. Run FitSNAP</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">4. PyTorch Models</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#fitting-neural-network-potentials">4.1. Fitting Neural Network Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#outputs-and-error-calculation">4.2. Outputs and Error Calculation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#error-comparison-files">4.2.1. Error/Comparison files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pytorch-model-files">4.2.2. PyTorch model files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#calculate-errors-on-a-test-set">4.2.3. Calculate errors on a test set</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -148,6 +154,70 @@ networks.</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">manual_seed_flag</span></code> set to 0 by default, can set to 1 if want to force a random seed which is
 useful for debugging purposes.</p></li>
 </ul>
+</section>
+<section id="outputs-and-error-calculation">
+<h2><span class="section-number">4.2. </span>Outputs and Error Calculation<a class="headerlink" href="#outputs-and-error-calculation" title="Permalink to this heading"></a></h2>
+<p>FitSNAP outputs include files that aid in error calculation, and files that can be used to restart
+a fit or even run MD simulations in LAMMPS.</p>
+<section id="error-comparison-files">
+<h3><span class="section-number">4.2.1. </span>Error/Comparison files<a class="headerlink" href="#error-comparison-files" title="Permalink to this heading"></a></h3>
+<p>After training a potential, FitSNAP produces outputs that can be used to intrepret the quality of a
+fit on the training and/or validation data. The following comparison files are written after a fit:</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">energy_comparison.dat</span></code> energy comparisons for all configs in the training set. Each row</p></li>
+</ul>
+<p>corresponds to a specific configuration in the training set. The first column is the model energy,
+and the 2nd column is the target energy.</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">energy_comparison_val.dat</span></code> energy comparisons for all configs in the validation set.
+Format is same as above.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">force_comparison.dat</span></code> force comparisons for all atoms in all configs in the training set.
+Each row corresponds to a single atom’s Cartesian component for a specific config in the training
+set. The first column is the model energy, and the 2nd column is the target energy.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">force_comparison_val.dat</span></code> same as above, but for the validation set.</p></li>
+</ul>
+<p>These outputs allow you to compare the configuration energies, or per-atom forces, however you want
+after a fit. For example, in the <a class="reference external" href="https://github.com/FitSNAP/FitSNAP/tree/master/examples/Ta_PyTorch_NN">Ta_PyTorch_NN example</a>
+, we provide python scripts that help post-process these files to calculate mean absolute error or
+plot comparisons in energies and forces.</p>
+</section>
+<section id="pytorch-model-files">
+<h3><span class="section-number">4.2.2. </span>PyTorch model files<a class="headerlink" href="#pytorch-model-files" title="Permalink to this heading"></a></h3>
+<p>FitSNAP outputs two PyTorch <code class="code docutils literal notranslate"><span class="pre">.pt</span></code> models file after fitting. One is used for restarting a fit
+based on an existing model, specifically the model name supplied by the user in the
+<code class="code docutils literal notranslate"><span class="pre">save_state_output</span></code> keyword of the input script. In the <a class="reference external" href="https://github.com/FitSNAP/FitSNAP/tree/master/examples/Ta_PyTorch_NN">Ta_PyTorch_NN example</a>
+we can see this keyword is <code class="code docutils literal notranslate"><span class="pre">Ta_Pytorch.pt</span></code>. This file will therefore be saved every epoch, and
+it may be fed into FitSNAP via the <code class="code docutils literal notranslate"><span class="pre">save_state_input</span></code> keyword to restart another fit from that
+particular model.</p>
+<p>The other PyTorch model is used for running MD simulations in LAMMPS after a fit. This file has the
+name <code class="code docutils literal notranslate"><span class="pre">FitTorch_Pytorch.pt</span></code>, and is used to run MD in LAMMPS via the ML-IAP package. An example
+is given for tantalum here: <a class="reference external" href="https://github.com/FitSNAP/FitSNAP/tree/master/examples/Ta_PyTorch_NN/MD">https://github.com/FitSNAP/FitSNAP/tree/master/examples/Ta_PyTorch_NN/MD</a></p>
+</section>
+<section id="calculate-errors-on-a-test-set">
+<h3><span class="section-number">4.2.3. </span>Calculate errors on a test set<a class="headerlink" href="#calculate-errors-on-a-test-set" title="Permalink to this heading"></a></h3>
+<p>Users may want to use models to calculate errors on a test set that was completely separate from the
+training/validation sets used in fitting. To do this, we change the input script to read an existing
+PyTorch model file, e.g. for Ta:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PYTORCH</span><span class="p">]</span>
+<span class="n">layer_sizes</span> <span class="o">=</span>  <span class="n">num_desc</span> <span class="mi">60</span> <span class="mi">60</span> <span class="mi">1</span>
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">1.5e-4</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1">##### Set to 1 for testing</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">save_state_input</span> <span class="o">=</span> <span class="n">Ta_Pytorch</span><span class="o">.</span><span class="n">pt</span> <span class="c1">##### Load an existing model</span>
+<span class="n">energy_weight</span> <span class="o">=</span> <span class="mf">1e-2</span>
+<span class="n">force_weight</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">training_fraction</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">multi_element_option</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">num_elements</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Notice how we are now using <code class="code docutils literal notranslate"><span class="pre">save_state_input</span></code> instead of <code class="code docutils literal notranslate"><span class="pre">save_state_output</span></code>, and that
+we set <code class="code docutils literal notranslate"><span class="pre">num_epochs</span> <span class="pre">=</span> <span class="pre">1</span></code>. This will load the existing PyTorch model, and perform a single epoch
+which involves calculating the energy and force comparisons (mentioned above) for the current model,
+on whatever user-defined groups of configs in the groups section.We can therefore use the energy and
+force comparison files here to calculate mean absolute errors, e.g. with the script in
+the <a class="reference external" href="https://github.com/FitSNAP/FitSNAP/tree/master/examples/Ta_PyTorch_NN">Ta_PyTorch_NN example</a></p>
+</section>
 </section>
 </section>
 
