@@ -137,12 +137,7 @@ in parallel currently, and is not guaranteed to converge.</p>
 </section>
 <section id="bcs">
 <h2><span class="section-number">5.5. </span>BCS<a class="headerlink" href="#bcs" title="Permalink to this heading"></a></h2>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">solver = MERR</span>
-<span class="go">nsam = 133                #this is the number of sample fits requested to be drawn from the distribution</span>
-<span class="go">merr_method = iid         #specific liklihood model: options are iid, independent identically distributed, and abc, approximate bayesian computation, and full (too heavy and degenerate, not intended to be used yet)</span>
-<span class="go">merr_mult = 0             #0 is additive model error, 1 is multiplicative</span>
-<span class="go">merr_cfs = 5 44 3 49 10 33 4 39 38 23       #can provide either a list of coefficient indices to embed on, or &quot;all&quot;</span>
-<span class="go">cov_nugget = 1.e-10       #this is the small number to be added to the matrix inverse for better conditioning</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">solver = BCS</span>
 </pre></div>
 </div>
 <p>Fitting with Bayesian compressive sensing, need to learn how to prune bispectrum bases in order for
