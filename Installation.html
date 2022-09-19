@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2. Installation &mdash; FitSNAP  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Run FitSNAP" href="Run.html" />
+    <link rel="prev" title="1. Introduction" href="Introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> FitSNAP
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#lammps-installation">2.1. LAMMPS Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mpi-for-lammps-and-fitsnap">2.1.1. MPI for LAMMPS and FitSNAP.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lammps-for-fitsnap">2.1.2. LAMMPS for FitSNAP.</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fitsnap-installation">2.2. FitSNAP Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minimal-conda-install">2.2.1. Minimal conda install</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-fitsnap-with-latest-lammps">2.2.2. Install FitSNAP with latest LAMMPS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Run.html">3. Run FitSNAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pytorch.html">4. PyTorch Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Uncertainty%20Quantification.html">5. Uncertainty Quantification</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Programmer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Executable.html">1. Executable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Library.html">2. Library</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FitSNAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">2. </span>Installation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Installation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="installation">
+<h1><span class="section-number">2. </span>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h1>
+<p>This page documents how to properly install LAMMPS and FitSNAP. First we begin with how to install
+LAMMPS specifically for FitSNAP. If you do not want to manually install LAMMPS, please see our
+<a class="reference internal" href="#minimal-conda-install">Minimal conda install</a> for quickly getting started with FitSNAP.</p>
+<section id="lammps-installation">
+<span id="id1"></span><h2><span class="section-number">2.1. </span>LAMMPS Installation<a class="headerlink" href="#lammps-installation" title="Permalink to this heading"></a></h2>
+<p>Since LAMMPS is the backbone of FitSNAP, we begin with instructions on how to install LAMMPS
+specifically for using FitSNAP.</p>
+<section id="mpi-for-lammps-and-fitsnap">
+<h3><span class="section-number">2.1.1. </span>MPI for LAMMPS and FitSNAP.<a class="headerlink" href="#mpi-for-lammps-and-fitsnap" title="Permalink to this heading"></a></h3>
+<p>Both LAMMPS and FitSNAP are parallelized for optimal performance. Though optional, using MPI to run
+both applications will very significantly speed up runtimes.</p>
+<p>We built MPI fromm source for LAMMPS and FitSNAP using OpenMPI version 4.1.4 (<a class="reference external" href="https://www.open-mpi.org/">https://www.open-mpi.org/</a>)
+and the instructions on that webiste (<a class="reference external" href="https://www.open-mpi.org/faq/?category=building#easy-build">https://www.open-mpi.org/faq/?category=building#easy-build</a>).</p>
+<p>After building, add your openmpi executable path to your “PATH” variable as well so that LAMMPS can
+automatically find your MPI install, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># in e.g., ~/.bashrc
+MPI_DIR=/usr/local/openmpi
+export PATH=$MPI_DIR/bin:$PATH
+</pre></div>
+</div>
+</section>
+<section id="lammps-for-fitsnap">
+<h3><span class="section-number">2.1.2. </span>LAMMPS for FitSNAP.<a class="headerlink" href="#lammps-for-fitsnap" title="Permalink to this heading"></a></h3>
+<p><strong>First activate your Python virtual environment or conda environment.</strong> Install the necessary
+pre-requisites to build LAMMPS with python using pip or conda:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">virtualenv</span> <span class="n">numpy</span>
+</pre></div>
+</div>
+<p>Then clone the LAMMPS repo:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">lammps</span><span class="o">/</span><span class="n">lammps</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>This creates a <code class="code docutils literal notranslate"><span class="pre">lammps</span></code> directory, which we go to to create a custom LAMMPS and PyLammps build
+specifically for FitSNAP:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">lammps</span>
+<span class="n">mkdir</span> <span class="n">build</span><span class="o">-</span><span class="n">fitsnap</span>
+<span class="n">cd</span> <span class="n">build</span><span class="o">-</span><span class="n">fitsnap</span>
+<span class="n">cmake</span> <span class="o">../</span><span class="n">cmake</span> <span class="o">-</span><span class="n">DLAMMPS_EXCEPTIONS</span><span class="o">=</span><span class="n">yes</span> <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">yes</span> <span class="o">-</span><span class="n">DMLIAP_ENABLE_PYTHON</span><span class="o">=</span><span class="n">yes</span> <span class="o">-</span><span class="n">DPKG_PYTHON</span><span class="o">=</span><span class="n">yes</span> <span class="o">-</span><span class="n">DPKG_ML</span><span class="o">-</span><span class="n">SNAP</span><span class="o">=</span><span class="n">yes</span> <span class="o">-</span><span class="n">DPKG_ML</span><span class="o">-</span><span class="n">IAP</span><span class="o">=</span><span class="n">yes</span> <span class="o">-</span><span class="n">DPKG_ML</span><span class="o">-</span><span class="n">PACE</span><span class="o">=</span><span class="n">yes</span> <span class="o">-</span><span class="n">DPKG_SPIN</span><span class="o">=</span><span class="n">yes</span>
+<span class="n">make</span> <span class="c1">### Builds a LAMMPS executable and shared library</span>
+<span class="n">make</span> <span class="n">install</span><span class="o">-</span><span class="n">python</span> <span class="c1">### Installs PyLammps so you can use the LAMMPS library in Python</span>
+</pre></div>
+</div>
+<p>This will create a LAMMPS executable <code class="code docutils literal notranslate"><span class="pre">lmp</span></code>, which should be used to run MD using FitSNAP fits.
+This will also create a PyLammps interface located in your Python <code class="code docutils literal notranslate"><span class="pre">site-packages/lammps</span></code>
+directory. Now you have LAMMPS and PyLammps ready to use FitSNAP!</p>
+<p>Alternatively, LAMMPS can be built with the GUI CMake curses interface as explained below. With the
+CMake curses (ccmake) GUI interface, build LAMMPS using the following steps:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>In the main LAMMPS directory, create a new directory called <code class="code docutils literal notranslate"><span class="pre">build-fitsnap</span></code></p></li>
+<li><p>Cd into <code class="code docutils literal notranslate"><span class="pre">build-fitsnap</span></code> and do <code class="code docutils literal notranslate"><span class="pre">ccmake</span> <span class="pre">../cmake`</span></code> (note double c in first ‘ccmake’!
+that’s for ‘curses cmake’ - curses is a simple GUI for command line)</p></li>
+<li><p>Hit ‘c’ to set up the initial configuration, and toggle the following to TRUE: BUILD_MPI,
+BUILD_SHARED_LIBS,LAMMPS_EXCEPTIONS,ML_SNAP,(whatever other packages you want)</p></li>
+<li><p>Hit ‘c’ again, check out (new) options, toggle what looks nice</p></li>
+<li><p>Hit ‘c’ ad nauseam and check out ad nauseam</p></li>
+<li><p>If nothing else changes and you see the ‘generate’ option appear, hit ‘g’ and exit screen</p></li>
+<li><p>At the command line, type <code class="code docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">.</span> <span class="pre">-jN`</span></code> where N is the number of processors you
+can run simultaneously. N=8 or N=16 are good general settings, the more the faster</p></li>
+<li><p>If all goes to plan, you should now have a usable LAMMPS executable ‘lmp’ in your <code class="code docutils literal notranslate"><span class="pre">build_fitsnap</span></code>
+directory! If not, check out the cmake output for compile errors</p></li>
+<li><p>To test your LAMMPS executable, attempt to run it with <code class="code docutils literal notranslate"><span class="pre">./lmp</span></code>. If you load the LAMMPS
+command line, you’re in business (CTRL + C to exit).</p></li>
+</ul>
+</div></blockquote>
+<p>After completing this LAMMPS installation, please see <a class="reference internal" href="#install-fitsnap-with-latest-lammps">Install FitSNAP with latest LAMMPS</a> to use FitSNAP.</p>
+</section>
+</section>
+<section id="fitsnap-installation">
+<h2><span class="section-number">2.2. </span>FitSNAP Installation<a class="headerlink" href="#fitsnap-installation" title="Permalink to this heading"></a></h2>
+<p>There are two primary ways to get started with FitSNAP: (1) a simple conda environment using the
+packaged LAMMPS that ships with conda, and (2) building LAMMPS manually. The latter option allows
+for more recent LAMMPS features.</p>
+<section id="minimal-conda-install">
+<span id="id2"></span><h3><span class="section-number">2.2.1. </span>Minimal conda install<a class="headerlink" href="#minimal-conda-install" title="Permalink to this heading"></a></h3>
+<p>A minimal working environment can be set up using the Python distribution package Anaconda (<a class="reference external" href="https://www.anaconda.com">https://www.anaconda.com</a>).</p>
+<p>After installing Anaconda:</p>
+<ol class="arabic">
+<li><p>Clone the FitSNAP repository:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">FitSNAP</span><span class="o">/</span><span class="n">FitSNAP</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+</li>
+<li><p>Add the cloned repository path to your PYTHONPATH environment variable, e.g. in <code class="code docutils literal notranslate"><span class="pre">~/.bashrc</span></code>
+or <code class="code docutils literal notranslate"><span class="pre">~/.bash_profile</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>FITSNAP_DIR=\path\to\FitSNAP
+export PYTHONPATH=$FITSNAP_DIR:$LAMMPS_DIR/python:$PYTHONPATH
+</pre></div>
+</div>
+</li>
+<li><p>Add conda-forge to your Conda install, if not already added:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="n">add</span> <span class="n">channels</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+</pre></div>
+</div>
+</li>
+<li><p>Create a new Conda environment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">fitsnap</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.9</span>
+<span class="n">conda</span> <span class="n">activate</span> <span class="n">fitsnap</span>
+</pre></div>
+</div>
+</li>
+<li><p>Install packages (pytorch is optional):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">lammps</span> <span class="n">psutil</span> <span class="n">pandas</span> <span class="n">tabulate</span> <span class="n">sphinx</span> <span class="n">sphinx_rtd_theme</span> <span class="n">mpi4py</span> <span class="n">pytorch</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<ul class="simple">
+<li><p><strong>WARNING:</strong> Conda lammps installation does NOT include ACE descriptor set, SPIN package, or new
+LAMMPS settings needed for fitting neural networks. If you want to use these newer settings,
+please build LAMMPS from source as explained in the <a class="reference internal" href="#lammps-installation">LAMMPS Installation</a> docs.</p></li>
+<li><p><strong>TIP:</strong> Periodically use the command <code class="code docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> in the cloned directory for updates</p></li>
+</ul>
+</section>
+<section id="install-fitsnap-with-latest-lammps">
+<span id="id3"></span><h3><span class="section-number">2.2.2. </span>Install FitSNAP with latest LAMMPS<a class="headerlink" href="#install-fitsnap-with-latest-lammps" title="Permalink to this heading"></a></h3>
+<p>The following numbered steps assume you are on a Linux system, using a <code class="code docutils literal notranslate"><span class="pre">bash</span></code> command line.
+Notes for other operating systems:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>MacOS:</strong> depending on your OS version and hardware, you may need to change some of these
+steps (for example, your Terminal program may default to zsh instead of bash, and
+<code class="code docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> may instead be <code class="code docutils literal notranslate"><span class="pre">DYLD_LIBRARY_PATH</span></code> and so on)</p></li>
+<li><p><strong>Windows:</strong> though FitSNAP should work fine in Windows, we are not able to provide
+instructions for Windows LAMMPS/FitSNAP installations at this time.</p></li>
+</ul>
+</div></blockquote>
+<p>Both FitSNAP and LAMMPS have been optimized to work with MPI. For optimal performance of
+both, we recommend building and configuring your favored flavor of MPI before continuing
+(see <a class="reference internal" href="#lammps-installation">LAMMPS Installation</a> docs).</p>
+<p>After setting up MPI (or not) and downloading/cloning LAMMPS:</p>
+<ol class="arabic">
+<li><p>Build a stable or development version of LAMMPS (see <a class="reference internal" href="#lammps-installation">LAMMPS Installation</a> docs)</p></li>
+<li><p>After a successful LAMMPS build, to get FitSNAP to see the shared LAMMPS library, update your
+<code class="code docutils literal notranslate"><span class="pre">~/.bashrc`</span></code> or <code class="code docutils literal notranslate"><span class="pre">~/.bash_profile`</span></code> with the following:</p>
+<blockquote>
+<div><ul>
+<li><p>create a descriptive variable that points to your main LAMMPS directory</p></li>
+<li><p>adjust your <code class="code docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH`</span></code> variable to point to your <code class="code docutils literal notranslate"><span class="pre">lammps/build-fitsnap</span></code>
+subdirecotry</p></li>
+<li><p>adjust your <code class="code docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> variable to point to your <code class="code docutils literal notranslate"><span class="pre">lammps/python</span></code> subdirectory</p></li>
+<li><p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># in e.g., ~/.bashrc
+LAMMPS_DIR=/path/to/lammps
+export LD_LIBRARY_PATH=$LAMMPS_DIR/build-fitsnap:$LD_LIBRARY_PATH
+export PYTHONPATH=$LAMMPS_DIR/python:$PYTHONPATH
+</pre></div>
+</div>
+</li>
+<li><p>To confirm that these are working, fire up interactive python and try the following commands:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lammps</span>
+<span class="n">lmp</span> <span class="o">=</span> <span class="n">lammps</span><span class="o">.</span><span class="n">lammps</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+<li><p>If you see something like the following, you’re good to go:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Python</span> <span class="mf">3.9.13</span> <span class="o">|</span> <span class="n">packaged</span> <span class="n">by</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="o">|</span> <span class="p">(</span><span class="n">main</span><span class="p">,</span> <span class="n">May</span> <span class="mi">27</span> <span class="mi">2022</span><span class="p">,</span> <span class="mi">16</span><span class="p">:</span><span class="mi">58</span><span class="p">:</span><span class="mi">50</span><span class="p">)</span>
+<span class="p">[</span><span class="n">GCC</span> <span class="mf">10.3.0</span><span class="p">]</span> <span class="n">on</span> <span class="n">linux</span>
+<span class="n">Type</span> <span class="s2">&quot;help&quot;</span><span class="p">,</span> <span class="s2">&quot;copyright&quot;</span><span class="p">,</span> <span class="s2">&quot;credits&quot;</span> <span class="ow">or</span> <span class="s2">&quot;license&quot;</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">lammps</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">lmp</span> <span class="o">=</span> <span class="n">lammps</span><span class="o">.</span><span class="n">lammps</span><span class="p">()</span>
+<span class="n">LAMMPS</span> <span class="p">(</span><span class="mi">15</span> <span class="n">Sep</span> <span class="mi">2022</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Clone the FitSNAP repository:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">FitSNAP</span><span class="o">/</span><span class="n">FitSNAP</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+</li>
+<li><p>Add the cloned repository path to your PYTHONPATH environment variable:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>FITSNAP_DIR=\path\to\FitSNAP
+export PYTHONPATH=$FITSNAP_DIR:$PYTHONPATH
+</pre></div>
+</div>
+</li>
+<li><p>Install the following required Python packages/libraries using conda, pip, or your favorite
+Python package management method. Example with conda:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">psutil</span> <span class="n">pandas</span> <span class="n">scipy</span> <span class="n">tabulate</span> <span class="n">sphinx</span> <span class="n">sphinx_rtd_theme</span>
+</pre></div>
+</div>
+</li>
+<li><p>If MPI is configured on your system, we recommend installing mpi4py for optimal FitSNAP performance</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If installing with a Python package manager, we strongly recommend using pip over conda
+as pip will auto-configure your mpi4py package to your system’s defaut MPI version
+(usually what you used to build LAMMPS)</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>You should now be able to run the FitSNAP examples in <code class="code docutils literal notranslate"><span class="pre">FitSNAP/examples</span></code>.</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Introduction.html" class="btn btn-neutral float-left" title="1. Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Run.html" class="btn btn-neutral float-right" title="3. Run FitSNAP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Sandia Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

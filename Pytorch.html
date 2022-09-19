@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="1. Executable" href="Executable.html" />
+    <link rel="next" title="5. Uncertainty Quantification" href="Uncertainty%20Quantification.html" />
     <link rel="prev" title="3. Run FitSNAP" href="Run.html" /> 
 </head>
 
@@ -41,7 +41,7 @@
               <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Introduction.html">1. Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">2. Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">2. Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Run.html">3. Run FitSNAP</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">4. PyTorch Models</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#fitting-neural-network-potentials">4.1. Fitting Neural Network Potentials</a></li>
@@ -53,6 +53,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="Uncertainty%20Quantification.html">5. Uncertainty Quantification</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Programmer Guide</span></p>
 <ul>
@@ -164,11 +165,9 @@ a fit or even run MD simulations in LAMMPS.</p>
 <p>After training a potential, FitSNAP produces outputs that can be used to intrepret the quality of a
 fit on the training and/or validation data. The following comparison files are written after a fit:</p>
 <ul class="simple">
-<li><p><code class="code docutils literal notranslate"><span class="pre">energy_comparison.dat</span></code> energy comparisons for all configs in the training set. Each row</p></li>
-</ul>
-<p>corresponds to a specific configuration in the training set. The first column is the model energy,
-and the 2nd column is the target energy.</p>
-<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">energy_comparison.dat</span></code> energy comparisons for all configs in the training set. Each row
+corresponds to a specific configuration in the training set. The first column is the model energy,
+and the 2nd column is the target energy.</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">energy_comparison_val.dat</span></code> energy comparisons for all configs in the validation set.
 Format is same as above.</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">force_comparison.dat</span></code> force comparisons for all atoms in all configs in the training set.
@@ -226,7 +225,7 @@ the <a class="reference external" href="https://github.com/FitSNAP/FitSNAP/tree/
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Run.html" class="btn btn-neutral float-left" title="3. Run FitSNAP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Executable.html" class="btn btn-neutral float-right" title="1. Executable" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Uncertainty%20Quantification.html" class="btn btn-neutral float-right" title="5. Uncertainty Quantification" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
