@@ -103,8 +103,8 @@ specifically for using FitSNAP.</p>
 both applications will very significantly speed up runtimes.</p>
 <p>We built MPI fromm source for LAMMPS and FitSNAP using OpenMPI version 4.1.4 (<a class="reference external" href="https://www.open-mpi.org/">https://www.open-mpi.org/</a>)
 and the instructions on that webiste (<a class="reference external" href="https://www.open-mpi.org/faq/?category=building#easy-build">https://www.open-mpi.org/faq/?category=building#easy-build</a>).</p>
-<p>After building, add your openmpi executable path to your “PATH” variable as well so that LAMMPS can
-automatically find your MPI install, e.g.:</p>
+<p>After building, add your openmpi executable path to your <code class="code docutils literal notranslate"><span class="pre">PATH`</span></code> variable as well so that
+LAMMPS can automatically find your MPI install, e.g.:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span># in e.g., ~/.bashrc
 MPI_DIR=/usr/local/openmpi
 export PATH=$MPI_DIR/bin:$PATH
@@ -115,7 +115,7 @@ export PATH=$MPI_DIR/bin:$PATH
 <h3><span class="section-number">2.1.2. </span>LAMMPS for FitSNAP.<a class="headerlink" href="#lammps-for-fitsnap" title="Permalink to this heading"></a></h3>
 <p><strong>First activate your Python virtual environment or conda environment.</strong> Install the necessary
 pre-requisites to build LAMMPS with python using pip or conda:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">virtualenv</span> <span class="n">numpy</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">virtualenv</span> <span class="n">numpy</span> <span class="n">Cython</span>
 </pre></div>
 </div>
 <p>Then clone the LAMMPS repo:</p>
@@ -134,7 +134,34 @@ specifically for FitSNAP:</p>
 </div>
 <p>This will create a LAMMPS executable <code class="code docutils literal notranslate"><span class="pre">lmp</span></code>, which should be used to run MD using FitSNAP fits.
 This will also create a PyLammps interface located in your Python <code class="code docutils literal notranslate"><span class="pre">site-packages/lammps</span></code>
-directory. Now you have LAMMPS and PyLammps ready to use FitSNAP!</p>
+directory. Set the following environment variables so that your Python can find LAMMPS:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>LAMMPS_DIR=/path/to/lammps
+export LD_LIBRARY_PATH=$LAMMPS_DIR/build-fitsnap:$LD_LIBRARY_PATH # Use DYLD_LIBRARY_PATH for MacOS
+export PYTHONPATH=$LAMMPS_DIR/python:$PYTHONPATH
+</pre></div>
+</div>
+<p>To make sure MPI is working, make a Python script called <code class="code docutils literal notranslate"><span class="pre">test.py</span></code> with the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
+<span class="n">comm</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Proc </span><span class="si">%d</span><span class="s2"> out of </span><span class="si">%d</span><span class="s2"> procs&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">comm</span><span class="o">.</span><span class="n">Get_rank</span><span class="p">(),</span><span class="n">comm</span><span class="o">.</span><span class="n">Get_size</span><span class="p">()))</span>
+</pre></div>
+</div>
+<p>And see the output for each processor by running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># NOTE: the line order is not deterministic
+$ mpirun -np 4 python test.py
+Proc 0 out of 4 procs
+Proc 1 out of 4 procs
+Proc 2 out of 4 procs
+Proc 3 out of 4 procs
+</pre></div>
+</div>
+<p>Also make sure your Python LAMMPS library is working by firing up your Python interpreter and doing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lammps</span>
+<span class="n">lmp</span> <span class="o">=</span> <span class="n">lammps</span><span class="o">.</span><span class="n">lammps</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>which should produce no errors.</p>
+<p><strong>Now you have LAMMPS and PyLammps ready to use FitSNAP!</strong></p>
 <p>Alternatively, LAMMPS can be built with the GUI CMake curses interface as explained below. With the
 CMake curses (ccmake) GUI interface, build LAMMPS using the following steps:</p>
 <blockquote>

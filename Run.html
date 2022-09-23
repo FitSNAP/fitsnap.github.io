@@ -49,6 +49,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#calculator">3.2.2. [CALCULATOR]</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#eshift">3.2.3. [ESHIFT]</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#solver">3.2.4. [SOLVER]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#path">3.2.5. [PATH]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#groups">3.2.6. [GROUPS]</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#library">3.3. Library</a></li>
@@ -95,7 +97,7 @@ is scraped from a directory, configurations are input to LAMMPS to calculate des
 machine learning problem is solved. The python library provides more flexibility and allows one to
 modify the steps in that fitting process.</p>
 <section id="executable">
-<h2><span class="section-number">3.1. </span>Executable<a class="headerlink" href="#executable" title="Permalink to this heading"></a></h2>
+<span id="run-executable"></span><h2><span class="section-number">3.1. </span>Executable<a class="headerlink" href="#executable" title="Permalink to this heading"></a></h2>
 <p>Before using the executable, you must set the path to your FitSNAP directoy in your
 <code class="code docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> environment variable, e.g.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export PYTHONPATH=&quot;path/to/FitSNAP:$PYTHONPATH&quot;</span>
@@ -217,6 +219,48 @@ following input script:</p>
 </section>
 <section id="solver">
 <h3><span class="section-number">3.2.4. </span>[SOLVER]<a class="headerlink" href="#solver" title="Permalink to this heading"></a></h3>
+</section>
+<section id="path">
+<span id="id1"></span><h3><span class="section-number">3.2.5. </span>[PATH]<a class="headerlink" href="#path" title="Permalink to this heading"></a></h3>
+<p>This section contains a <code class="code docutils literal notranslate"><span class="pre">dataPath</span></code> keyword that locates the directory of the training data.
+For example if the training data is in a file called <code class="code docutils literal notranslate"><span class="pre">JSON</span></code> in the previous directory relative
+to where we run the FitSNAP executable, this section looks like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PATH</span><span class="p">]</span>
+<span class="n">dataPath</span> <span class="o">=</span> <span class="n">JSON</span>
+</pre></div>
+</div>
+</section>
+<section id="groups">
+<h3><span class="section-number">3.2.6. </span>[GROUPS]<a class="headerlink" href="#groups" title="Permalink to this heading"></a></h3>
+<p>Each group should be its own sub-irectory in the directory given by the <code class="code docutils literal notranslate"><span class="pre">dataPath/</span></code> keyword in
+<a class="reference external" href="Run.html#path">the [PATH] section</a>. There are a few different allowed syntaxes; subdirectory
+names in the first column is common to all options.</p>
+<p>The default grouplist format has five columns and is as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">name</span>  <span class="n">size</span>  <span class="n">eweight</span>  <span class="n">fweight</span>  <span class="n">vweight</span>
+<span class="p">(</span><span class="n">STR</span><span class="p">)</span> <span class="p">(</span><span class="n">REAL</span><span class="p">)</span> <span class="p">(</span><span class="n">REAL</span><span class="p">)</span>  <span class="p">(</span><span class="n">REAL</span><span class="p">)</span>   <span class="p">(</span><span class="n">REAL</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The first column is the name of the subfolder with training data. The second column defines the
+number of files to be used in training the fit. The last three columns are real numbers defining the
+weight vector for all configurations in this group:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NAME_OF_SUBFOLDER</span> <span class="n">NUMBER_OF_FILES</span> <span class="n">ENERGY_WEIGHT</span> <span class="n">FORCE_WEIGHT</span> <span class="n">VIRIAL_WEIGHT</span>
+</pre></div>
+</div>
+<p>If the second column is a fraction:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">STR</span><span class="p">)</span> <span class="p">(</span><span class="n">REAL</span><span class="p">,</span> <span class="o">&lt;=</span><span class="mf">1.0</span><span class="p">)</span> <span class="p">(</span><span class="n">REAL</span><span class="p">)</span> <span class="p">(</span><span class="n">REAL</span><span class="p">)</span> <span class="p">(</span><span class="n">REAL</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The second column now defines the fraction of this group to be used in fitting. This will sample at
+random from the list of files in this group:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NAME_OF_SUBFOLDER</span> <span class="n">FRACTION_OF_FILES</span> <span class="n">ENERGY_WEIGHT</span> <span class="n">FORCE_WEIGHT</span> <span class="n">VIRIAL_WEIGHT</span>
+</pre></div>
+</div>
+<p>Other available grouplist columns through the group_sections keyword are:</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">training_size</span></code> = size or fraction of total files to be used in training</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">testing_size</span></code> = size or fraction of total files to be used in testing</p></li>
+</ul>
+<p>A few examples are found in the <code class="code docutils literal notranslate"><span class="pre">fitsnap/examples</span></code> directory.</p>
 </section>
 </section>
 <section id="library">

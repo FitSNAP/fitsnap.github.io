@@ -90,7 +90,7 @@
            <div itemprop="articleBody">
              
   <section id="library">
-<h1><span class="section-number">2. </span>Library<a class="headerlink" href="#library" title="Permalink to this heading"></a></h1>
+<span id="id1"></span><h1><span class="section-number">2. </span>Library<a class="headerlink" href="#library" title="Permalink to this heading"></a></h1>
 <section id="overview">
 <h2><span class="section-number">2.1. </span>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <p>The FitSNAP library provides a high level connection to FitSNAP methods in external Python scripts.</p>
@@ -318,7 +318,7 @@ and functions.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.lib.neural_networks.pytorch.</span></span><span class="sig-name descname"><span class="pre">FitTorch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">networks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descriptor_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy_weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_element_option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pytorch.FitTorch" title="Permalink to this definition"></a></dt>
 <dd><p>FitSNAP PyTorch network model.</p>
 <dl class="simple">
-<dt>networks<span class="classifier">list</span></dt><dd><p>A list of nn.Sequential network architectures.
+<dt>networks: list</dt><dd><p>A list of nn.Sequential network architectures.
 Each list element is a different network type.</p>
 </dd>
 <dt>descriptor_count: int</dt><dd><p>Length of descriptors for an atom</p>
@@ -334,7 +334,7 @@ Each list element is a different network type.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pytorch.FitTorch.forward">
-<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms_per_structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">types</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xd_indx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_j</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pytorch.FitTorch.forward" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms_per_structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">types</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xd_indx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_j</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pytorch.FitTorch.forward" title="Permalink to this definition"></a></dt>
 <dd><p>Forward pass through the PyTorch network model, calculating both energies and forces.</p>
 <dl class="simple">
 <dt>x: torch.Tensor.float</dt><dd><p>Array of descriptors for this batch</p>
@@ -347,10 +347,15 @@ Each list element is a different network type.</p>
 </dd>
 <dt>types: torch.Tensor.long</dt><dd><p>Atom types starting from 0, for this batch</p>
 </dd>
-<dt>xd_indx: torch.Tensor.long </dt><dd><p>Array of indices corresponding to descriptor derivatives, for this batch</p>
+<dt>xd_indx: torch.Tensor.long </dt><dd><p>Array of indices corresponding to descriptor derivatives, for this batch. These are 
+concatenations of the direct LAMMPS dgradflag=1 output; we rely on unique_j and unique_i 
+for adjusted indices of this batch (see dataloader.torch_collate)</p>
 </dd>
 <dt>unique_j: torch.Tensor.long </dt><dd><p>Array of indices corresponding to unique atoms j in all batches of configs.
 All forces in this batch will be contracted over these indices.</p>
+</dd>
+<dt>unique_i: torch.Tensor.long</dt><dd><p>Array of indices corresponding to unique neighbors i in all batches of configs. Forces 
+on atoms j are summed over these neighbors and contracted appropriately.</p>
 </dd>
 </dl>
 <p>device: pytorch accelerator device object</p>
@@ -409,33 +414,6 @@ This only supports softplus as the nonlinear activation function.</p>
 </dd>
 </dl>
 </div></blockquote>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pytorch.from_numpy">
-<span class="sig-prename descclassname"><span class="pre">fitsnap3lib.lib.neural_networks.pytorch.</span></span><span class="sig-name descname"><span class="pre">from_numpy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pytorch.from_numpy" title="Permalink to this definition"></a></dt>
-<dd><p>Creates a <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code> from a <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>.</p>
-<p>The returned tensor and <code class="xref py py-attr docutils literal notranslate"><span class="pre">ndarray</span></code> share the same memory. Modifications to
-the tensor will be reflected in the <code class="xref py py-attr docutils literal notranslate"><span class="pre">ndarray</span></code> and vice versa. The returned
-tensor is not resizable.</p>
-<p>It currently accepts <code class="xref py py-attr docutils literal notranslate"><span class="pre">ndarray</span></code> with dtypes of <code class="docutils literal notranslate"><span class="pre">numpy.float64</span></code>,
-<code class="docutils literal notranslate"><span class="pre">numpy.float32</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy.float16</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy.complex64</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy.complex128</span></code>,
-<code class="docutils literal notranslate"><span class="pre">numpy.int64</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy.int32</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy.int16</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy.int8</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy.uint8</span></code>,
-and <code class="docutils literal notranslate"><span class="pre">numpy.bool</span></code>.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Writing to a tensor created from a read-only NumPy array is not supported and will result in undefined behavior.</p>
-</div>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span>
-<span class="go">tensor([ 1,  2,  3])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
-<span class="go">array([-1,  2,  3])</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </section>
