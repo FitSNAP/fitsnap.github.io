@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="2. Library" href="Library.html" />
-    <link rel="prev" title="4. PyTorch Models" href="Pytorch.html" /> 
+    <link rel="prev" title="5. Uncertainty Quantification" href="Uncertainty%20Quantification.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,13 +41,19 @@
               <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Introduction.html">1. Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">2. Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">2. Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Run.html">3. Run FitSNAP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Pytorch.html">4. PyTorch Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Uncertainty%20Quantification.html">5. Uncertainty Quantification</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Programmer Guide</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Executable</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Executable</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#data-configuration-extraction">1.1. Data &amp; configuration extraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modifying-the-output-dataframe">1.2. Modifying the output dataframe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-new-input-file-keywords">1.3. Adding new input file keywords</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="Library.html">2. Library</a></li>
 </ul>
 
@@ -77,30 +83,32 @@
              
   <section id="executable">
 <h1><span class="section-number">1. </span>Executable<a class="headerlink" href="#executable" title="Permalink to this heading"></a></h1>
-<p>When running FitSNAP as an executable with</p>
+<p>Here we explain how to modify FitSNAP when running as an <a class="reference external" href="Run.html#executable">Executable</a>. First
+we begin with an explanation of what goes on under the good when running FitSNAP as an executable
+with</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m fitsnap3 input.in</span>
 </pre></div>
 </div>
-<p>there is a certain sequence of functions that is explained here, and coded in
+<p>There is a certain sequence of functions that is explained here, and coded in
 <code class="code docutils literal notranslate"><span class="pre">fitsnap3/__main__.py</span></code>. Specifically, the <code class="code docutils literal notranslate"><span class="pre">main()</span></code> function uses the FitSNAP library to
-execute the following sequence of functions that perform a fit.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">from fitsnap3lib.parallel_tools import ParallelTools</span>
-<span class="go">pt = ParallelTools()</span>
-<span class="go">from fitsnap3lib.io.input import Config</span>
-<span class="go">config = Config(arguments_lst = [&quot;/path/to/FitSNAP/input/script&quot;, &quot;--overwrite&quot;])</span>
-<span class="go">from fitsnap3lib.fitsnap import FitSnap</span>
+execute the following sequence of functions that perform a fit:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fitsnap3lib.parallel_tools</span> <span class="kn">import</span> <span class="n">ParallelTools</span>
+<span class="n">pt</span> <span class="o">=</span> <span class="n">ParallelTools</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">fitsnap3lib.io.input</span> <span class="kn">import</span> <span class="n">Config</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="n">arguments_lst</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;/path/to/FitSNAP/input/script&quot;</span><span class="p">,</span> <span class="s2">&quot;--overwrite&quot;</span><span class="p">])</span>
+<span class="kn">from</span> <span class="nn">fitsnap3lib.fitsnap</span> <span class="kn">import</span> <span class="n">FitSnap</span>
 
-<span class="go">def main():</span>
-<span class="go">    try:</span>
-<span class="go">        initialize_fitsnap_run()</span>
-<span class="go">        snap = FitSnap()</span>
-<span class="go">        snap.scrape_configs()</span>
-<span class="go">        snap.process_configs()</span>
-<span class="go">        pt.all_barrier()</span>
-<span class="go">        snap.perform_fit()</span>
-<span class="go">        snap.write_output()</span>
-<span class="go">    except Exception as e:</span>
-<span class="go">        output.exception(e)</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">initialize_fitsnap_run</span><span class="p">()</span>
+        <span class="n">snap</span> <span class="o">=</span> <span class="n">FitSnap</span><span class="p">()</span>
+        <span class="n">snap</span><span class="o">.</span><span class="n">scrape_configs</span><span class="p">()</span>
+        <span class="n">snap</span><span class="o">.</span><span class="n">process_configs</span><span class="p">()</span>
+        <span class="n">pt</span><span class="o">.</span><span class="n">all_barrier</span><span class="p">()</span>
+        <span class="n">snap</span><span class="o">.</span><span class="n">perform_fit</span><span class="p">()</span>
+        <span class="n">snap</span><span class="o">.</span><span class="n">write_output</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>From the above code, it is seen that we first run the
@@ -115,16 +123,66 @@ are used, and instatiating the <code class="code docutils literal notranslate"><
 <code class="code docutils literal notranslate"><span class="pre">snap</span></code> object has functions located in <code class="code docutils literal notranslate"><span class="pre">fitsnap3lib.fitsnap</span></code>, and the code that these
 functions depends on can be seen by observing <code class="code docutils literal notranslate"><span class="pre">fitsnap3lib/fitsnap.py</span></code>. These functions can
 be executed in any order desired by the user. The library also provides a deeper level of control,
-that we will explain in the next section. Examples of using the library to perform a variety of
+that we will explain in <a class="reference external" href="Library.html">Library</a>. Examples of using the library to perform a variety of
 tasks outside the usual FitSNAP main program execution are located in
 <a class="reference external" href="https://github.com/FitSNAP/FitSNAP/tree/master/examples/library">https://github.com/FitSNAP/FitSNAP/tree/master/examples/library</a>.</p>
+<p>Further explanations on how to modify FitSNAP as an executable are explained below.</p>
+<section id="data-configuration-extraction">
+<h2><span class="section-number">1.1. </span>Data &amp; configuration extraction<a class="headerlink" href="#data-configuration-extraction" title="Permalink to this heading"></a></h2>
+<p>After creating the FitSNAP object in <code class="code docutils literal notranslate"><span class="pre">__main__.py</span></code>, the first step is scraping the configs.
+Then we process the configs (calculate the descriptors) with <code class="code docutils literal notranslate"><span class="pre">snap.process_configs()</span></code>.
+This calls the function in <code class="code docutils literal notranslate"><span class="pre">fitsnap.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">process_configs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">calculator</span><span class="o">.</span><span class="n">create_a</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">configuration</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calculator</span><span class="o">.</span><span class="n">process_configs</span><span class="p">(</span><span class="n">configuration</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">calculator</span><span class="o">.</span><span class="n">collect_distributed_lists</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">calculator</span><span class="o">.</span><span class="n">extras</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The <code class="code docutils literal notranslate"><span class="pre">Calculator</span></code> class in <code class="code docutils literal notranslate"><span class="pre">calculators/calculator.py</span></code> has a <code class="code docutils literal notranslate"><span class="pre">create_a</span></code> method
+which allocates the size of the <code class="code docutils literal notranslate"><span class="pre">a</span></code> and <code class="code docutils literal notranslate"><span class="pre">b</span></code> matrices, containing data such as
+descriptors and target energies/forces. <code class="code docutils literal notranslate"><span class="pre">calculators/calculator.py</span></code> also has a
+<code class="code docutils literal notranslate"><span class="pre">process_configs</span></code> method which is overwritten by user-defined derived class, e.g.
+<code class="code docutils literal notranslate"><span class="pre">LammpsSnap</span></code> in <code class="code docutils literal notranslate"><span class="pre">lammps_snap.py</span></code>. The <code class="code docutils literal notranslate"><span class="pre">calculator.process_configs</span></code> method
+therefore gets directed to the method in the derived class, which depends on the particular
+calculator being used.</p>
+</section>
+<section id="modifying-the-output-dataframe">
+<h2><span class="section-number">1.2. </span>Modifying the output dataframe<a class="headerlink" href="#modifying-the-output-dataframe" title="Permalink to this heading"></a></h2>
+<p>The Pandas dataframe is used for linear solvers to store information about the fit.</p>
+<p>The <code class="code docutils literal notranslate"><span class="pre">error_analysis</span></code> function in <code class="code docutils literal notranslate"><span class="pre">solvers/solver.py</span></code> builds a dataframe containing
+arrays from <code class="code docutils literal notranslate"><span class="pre">pt.shared_arrays</span></code> and <code class="code docutils literal notranslate"><span class="pre">pt.fitsnap_dict</span></code>. If you want to add your own column
+to the dataframe, it must first be declared/allocated as a <code class="code docutils literal notranslate"><span class="pre">pt.fitsnap_dict</span></code> in
+<code class="code docutils literal notranslate"><span class="pre">calculators/calculator.py</span></code>, with the <code class="code docutils literal notranslate"><span class="pre">pt.add_2_fitsnap</span></code> function. When extracting
+LAMMPS data in a particular calculator subclass, there are loops over energy <code class="code docutils literal notranslate"><span class="pre">bik</span></code> rows, force
+rows, and stress rows. These are located in <code class="code docutils literal notranslate"><span class="pre">lammps_snap.py</span></code> and <code class="code docutils literal notranslate"><span class="pre">lammps_pace.py</span></code>, in
+the <code class="code docutils literal notranslate"><span class="pre">_collect_lammps()</span></code> function. There it is seen that data is added to the
+<code class="code docutils literal notranslate"><span class="pre">pt.fitsnap_dict['Column_Name'][indices]</span></code> array, where <code class="code docutils literal notranslate"><span class="pre">'Column_Name'</span></code> is the name of
+the new column declared earlier, and <code class="code docutils literal notranslate"><span class="pre">'indices'</span></code> are the rows of the array.</p>
+<p>When adding a new <code class="code docutils literal notranslate"><span class="pre">pt.fitsnap_dict</span></code>, realize that it’s a <code class="code docutils literal notranslate"><span class="pre">DistributedList</span></code>; this means
+that a list of whatever declared size exists on each proc. There is a method
+<code class="code docutils literal notranslate"><span class="pre">collect_distributed_lists</span></code> in <code class="code docutils literal notranslate"><span class="pre">calculators/calculator.py</span></code> that gathers all these
+distributed lists on the root proc.</p>
+</section>
+<section id="adding-new-input-file-keywords">
+<h2><span class="section-number">1.3. </span>Adding new input file keywords<a class="headerlink" href="#adding-new-input-file-keywords" title="Permalink to this heading"></a></h2>
+<p>First you need to choose what section the keyword you’re adding is in. For example in the input
+file you will see a <code class="code docutils literal notranslate"><span class="pre">CALCULATOR</span></code> section. If you want to add a keyword to this section, go to
+<code class="code docutils literal notranslate"><span class="pre">fitsnap3lib/io/sections/calculator_sections/calculator.py</span></code>, and use the existing keyword
+examples to add a new keyword. Likewise for other sections such as <code class="code docutils literal notranslate"><span class="pre">SOLVER</span></code>, we edit
+<code class="code docutils literal notranslate"><span class="pre">fitsnap3lib/io/sections/solver_sections/solver.py</span></code>. If you want to access this keyword later
+in the FitSNAP code somewhere, it is done with <code class="code docutils literal notranslate"><span class="pre">config.sections['SOLVER'].new_keyword</span></code> for
+example.</p>
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Pytorch.html" class="btn btn-neutral float-left" title="4. PyTorch Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Uncertainty%20Quantification.html" class="btn btn-neutral float-left" title="5. Uncertainty Quantification" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="Library.html" class="btn btn-neutral float-right" title="2. Library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
