@@ -73,7 +73,7 @@ Run high-performance MD with this neural network potential::
     mpirun -np 4 ${LAMMPS_DIR}/fitsnap-build/lmp < in.run
 
 More details on setting up input scripts for NN fitting are given below. If you want instructions on 
-getting set up with a cluster, please see `Cluster Instructions <Cluster.html>`__.
+getting set up with a cluster, please see `Quick Instructions <Quick.html>`__.
 
 Fitting Neural Network Potentials
 ---------------------------------

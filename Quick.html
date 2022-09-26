@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cluster Instructions &mdash; FitSNAP  documentation</title>
+  <title>Quick Instructions &mdash; FitSNAP  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -64,9 +64,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Cluster Instructions</li>
+      <li>Quick Instructions</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/Cluster.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/Quick.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -74,16 +74,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="cluster-instructions">
-<h1>Cluster Instructions<a class="headerlink" href="#cluster-instructions" title="Permalink to this heading"></a></h1>
-<p>These instructions get you started on our SLURM clusters. Module names may be
-changed for other clusters, but the general procedure is the same.</p>
+  <section id="quick-instructions">
+<h1>Quick Instructions<a class="headerlink" href="#quick-instructions" title="Permalink to this heading"></a></h1>
+<p>Module names may be changed depending on your system, but the general procedure is the same.</p>
 <p>Load modules:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">purge</span>
-<span class="n">module</span> <span class="n">load</span> <span class="n">cde</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">compiler</span><span class="o">/</span><span class="n">gcc</span><span class="o">/</span><span class="mf">7.2.0</span>
-<span class="n">module</span> <span class="n">load</span> <span class="n">cde</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">cmake</span><span class="o">/</span><span class="mf">3.17.1</span>
-<span class="n">module</span> <span class="n">load</span> <span class="n">cde</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">gcc</span><span class="o">/</span><span class="mf">7.2.0</span><span class="o">/</span><span class="n">openmpi</span><span class="o">/</span><span class="mf">3.1.6</span>
-<span class="n">module</span> <span class="n">load</span> <span class="n">intel</span><span class="o">/</span><span class="mf">22.2.0</span> <span class="c1"># Oddly, this helps mpi4py work in this setup</span>
+<span class="n">module</span> <span class="n">load</span> <span class="n">gcc</span>
+<span class="n">module</span> <span class="n">load</span> <span class="n">cmake</span>
+<span class="n">module</span> <span class="n">load</span> <span class="n">openmpi</span>
+<span class="n">module</span> <span class="n">load</span> <span class="n">intel</span> <span class="c1"># Sometimes this helps mpi4py work</span>
 </pre></div>
 </div>
 <p>Create &amp; activate conda environment with dependencies:</p>

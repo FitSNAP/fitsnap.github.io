@@ -1,16 +1,15 @@
-Cluster Instructions
-====================
+Quick Instructions
+==================
 
-These instructions get you started on our SLURM clusters. Module names may be 
-changed for other clusters, but the general procedure is the same.
+Module names may be changed depending on your system, but the general procedure is the same.
 
 Load modules::
 
     module purge
-    module load cde/v1/compiler/gcc/7.2.0
-    module load cde/v1/cmake/3.17.1      
-    module load cde/v1/gcc/7.2.0/openmpi/3.1.6   
-    module load intel/22.2.0 # Oddly, this helps mpi4py work in this setup
+    module load gcc
+    module load cmake  
+    module load openmpi
+    module load intel # Sometimes this helps mpi4py work
 
 Create & activate conda environment with dependencies::
 
