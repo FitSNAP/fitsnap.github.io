@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cluster Instructions &mdash; FitSNAP  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> FitSNAP
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">2. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Run.html">3. Run FitSNAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pytorch.html">4. PyTorch Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Uncertainty%20Quantification.html">5. Uncertainty Quantification</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Programmer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Executable.html">1. Executable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Library.html">2. Library</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FitSNAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Cluster Instructions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Cluster.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cluster-instructions">
+<h1>Cluster Instructions<a class="headerlink" href="#cluster-instructions" title="Permalink to this heading"></a></h1>
+<p>These instructions get you started on our SLURM clusters. Module names may be
+changed for other clusters, but the general procedure is the same.</p>
+<p>Load modules:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">purge</span>
+<span class="n">module</span> <span class="n">load</span> <span class="n">cde</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">compiler</span><span class="o">/</span><span class="n">gcc</span><span class="o">/</span><span class="mf">7.2.0</span>
+<span class="n">module</span> <span class="n">load</span> <span class="n">cde</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">cmake</span><span class="o">/</span><span class="mf">3.17.1</span>
+<span class="n">module</span> <span class="n">load</span> <span class="n">cde</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">gcc</span><span class="o">/</span><span class="mf">7.2.0</span><span class="o">/</span><span class="n">openmpi</span><span class="o">/</span><span class="mf">3.1.6</span>
+<span class="n">module</span> <span class="n">load</span> <span class="n">intel</span><span class="o">/</span><span class="mf">22.2.0</span> <span class="c1"># Oddly, this helps mpi4py work in this setup</span>
+</pre></div>
+</div>
+<p>Create &amp; activate conda environment with dependencies:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">--</span><span class="n">name</span> <span class="n">fitsnap</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.10</span>
+<span class="n">conda</span> <span class="n">activate</span> <span class="n">fitsnap</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">numpy</span> <span class="n">torch</span> <span class="n">scipy</span> <span class="n">virtualenv</span> <span class="n">psutil</span> <span class="n">pandas</span> <span class="n">tabulate</span> <span class="n">mpi4py</span> <span class="n">Cython</span>
+</pre></div>
+</div>
+<p>Set the following environment variables:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LAMMPS_DIR</span><span class="o">=/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">where</span><span class="o">/</span><span class="n">you</span><span class="o">/</span><span class="n">want</span><span class="o">/</span><span class="n">lammps</span> <span class="c1"># LAMMPS code will be in $LAMMPS_DIR</span>
+<span class="n">FITSNAP_DIR</span><span class="o">=/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">where</span><span class="o">/</span><span class="n">you</span><span class="o">/</span><span class="n">want</span><span class="o">/</span><span class="n">FitSNAP</span> <span class="c1"># FitSNAP code will be in $FitSNAP_DIR</span>
+</pre></div>
+</div>
+<p>Get &amp; build LAMMPS with Python library:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/lammps/lammps $LAMMPS_DIR
+mkdir $LAMMPS_DIR/build-fitsnap
+cd $LAMMPS_DIR/build-fitsnap
+cmake ../cmake -DLAMMPS_EXCEPTIONS=yes \
+               -DBUILD_SHARED_LIBS=yes \
+               -DMLIAP_ENABLE_PYTHON=yes \
+               -DPKG_PYTHON=yes \
+               -DPKG_ML-SNAP=yes \
+               -DPKG_ML-IAP=yes \
+               -DPKG_ML-PACE=yes \
+               -DPKG_SPIN=yes \
+               -DPYTHON_EXECUTABLE:FILEPATH=`which python`
+make
+make install-python
+</pre></div>
+</div>
+<p>Get &amp; prepare FitSNAP:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/FitSNAP/FitSNAP $FITSNAP_DIR
+export PYTHONPATH=$FITSNAP_DIR:$PYTHONPATH # So you can run FitSNAP as executable
+</pre></div>
+</div>
+<p>Fit a neural network for tantalum:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $FITSNAP_DIR/examples/Ta_PyTorch_NN
+mpirun -np 2 python -m fitsnap3 Ta-example.in --overwrite
+</pre></div>
+</div>
+<p>Run high-performance MD with this neural network potential:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>SITE_PACKAGES_DIR=`python -c &quot;import site; print(site.getsitepackages()[0])&quot;`
+export PYTHONPATH=${SITE_PACKAGES_DIR}:$PYTHONPATH # So that ML-IAP package can find torch for MD
+cd MD
+mpirun -np 4 ${LAMMPS_DIR}/fitsnap-build/lmp &lt; in.run
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Sandia Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
