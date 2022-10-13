@@ -155,7 +155,11 @@ recreating a dictionary</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.ParallelTools.new_slice_a">
 <span class="sig-name descname"><span class="pre">new_slice_a</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.new_slice_a" title="Permalink to this definition"></a></dt>
-<dd><p>create array to show which sub a matrix indices belong to which proc</p>
+<dd><p>create array to show which sub a matrix indices belong to which proc 
+For linear solvers, the A matrix may be composed of either summed per-atom descriptors OR 
+per-atom descriptors.
+For nonlinear solvers, the A matrix is composed of per-atom quantities like bispectrum 
+components, etc.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -174,6 +178,12 @@ recreating a dictionary</p>
 <dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.ParallelTools.new_slice_dgrad">
 <span class="sig-name descname"><span class="pre">new_slice_dgrad</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.new_slice_dgrad" title="Permalink to this definition"></a></dt>
 <dd><p>create array to show which sub dgrad matrix indices belong to which proc</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.ParallelTools.new_slice_neighlist">
+<span class="sig-name descname"><span class="pre">new_slice_neighlist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.new_slice_neighlist" title="Permalink to this definition"></a></dt>
+<dd><p>create array to show which sub neighlist matrix indices belong to which proc</p>
 </dd></dl>
 
 <dl class="py method">
@@ -299,14 +309,19 @@ a Pandas dataframe</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="fitsnap3lib.solvers.pytorch.PYTORCH.evaluate_configs">
-<span class="sig-name descname"><span class="pre">evaluate_configs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardize_bool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.evaluate_configs" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">evaluate_configs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardize_bool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float64</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.evaluate_configs" title="Permalink to this definition"></a></dt>
 <dd><p>Evaluates energies and forces on configs for testing purposes.</p>
-<dl class="simple">
+<dl>
 <dt>option<span class="classifier">int</span></dt><dd><p>1 - evaluate energies/forces for all configs separately
 2 - evaluate energies/forces using the dataloader/batch procedure</p>
 </dd>
 <dt>standardize_bool<span class="classifier">bool</span></dt><dd><p>True - Standardize weights
-False - Do not standardize weights</p>
+False - Do not standardize weights, useful if you are comparing inputs on a previously</p>
+<blockquote>
+<div><p>standardized model</p>
+</div></blockquote>
+</dd>
+<dt>dtype<span class="classifier">torch.dtype</span></dt><dd><p>Optional override of the global dtype</p>
 </dd>
 </dl>
 </dd></dl>
@@ -329,7 +344,7 @@ and functions.</p>
 <span id="fittorch"></span><h3><span class="section-number">2.6.1. </span>FitTorch<a class="headerlink" href="#module-fitsnap3lib.lib.neural_networks.pytorch" title="Permalink to this heading"></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pytorch.FitTorch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.lib.neural_networks.pytorch.</span></span><span class="sig-name descname"><span class="pre">FitTorch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">networks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descriptor_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy_weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_element_option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pytorch.FitTorch" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.lib.neural_networks.pytorch.</span></span><span class="sig-name descname"><span class="pre">FitTorch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">networks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descriptor_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy_weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_element_option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float32</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pytorch.FitTorch" title="Permalink to this definition"></a></dt>
 <dd><p>FitSNAP PyTorch network model.</p>
 <dl class="simple">
 <dt>networks: list</dt><dd><p>A list of nn.Sequential network architectures.
@@ -348,7 +363,7 @@ Each list element is a different network type.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pytorch.FitTorch.forward">
-<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms_per_structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">types</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xd_indx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_j</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pytorch.FitTorch.forward" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms_per_structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">types</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xd_indx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_j</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float32</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pytorch.FitTorch.forward" title="Permalink to this definition"></a></dt>
 <dd><p>Forward pass through the PyTorch network model, calculating both energies and forces.</p>
 <dl class="simple">
 <dt>x: torch.Tensor.float</dt><dd><p>Array of descriptors for this batch</p>
@@ -370,6 +385,9 @@ All forces in this batch will be contracted over these indices.</p>
 </dd>
 <dt>unique_i: torch.Tensor.long</dt><dd><p>Array of indices corresponding to unique neighbors i in all batches of configs. Forces 
 on atoms j are summed over these neighbors and contracted appropriately.</p>
+</dd>
+<dt>dtype: torch.float32</dt><dd><p>Data type used for torch tensors, default is torch.float32 for easy training, but we set 
+to torch.float64 for finite difference tests to ensure correct force calculations.</p>
 </dd>
 </dl>
 <p>device: pytorch accelerator device object</p>
