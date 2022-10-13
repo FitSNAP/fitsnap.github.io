@@ -52,6 +52,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#data-configuration-extraction">1.1. Data &amp; configuration extraction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#modifying-the-output-dataframe">1.2. Modifying the output dataframe</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-new-input-file-keywords">1.3. Adding new input file keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-your-own-calculator">1.4. Adding your own Calculator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-your-own-model-solver">1.5. Adding your own Model/Solver</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Library.html">2. Library</a></li>
@@ -175,6 +177,39 @@ examples to add a new keyword. Likewise for other sections such as <code class="
 <code class="code docutils literal notranslate"><span class="pre">fitsnap3lib/io/sections/solver_sections/solver.py</span></code>. If you want to access this keyword later
 in the FitSNAP code somewhere, it is done with <code class="code docutils literal notranslate"><span class="pre">config.sections['SOLVER'].new_keyword</span></code> for
 example.</p>
+<p>If you want to add new descriptor settings for LAMMPS, e.g. in the <code class="code docutils literal notranslate"><span class="pre">BISPECTRUM</span></code> section, follow
+the format in <code class="code docutils literal notranslate"><span class="pre">io/sections/calculator_sections/bispectrum.py</span></code>. Then make sure that the new compute
+setting is used in <code class="code docutils literal notranslate"><span class="pre">calculators/lammps_snap.py</span></code> in the <code class="code docutils literal notranslate"><span class="pre">_set_computes</span></code> function.</p>
+</section>
+<section id="adding-your-own-calculator">
+<h2><span class="section-number">1.4. </span>Adding your own Calculator<a class="headerlink" href="#adding-your-own-calculator" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Add a new file like <code class="code docutils literal notranslate"><span class="pre">my_calculator.py</span></code> in <code class="code docutils literal notranslate"><span class="pre">fitsnap3lib/io/sections/calculator_sections</span></code>.
+Take inspiration from the given <code class="code docutils literal notranslate"><span class="pre">basic_calculator.py</span></code> file.</p></li>
+<li><p>Now add the import for this new calculator in <code class="code docutils literal notranslate"><span class="pre">fitsnap3lib/io/sections/section_factory</span></code>.
+Your new sub class should show up in the <code class="code docutils literal notranslate"><span class="pre">Sections.__subclasses__()</span></code> method.</p></li>
+<li><p>Your new calculator needs a <cite>types</cite> attribute so that <code class="code docutils literal notranslate"><span class="pre">io.sections.eshift</span></code> can assign eshifts
+to types. Add the necessary if statement to <code class="code docutils literal notranslate"><span class="pre">io.sections.eshift</span></code>.</p></li>
+<li><p>Add your calculator keyword name (this looks like <code class="code docutils literal notranslate"><span class="pre">calculator=LAMMPSMYCALCULATOR</span></code>) in
+<code class="code docutils literal notranslate"><span class="pre">calculators.calculator_factory</span></code>, in the import section at the top.</p></li>
+<li><p>Obviously, now we also need a LammpsMycalculator subclass of the calculator class. Add this in
+<code class="code docutils literal notranslate"><span class="pre">calculators.lammps_mycalculator</span></code></p></li>
+<li><p>Edit the <code class="code docutils literal notranslate"><span class="pre">create_a</span></code> function in <code class="code docutils literal notranslate"><span class="pre">calculator.py</span></code> to allocate data necessary for your
+calculator. Currently the <code class="code docutils literal notranslate"><span class="pre">a</span></code> array is for per-atom quantities in all configs, the <code class="code docutils literal notranslate"><span class="pre">b</span></code>
+array is for per-config quantities like energy, the <cite>c</cite> matrix is for per-atom 3-vectors like
+position and velocity. Other arrays like <code class="code docutils literal notranslate"><span class="pre">dgrad</span></code> can be natoms*neighbors.</p></li>
+</ul>
+</section>
+<section id="adding-your-own-model-solver">
+<h2><span class="section-number">1.5. </span>Adding your own Model/Solver<a class="headerlink" href="#adding-your-own-model-solver" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Add a new file like <code class="code docutils literal notranslate"><span class="pre">mysolver.py</span></code> in <code class="code docutils literal notranslate"><span class="pre">fitsnap3lib/io/sections/solver_sections</span></code>.</p></li>
+<li><p>Add <code class="code docutils literal notranslate"><span class="pre">from</span> <span class="pre">fitsnap3lib.io.sections.solver_sections.mysolver</span> <span class="pre">import</span> <span class="pre">MYSOLVER</span></code> to header of
+<code class="code docutils literal notranslate"><span class="pre">section_factory</span></code>.</p></li>
+<li><p>Import your new solver at the header of <code class="code docutils literal notranslate"><span class="pre">fitsnap3lib.solvers.solver_factory</span></code></p></li>
+<li><p>You will need to declare <code class="code docutils literal notranslate"><span class="pre">solver</span> <span class="pre">=</span> <span class="pre">MYSOLVER</span></code> in the <code class="code docutils literal notranslate"><span class="pre">[SOLVER]</span></code> section of the input
+script, similar to adding a new Calculator.</p></li>
+</ul>
 </section>
 </section>
 
