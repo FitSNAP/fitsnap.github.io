@@ -54,6 +54,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#outfile">3.2.7. [OUTFILE]</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reference">3.2.8. [REFERENCE]</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#groups">3.2.9. [GROUPS]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extras">3.2.10. [EXTRAS]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memory">3.2.11. [MEMORY]</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#library">3.3. Library</a></li>
@@ -318,7 +320,8 @@ to where we run the FitSNAP executable, this section looks like:</p>
 <h3><span class="section-number">3.2.7. </span>[OUTFILE]<a class="headerlink" href="#outfile" title="Permalink to this heading"></a></h3>
 <p>This section declares the names of output files.</p>
 <ul class="simple">
-<li><p><code class="code docutils literal notranslate"><span class="pre">scraper</span></code> is either <code class="code docutils literal notranslate"><span class="pre">JSON</span></code> or <code class="code docutils literal notranslate"><span class="pre">XYZ</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">metrics</span></code> gives the name of the error metrics markdown file.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">potential</span></code> gives the prefix of the LAMMPS-ready potential files to dump.</p></li>
 </ul>
 </section>
 <section id="reference">
@@ -375,11 +378,23 @@ random from the list of files in this group:</p>
 </ul>
 <p>A few examples are found in the <code class="code docutils literal notranslate"><span class="pre">fitsnap/examples</span></code> directory.</p>
 </section>
+<section id="extras">
+<h3><span class="section-number">3.2.10. </span>[EXTRAS]<a class="headerlink" href="#extras" title="Permalink to this heading"></a></h3>
+<p>This section contains keywords on optional info to dump. By default, linear models output error
+metric markdown files that should be sufficient in most cases. In more detailed errors are required,
+please see the output Pandas dataframe <code class="code docutils literal notranslate"><span class="pre">FitSNAP.df</span></code>. Examples and library tools for analyzing
+this dataframe are found in our <a class="reference external" href="https://github.com/FitSNAP/FitSNAP/blob/master/tutorial.ipynb">Colab Python notebook tutorial</a>.</p>
+</section>
+<section id="memory">
+<h3><span class="section-number">3.2.11. </span>[MEMORY]<a class="headerlink" href="#memory" title="Permalink to this heading"></a></h3>
+<p>This section contains keywords for dealing with memory. We recommend using defaults.</p>
+</section>
 </section>
 <section id="library">
 <h2><span class="section-number">3.3. </span>Library<a class="headerlink" href="#library" title="Permalink to this heading"></a></h2>
 <p>FitSNAP may also be run through the library interface. The <a class="reference external" href="https://github.com/FitSNAP/FitSNAP/tree/master/examples/library">GitHub repo examples</a>
-may help set up scripts for your needs.</p>
+may help set up scripts for your needs. More useful library functionality is found in our
+<a class="reference external" href="https://github.com/FitSNAP/FitSNAP/blob/master/tutorial.ipynb">Colab Python notebook tutorial</a>.</p>
 </section>
 </section>
 
