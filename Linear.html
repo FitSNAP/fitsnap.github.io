@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4. Linear Models &mdash; FitSNAP  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="5. PyTorch Models" href="Pytorch.html" />
+    <link rel="prev" title="3. Run FitSNAP" href="Run.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> FitSNAP
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">2. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Run.html">3. Run FitSNAP</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Linear Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#outputs">4.1. Outputs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Pytorch.html">5. PyTorch Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Uncertainty%20Quantification.html">6. Uncertainty Quantification</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Programmer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Executable.html">1. Executable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Library.html">2. Library</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FitSNAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">4. </span>Linear Models</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Linear.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="linear-models">
+<h1><span class="section-number">4. </span>Linear Models<a class="headerlink" href="#linear-models" title="Permalink to this heading"></a></h1>
+<p>FitSNAP can perform linear regression to obtain models of the form</p>
+<div class="math notranslate nohighlight">
+\[E_s = \sum_i^{N_s}{  \boldsymbol{\beta}_i \cdot \boldsymbol{B}_i  }\]</div>
+<p>where</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(s\)</span> indexes a particular configuration of atoms</p></li>
+<li><p><span class="math notranslate nohighlight">\(E_s\)</span> is the potential energy of configuration <span class="math notranslate nohighlight">\(s\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(i\)</span> indexes a particular atom</p></li>
+<li><p><span class="math notranslate nohighlight">\(N_s\)</span> is the number of atoms in configuration <span class="math notranslate nohighlight">\(s\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\beta}_i\)</span> is a vector of fitting coefficients for atom <span class="math notranslate nohighlight">\(i\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{B}_i\)</span> is a vector of atomic environment descriptors for atom <span class="math notranslate nohighlight">\(i\)</span></p></li>
+</ul>
+<p>The settings for SNAP descriptors are explained in the <a class="reference external" href="Run.html#bispectrum">[BISPECTRUM] section</a>.</p>
+<p>For this linear regression problem we solve the following matrix problem as explained in <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0021999114008353">Thompson et. al.</a></p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/fitting_matrix.png"><img alt="_images/fitting_matrix.png" src="_images/fitting_matrix.png" style="width: 542.4px; height: 300.0px;" /></a>
+</figure>
+<p>where</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\frac{\boldsymbol{B}_i}{r_j^{\alpha}}\)</span> is the gradient of descriptor <span class="math notranslate nohighlight">\(\boldsymbol{B}_i\)</span>
+with respect to <span class="math notranslate nohighlight">\(r_j^{\alpha}\)</span>, the <span class="math notranslate nohighlight">\(\alpha\)</span> Cartesian direction of atom <span class="math notranslate nohighlight">\(j\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(E^{qm}_s\)</span> is the quantum mechanical target energy for configuration <span class="math notranslate nohighlight">\(s\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(E^{ref}_s\)</span> is the reference energy of a potential that is overlayed on the linear regression
+model, as declared in the <a class="reference external" href="Run.html#reference">[REFERENCE] section</a></p></li>
+<li><p><span class="math notranslate nohighlight">\(F^{qm}_{j,\alpha}\)</span> is the quantum mechanical target force for atom <span class="math notranslate nohighlight">\(j\)</span> in the
+<span class="math notranslate nohighlight">\(\alpha\)</span> direction.</p></li>
+<li><p><span class="math notranslate nohighlight">\(F^{qm}_{j,\alpha}\)</span> is the reference force for atom <span class="math notranslate nohighlight">\(j\)</span> in the <span class="math notranslate nohighlight">\(\alpha\)</span>
+direction, from a potential that is overlayed on the linear regression model, as declared in
+the <a class="reference external" href="Run.html#reference">[REFERENCE] section</a>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(W_{\alpha \beta, s}\)</span> is virial in the <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> directions for
+configuration <span class="math notranslate nohighlight">\(s\)</span>, where both quantum mechanical target and reference virials are included
+on the right-hand side of the matrix equation.</p></li>
+</ul>
+<p>FitSNAP solves this matrix problem using SVD and supports other solvers as well. For more details on
+settings used for descriptors and solvers, please see the docs on
+<a class="reference external" href="Run.html#input-scripts">FitSNAP Input Scripts</a>.</p>
+<section id="outputs">
+<h2><span class="section-number">4.1. </span>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading"></a></h2>
+<p>The outputs for linear models are explained here. For nonlinear models, please see the
+<a class="reference external" href="Pytorch.html#outputs-and-error-calculation">PyTorch models output section</a>. After running a
+linear model fit, the following outputs will be produced:</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">FitSNAP.df</span></code> is a Pandas dataframe with rows corresponding to the linear fitting matrix as
+shown above. We have interactive examples of examining this dataframe and calculating detailed
+errors from it in our <a class="reference external" href="https://colab.research.google.com/github/FitSNAP/FitSNAP/blob/master/tutorial.ipynb">Colab Python notebook tutorial</a>.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">*_metrics.md</span></code> is a markdown file containing mean absolute errors and RMSEs for your dataset.
+If using LAMMPS metal units, energy errors are in eV, and force errors are in eV/Angstrom. The prefix name
+of this file depends on the <code class="code docutils literal notranslate"><span class="pre">metrics</span></code> parameter declared in the <a class="reference external" href="Run.html#outfile">[OUTFILE] section</a>.</p></li>
+<li><p><strong>LAMMPS-ready potential files</strong>. For example if fitting with SNAP descriptors, this will create
+<code class="code docutils literal notranslate"><span class="pre">*_pot.snapparam</span></code> and <code class="code docutils literal notranslate"><span class="pre">*_pot.snapcoeff</span></code> files with prefix names depending on the <code class="code docutils literal notranslate"><span class="pre">potential</span></code>
+parameter declared in the <a class="reference external" href="Run.html#outfile">[OUTFILE] section</a>. To use these files with LAMMPS,
+please refer to the LAMMPS documentation.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Run.html" class="btn btn-neutral float-left" title="3. Run FitSNAP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Pytorch.html" class="btn btn-neutral float-right" title="5. PyTorch Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Sandia Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

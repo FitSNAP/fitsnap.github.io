@@ -311,15 +311,12 @@ a Pandas dataframe</p>
 <dt class="sig sig-object py" id="fitsnap3lib.solvers.pytorch.PYTORCH.evaluate_configs">
 <span class="sig-name descname"><span class="pre">evaluate_configs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardize_bool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float64</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.evaluate_configs" title="Permalink to this definition"></a></dt>
 <dd><p>Evaluates energies and forces on configs for testing purposes.</p>
-<dl>
+<dl class="simple">
 <dt>option<span class="classifier">int</span></dt><dd><p>1 - evaluate energies/forces for all configs separately
 2 - evaluate energies/forces using the dataloader/batch procedure</p>
 </dd>
 <dt>standardize_bool<span class="classifier">bool</span></dt><dd><p>True - Standardize weights
-False - Do not standardize weights, useful if you are comparing inputs on a previously</p>
-<blockquote>
-<div><p>standardized model</p>
-</div></blockquote>
+False - Do not standardize weights, useful if you are comparing inputs on a previously standardized model</p>
 </dd>
 <dt>dtype<span class="classifier">torch.dtype</span></dt><dd><p>Optional override of the global dtype</p>
 </dd>

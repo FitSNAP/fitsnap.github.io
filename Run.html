@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="4. PyTorch Models" href="Pytorch.html" />
+    <link rel="next" title="4. Linear Models" href="Linear.html" />
     <link rel="prev" title="2. Installation" href="Installation.html" /> 
 </head>
 
@@ -58,11 +58,13 @@
 <li class="toctree-l3"><a class="reference internal" href="#memory">3.2.11. [MEMORY]</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#library">3.3. Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#outputs">3.3. Outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#library">3.4. Library</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Pytorch.html">4. PyTorch Models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Uncertainty%20Quantification.html">5. Uncertainty Quantification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Linear.html">4. Linear Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pytorch.html">5. PyTorch Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Uncertainty%20Quantification.html">6. Uncertainty Quantification</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Programmer Guide</span></p>
 <ul>
@@ -96,13 +98,13 @@
              
   <section id="run-fitsnap">
 <h1><span class="section-number">3. </span>Run FitSNAP<a class="headerlink" href="#run-fitsnap" title="Permalink to this heading"></a></h1>
+<p><strong>If you want to get started immediately with interactive examples</strong>, please see our
+<a class="reference external" href="https://colab.research.google.com/github/FitSNAP/FitSNAP/blob/master/tutorial.ipynb">Colab Python notebook tutorial</a></p>
 <p>There are two ways to run FitSNAP: (1) the python executable or (2) as a python library. The
 executable version is reserved for the most basic operation of fitting on a dataset, where data
 is scraped from a directory, configurations are input to LAMMPS to calculate descriptors, and the
 machine learning problem is solved. The python library provides more flexibility and allows one to
 modify the steps in that fitting process.</p>
-<p><strong>If you want to get started immediately with interactive examples</strong>, please see our
-<a class="reference external" href="https://github.com/FitSNAP/FitSNAP/blob/master/tutorial.ipynb">Colab Python notebook tutorial</a></p>
 <section id="executable">
 <span id="run-executable"></span><h2><span class="section-number">3.1. </span>Executable<a class="headerlink" href="#executable" title="Permalink to this heading"></a></h2>
 <p>Before using the executable, you must set the path to your FitSNAP directoy in your
@@ -236,7 +238,7 @@ components for each atom, thus potentially giving more accuracy at an increased 
 using a <code class="code docutils literal notranslate"><span class="pre">twojmax</span></code> of 4, 6, or 8. This corresponds to 14, 30, and 55 bispectrum components,
 respectively. Default value is 6.</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">rcutfac</span></code> is a cutoff radius parameter. One value is used for all element types. We recommend
-a cutoff between 4 and 5 for most systems. Default value is 4.67.</p></li>
+a cutoff between 4 and 5 Angstroms for most systems. Default value is 4.67 Angstroms.</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">rfac0</span></code> is a parameter used in distance to angle conversion, between 0 and 1. Default value
 is 0.99363.</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">rmin0</span></code> another parameter used in distance to angle conversion, between 0 and 1. Default value
@@ -285,6 +287,7 @@ associated with forces.</p></li>
 virial terms for calculating and fitting to stresses.</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">per_atom_energy</span></code> is 0 or 1, determining whether to use per-atom energy descriptors in
 association with <code class="code docutils literal notranslate"><span class="pre">bikflag</span> <span class="pre">=</span> <span class="pre">1</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">nonlinear</span></code> is 0 or 1, and should be 1 if using nonlinear solvers such as PyTorch models.</p></li>
 </ul>
 </section>
 <section id="eshift">
@@ -301,7 +304,7 @@ association with <code class="code docutils literal notranslate"><span class="pr
 </section>
 <section id="scraper">
 <h3><span class="section-number">3.2.5. </span>[SCRAPER]<a class="headerlink" href="#scraper" title="Permalink to this heading"></a></h3>
-<p>This section declares which file scraper to use.</p>
+<p>This section declares which file scraper to use for gathering training data.</p>
 <ul class="simple">
 <li><p><code class="code docutils literal notranslate"><span class="pre">scraper</span></code> is either <code class="code docutils literal notranslate"><span class="pre">JSON</span></code> or <code class="code docutils literal notranslate"><span class="pre">XYZ.</span></code></p></li>
 </ul>
@@ -320,7 +323,8 @@ to where we run the FitSNAP executable, this section looks like:</p>
 <h3><span class="section-number">3.2.7. </span>[OUTFILE]<a class="headerlink" href="#outfile" title="Permalink to this heading"></a></h3>
 <p>This section declares the names of output files.</p>
 <ul class="simple">
-<li><p><code class="code docutils literal notranslate"><span class="pre">metrics</span></code> gives the name of the error metrics markdown file.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">metrics</span></code> gives the name of the error metrics markdown file. If using LAMMPS metal units,
+energy mean absolute errors are in eV and force errors are in eV/Angstrom.</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">potential</span></code> gives the prefix of the LAMMPS-ready potential files to dump.</p></li>
 </ul>
 </section>
@@ -351,50 +355,62 @@ the reference section would look like (using metal units):</p>
 <p>Each group should be its own sub-irectory in the directory given by the <code class="code docutils literal notranslate"><span class="pre">dataPath/</span></code> keyword in
 <a class="reference external" href="Run.html#path">the [PATH] section</a>. There are a few different allowed syntaxes; subdirectory
 names in the first column is common to all options.</p>
-<p>The default grouplist format has five columns and is as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">name</span>  <span class="n">size</span>  <span class="n">eweight</span>  <span class="n">fweight</span>  <span class="n">vweight</span>
-<span class="p">(</span><span class="n">STR</span><span class="p">)</span> <span class="p">(</span><span class="n">REAL</span><span class="p">)</span> <span class="p">(</span><span class="n">REAL</span><span class="p">)</span>  <span class="p">(</span><span class="n">REAL</span><span class="p">)</span>   <span class="p">(</span><span class="n">REAL</span><span class="p">)</span>
+<p><code class="code docutils literal notranslate"><span class="pre">group_sections</span></code> declares which parameters you want to set for each group of configurations.</p>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">group_sections</span> <span class="o">=</span> <span class="n">name</span> <span class="n">training_size</span> <span class="n">testing_size</span> <span class="n">eweight</span> <span class="n">fweight</span> <span class="n">vweight</span>
 </pre></div>
 </div>
-<p>The first column is the name of the subfolder with training data. The second column defines the
-number of files to be used in training the fit. The last three columns are real numbers defining the
-weight vector for all configurations in this group:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NAME_OF_SUBFOLDER</span> <span class="n">NUMBER_OF_FILES</span> <span class="n">ENERGY_WEIGHT</span> <span class="n">FORCE_WEIGHT</span> <span class="n">VIRIAL_WEIGHT</span>
+<p>means you will supply group names, training size as a decimal fraction, testing size as a decimal
+fraction, energy weight, force weight, and virial weight, respectively. We must also declare the
+data types associated with these variables, given by</p>
+<blockquote>
+<div><p>group_types = str float float float float float</p>
+</div></blockquote>
+<p>Then we may declare the group names and parameters associated with them. For a particular group
+called <code class="code docutils literal notranslate"><span class="pre">Liquid</span></code> for example, this looks like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Liquid</span>        <span class="o">=</span>  <span class="mf">1.0</span>    <span class="mf">0.0</span>       <span class="mf">4.67E+02</span>        <span class="mi">1</span>       <span class="mf">1.00E-08</span>
 </pre></div>
 </div>
-<p>If the second column is a fraction:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">STR</span><span class="p">)</span> <span class="p">(</span><span class="n">REAL</span><span class="p">,</span> <span class="o">&lt;=</span><span class="mf">1.0</span><span class="p">)</span> <span class="p">(</span><span class="n">REAL</span><span class="p">)</span> <span class="p">(</span><span class="n">REAL</span><span class="p">)</span> <span class="p">(</span><span class="n">REAL</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>The second column now defines the fraction of this group to be used in fitting. This will sample at
-random from the list of files in this group:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NAME_OF_SUBFOLDER</span> <span class="n">FRACTION_OF_FILES</span> <span class="n">ENERGY_WEIGHT</span> <span class="n">FORCE_WEIGHT</span> <span class="n">VIRIAL_WEIGHT</span>
-</pre></div>
-</div>
-<p>Other available grouplist columns through the group_sections keyword are:</p>
+<p>where <code class="code docutils literal notranslate"><span class="pre">Liquid</span></code> is the name of the group, <code class="code docutils literal notranslate"><span class="pre">1.0</span></code> is the training fraction, <code class="code docutils literal notranslate"><span class="pre">0.0</span></code> is
+the testing fraction, <code class="code docutils literal notranslate"><span class="pre">6.47E+02</span></code> is the energy weight, <code class="code docutils literal notranslate"><span class="pre">1</span></code> is the force weight, and
+<code class="code docutils literal notranslate"><span class="pre">1.00E-8</span></code> is the virial weight.</p>
+<p>Other available keywords are</p>
 <ul class="simple">
-<li><p><code class="code docutils literal notranslate"><span class="pre">training_size</span></code> = size or fraction of total files to be used in training</p></li>
-<li><p><code class="code docutils literal notranslate"><span class="pre">testing_size</span></code> = size or fraction of total files to be used in testing</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">random_sampling</span></code> is 0 or 1. If 1, configurations in the groups are randomly sampled between
+their training and testing fractions.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">smartweights`</span></code> is 0 or 1. If 1, we declare statistically distributed weights given your
+supplied weights.</p></li>
 </ul>
-<p>A few examples are found in the <code class="code docutils literal notranslate"><span class="pre">fitsnap/examples</span></code> directory.</p>
+<p>A few examples are found in the examples directory.</p>
 </section>
 <section id="extras">
 <h3><span class="section-number">3.2.10. </span>[EXTRAS]<a class="headerlink" href="#extras" title="Permalink to this heading"></a></h3>
 <p>This section contains keywords on optional info to dump. By default, linear models output error
-metric markdown files that should be sufficient in most cases. In more detailed errors are required,
-please see the output Pandas dataframe <code class="code docutils literal notranslate"><span class="pre">FitSNAP.df</span></code>. Examples and library tools for analyzing
-this dataframe are found in our <a class="reference external" href="https://github.com/FitSNAP/FitSNAP/blob/master/tutorial.ipynb">Colab Python notebook tutorial</a>.</p>
+metric markdown files that should be sufficient in most cases. If more detailed errors are required,
+please see the output Pandas dataframe <code class="code docutils literal notranslate"><span class="pre">FitSNAP.df</span></code> used by linear models. Examples and
+library tools for analyzing  this dataframe are found in our
+<a class="reference external" href="https://colab.research.google.com/github/FitSNAP/FitSNAP/blob/master/tutorial.ipynb">Colab Python notebook tutorial</a>.</p>
 </section>
 <section id="memory">
 <h3><span class="section-number">3.2.11. </span>[MEMORY]<a class="headerlink" href="#memory" title="Permalink to this heading"></a></h3>
 <p>This section contains keywords for dealing with memory. We recommend using defaults.</p>
 </section>
 </section>
+<section id="outputs">
+<h2><span class="section-number">3.3. </span>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading"></a></h2>
+<p>FitSNAP outputs include error metrics, detailed errors for each atom, configuration, or groups of
+configurations, and LAMMPS-ready files for running MD simulations.</p>
+<p>Outputs are different for linear and nonlinear models.</p>
+<p>For linear models, please see the <a class="reference external" href="Linear.html#outputs">Linear models output section</a></p>
+<p>For nonlinear models, please see the
+<a class="reference external" href="Pytorch.html#outputs-and-error-calculation">PyTorch models output section</a>. After running a
+linear model fit, the following outputs will be produced:</p>
+</section>
 <section id="library">
-<h2><span class="section-number">3.3. </span>Library<a class="headerlink" href="#library" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">3.4. </span>Library<a class="headerlink" href="#library" title="Permalink to this heading"></a></h2>
 <p>FitSNAP may also be run through the library interface. The <a class="reference external" href="https://github.com/FitSNAP/FitSNAP/tree/master/examples/library">GitHub repo examples</a>
 may help set up scripts for your needs. More useful library functionality is found in our
-<a class="reference external" href="https://github.com/FitSNAP/FitSNAP/blob/master/tutorial.ipynb">Colab Python notebook tutorial</a>.</p>
+<a class="reference external" href="https://colab.research.google.com/github/FitSNAP/FitSNAP/blob/master/tutorial.ipynb">Colab Python notebook tutorial</a>.</p>
 </section>
 </section>
 
@@ -403,7 +419,7 @@ may help set up scripts for your needs. More useful library functionality is fou
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Installation.html" class="btn btn-neutral float-left" title="2. Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Pytorch.html" class="btn btn-neutral float-right" title="4. PyTorch Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Linear.html" class="btn btn-neutral float-right" title="4. Linear Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
