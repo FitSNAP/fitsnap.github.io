@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>4. PyTorch Models &mdash; FitSNAP  documentation</title>
+  <title>5. PyTorch Models &mdash; FitSNAP  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -16,11 +16,12 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="5. Uncertainty Quantification" href="Uncertainty%20Quantification.html" />
-    <link rel="prev" title="3. Run FitSNAP" href="Run.html" /> 
+    <link rel="next" title="6. Uncertainty Quantification" href="Uncertainty%20Quantification.html" />
+    <link rel="prev" title="4. Linear Models" href="Linear.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,22 +44,24 @@
 <li class="toctree-l1"><a class="reference internal" href="Introduction.html">1. Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Installation.html">2. Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Run.html">3. Run FitSNAP</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">4. PyTorch Models</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#getting-started">4.1. Getting Started</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#fitting-neural-network-potentials">4.2. Fitting Neural Network Potentials</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#outputs-and-error-calculation">4.3. Outputs and Error Calculation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#error-comparison-files">4.3.1. Error/Comparison files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pytorch-model-files">4.3.2. PyTorch model files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#calculate-errors-on-a-test-set">4.3.3. Calculate errors on a test set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Linear.html">4. Linear Models</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. PyTorch Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">5.1. Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fitting-neural-network-potentials">5.2. Fitting Neural Network Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#loss-function">5.3. Loss Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#outputs-and-error-calculation">5.4. Outputs and Error Calculation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#error-comparison-files">5.4.1. Error/Comparison files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pytorch-model-files">5.4.2. PyTorch model files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#calculate-errors-on-a-test-set">5.4.3. Calculate errors on a test set</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#training-performance">4.4. Training Performance</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#gpu-acceleration">4.4.1. GPU Acceleration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#training-performance">5.5. Training Performance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gpu-acceleration">5.5.1. GPU Acceleration</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Uncertainty%20Quantification.html">5. Uncertainty Quantification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Uncertainty%20Quantification.html">6. Uncertainty Quantification</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Programmer Guide</span></p>
 <ul>
@@ -80,7 +83,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li><span class="section-number">4. </span>PyTorch Models</li>
+      <li><span class="section-number">5. </span>PyTorch Models</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/Pytorch.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -91,12 +94,12 @@
            <div itemprop="articleBody">
              
   <section id="pytorch-models">
-<h1><span class="section-number">4. </span>PyTorch Models<a class="headerlink" href="#pytorch-models" title="Permalink to this heading"></a></h1>
+<h1><span class="section-number">5. </span>PyTorch Models<a class="headerlink" href="#pytorch-models" title="Permalink to this heading"></a></h1>
 <p>Interfacing with PyTorch allows us to conveniently fit neural network potentials using descriptors
 that exist in LAMMPS. We may then use these neural network models to run high-performance MD
 simulations in LAMMPS. These capabilities are explained below.</p>
 <section id="getting-started">
-<h2><span class="section-number">4.1. </span>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">5.1. </span>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h2>
 <p>First we need a python environment with PyTorch and LAMMPS installed. See <a class="reference external" href="Installation.html#lammps-installation">LAMMPS Installation docs</a>
 for more details on installing LAMMPS. Here we start with a speedy minimal description LAMMPS setup:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Create and activate a new conda environment
@@ -171,7 +174,7 @@ mpirun -np 4 ${LAMMPS_DIR}/fitsnap-build/lmp &lt; in.run
 getting set up with a cluster, please see <a class="reference external" href="Quick.html">Quick Instructions</a>.</p>
 </section>
 <section id="fitting-neural-network-potentials">
-<h2><span class="section-number">4.2. </span>Fitting Neural Network Potentials<a class="headerlink" href="#fitting-neural-network-potentials" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">5.2. </span>Fitting Neural Network Potentials<a class="headerlink" href="#fitting-neural-network-potentials" title="Permalink to this heading"></a></h2>
 <p>Similarly to how we fit linear models, we can input descriptors into nonlinear models such as
 neural networks. To do this, we can use the same FitSNAP input script that we use for linear
 models, with some slight changes to the sections. First we must add a <code class="code docutils literal notranslate"><span class="pre">PYTORCH</span></code> section,
@@ -233,12 +236,61 @@ specify training/testing fractions for each group, do so in the GROUPS section.<
 useful for debugging purposes.</p></li>
 </ul>
 </section>
+<section id="loss-function">
+<h2><span class="section-number">5.3. </span>Loss Function<a class="headerlink" href="#loss-function" title="Permalink to this heading"></a></h2>
+<p>When fitting neural network potentials we minimize the sum of weighted energy and force mean squared
+errors:</p>
+<div class="math notranslate nohighlight">
+\[\mathcal L = \frac{1}{M} \sum_{m}^{M} \frac{1}{N_m}\{w_m^E [\hat{E}_m(\theta) - E_m]^2 + \frac{w_m^F}{3} \sum_i^{3N_m} [\hat{F}_{mi}(\theta) - F_{mi}]^2 \}\]</div>
+<p>where</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(M\)</span> is the number of configurations in the training set.</p></li>
+<li><p><span class="math notranslate nohighlight">\(m\)</span> indexes a particular configuration.</p></li>
+<li><p><span class="math notranslate nohighlight">\(N_m\)</span> is the number of atoms for configuration <span class="math notranslate nohighlight">\(m\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(w_m^E\)</span> is the energy weight of configuration <span class="math notranslate nohighlight">\(m\)</span>. These weights can be set by designating
+the particular weights in the <a class="reference external" href="Run.html#groups">[GROUPS] section</a>, or by declaring a global
+weight in the <code class="code docutils literal notranslate"><span class="pre">[PYTORCH]</span></code> section, which will override the group weights.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\theta\)</span> represents all the model fitting parameters (e.g. the trainable coefficients in a neural network).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\hat{E}_m(\theta)\)</span> is the model predicted energy of configuration <span class="math notranslate nohighlight">\(m\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(E_m\)</span> is the target <em>ab initio</em> energy of configuration <span class="math notranslate nohighlight">\(m\)</span>, subtracted by the LAMMPS
+reference potential declared in the <a class="reference external" href="Run.html#reference">[REFERENCE] section</a>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(i\)</span> indexes a particular atom</p></li>
+<li><p><span class="math notranslate nohighlight">\(w_m^F\)</span> is the force weight of configuration <span class="math notranslate nohighlight">\(m\)</span>. These weights can be set by designating
+the particular weights in the <a class="reference external" href="Run.html#groups">[GROUPS] section</a>, or by declaring a global
+weight in the <code class="code docutils literal notranslate"><span class="pre">[PYTORCH]</span></code> section, which will override the group weights.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\hat{F}_{mi}(\theta)\)</span> is the model predicted force on atom <span class="math notranslate nohighlight">\(i\)</span> in configuration <span class="math notranslate nohighlight">\(m\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(F_{mi}\)</span> is the target <em>ab initio</em> force on atom <span class="math notranslate nohighlight">\(i\)</span> in configuration <span class="math notranslate nohighlight">\(m\)</span>,
+subtracted by the LAMMPS reference potential force declared in the
+<a class="reference external" href="Run.html#reference">[REFERENCE] section</a>.</p></li>
+</ul>
+<p>This loss also gets evaluated for the validation set for each epoch, so that the screen output looks
+something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-----</span> <span class="n">epoch</span><span class="p">:</span> <span class="mi">0</span>
+<span class="n">Batch</span> <span class="n">averaged</span> <span class="n">train</span><span class="o">/</span><span class="n">val</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">4.002996124327183</span> <span class="mf">4.072216800280979</span>
+<span class="n">Epoch</span> <span class="n">time</span> <span class="mf">0.3022959232330322</span>
+<span class="o">-----</span> <span class="n">epoch</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Batch</span> <span class="n">averaged</span> <span class="n">train</span><span class="o">/</span><span class="n">val</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">2.3298445120453835</span> <span class="mf">1.1800143867731094</span>
+<span class="n">Epoch</span> <span class="n">time</span> <span class="mf">0.2888479232788086</span>
+<span class="o">-----</span> <span class="n">epoch</span><span class="p">:</span> <span class="mi">2</span>
+<span class="n">Batch</span> <span class="n">averaged</span> <span class="n">train</span><span class="o">/</span><span class="n">val</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.6962545616552234</span> <span class="mf">0.8775447851845196</span>
+<span class="n">Epoch</span> <span class="n">time</span> <span class="mf">0.26888108253479004</span>
+<span class="o">-----</span> <span class="n">epoch</span><span class="p">:</span> <span class="mi">3</span>
+<span class="n">Batch</span> <span class="n">averaged</span> <span class="n">train</span><span class="o">/</span><span class="n">val</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.3671231440966949</span> <span class="mf">0.6234593641545091</span>
+<span class="n">Epoch</span> <span class="n">time</span> <span class="mf">0.26917600631713867</span>
+</pre></div>
+</div>
+<p>The first column is the weighted training set loss function, and the second column is the weighted
+validation set loss function (which is not included in fitting). While the loss function units
+themselves might not be meaningful for error analysis, we output model predictions and targets for
+energies and forces in separate files after the fit, as explained below.</p>
+</section>
 <section id="outputs-and-error-calculation">
-<h2><span class="section-number">4.3. </span>Outputs and Error Calculation<a class="headerlink" href="#outputs-and-error-calculation" title="Permalink to this heading"></a></h2>
-<p>FitSNAP outputs include files that aid in error calculation, and files that can be used to restart
+<h2><span class="section-number">5.4. </span>Outputs and Error Calculation<a class="headerlink" href="#outputs-and-error-calculation" title="Permalink to this heading"></a></h2>
+<p>Unlike linear models, PyTorch models do not output statistics in a dataframe. Instead we output
+energy and force comparisons in separate files, along with PyTorch models that can be used to restart
 a fit or even run MD simulations in LAMMPS.</p>
 <section id="error-comparison-files">
-<h3><span class="section-number">4.3.1. </span>Error/Comparison files<a class="headerlink" href="#error-comparison-files" title="Permalink to this heading"></a></h3>
+<h3><span class="section-number">5.4.1. </span>Error/Comparison files<a class="headerlink" href="#error-comparison-files" title="Permalink to this heading"></a></h3>
 <p>After training a potential, FitSNAP produces outputs that can be used to intrepret the quality of a
 fit on the training and/or validation data. The following comparison files are written after a fit:</p>
 <ul class="simple">
@@ -259,7 +311,7 @@ after a fit. For example, in the <a class="reference external" href="https://git
 plot comparisons in energies and forces.</p>
 </section>
 <section id="pytorch-model-files">
-<h3><span class="section-number">4.3.2. </span>PyTorch model files<a class="headerlink" href="#pytorch-model-files" title="Permalink to this heading"></a></h3>
+<h3><span class="section-number">5.4.2. </span>PyTorch model files<a class="headerlink" href="#pytorch-model-files" title="Permalink to this heading"></a></h3>
 <p>FitSNAP outputs two PyTorch <code class="code docutils literal notranslate"><span class="pre">.pt</span></code> models file after fitting. One is used for restarting a fit
 based on an existing model, specifically the model name supplied by the user in the
 <code class="code docutils literal notranslate"><span class="pre">save_state_output</span></code> keyword of the input script. In the <a class="reference external" href="https://github.com/FitSNAP/FitSNAP/tree/master/examples/Ta_PyTorch_NN">Ta_PyTorch_NN example</a>
@@ -271,7 +323,7 @@ name <code class="code docutils literal notranslate"><span class="pre">FitTorch_
 is given for tantalum here: <a class="reference external" href="https://github.com/FitSNAP/FitSNAP/tree/master/examples/Ta_PyTorch_NN/MD">https://github.com/FitSNAP/FitSNAP/tree/master/examples/Ta_PyTorch_NN/MD</a></p>
 </section>
 <section id="calculate-errors-on-a-test-set">
-<h3><span class="section-number">4.3.3. </span>Calculate errors on a test set<a class="headerlink" href="#calculate-errors-on-a-test-set" title="Permalink to this heading"></a></h3>
+<h3><span class="section-number">5.4.3. </span>Calculate errors on a test set<a class="headerlink" href="#calculate-errors-on-a-test-set" title="Permalink to this heading"></a></h3>
 <p>Users may want to use models to calculate errors on a test set that was completely separate from the
 training/validation sets used in fitting. To do this, we change the input script to read an existing
 PyTorch model file, e.g. for Ta:</p>
@@ -297,7 +349,7 @@ the <a class="reference external" href="https://github.com/FitSNAP/FitSNAP/tree/
 </section>
 </section>
 <section id="training-performance">
-<h2><span class="section-number">4.4. </span>Training Performance<a class="headerlink" href="#training-performance" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">5.5. </span>Training Performance<a class="headerlink" href="#training-performance" title="Permalink to this heading"></a></h2>
 <p>As seen in the <code class="code docutils literal notranslate"><span class="pre">Ta_Pytorch_NN</span></code> example, fitting to ~300 configs (each with ~12 atoms) takes
 about ~0.2 s/epoch. The number of epochs required, and therefore total time of your fit, will depend
 on the size of your dataset <em>and</em> the <code class="code docutils literal notranslate"><span class="pre">batch_size</span></code>. For example, the <code class="code docutils literal notranslate"><span class="pre">Ta_Pytorch_NN</span></code> example
@@ -308,11 +360,13 @@ more cycles through the batches with each epoch, and therefore may require less 
 the same convergence.</p>
 <p>For data sets of ~10,000 configs and ~50 atoms per config, training will take ~1 hour, or about
 20 seconds per epoch. This can consume about ~20 GB of RAM.</p>
-<p>Computational scaling is <em>roughly</em> O(N) where N is the total number of atoms in the training set.</p>
+<p>Computational scaling is roughly <code class="code docutils literal notranslate"><span class="pre">O(num_atoms*num_neighs)</span></code> where <code class="code docutils literal notranslate"><span class="pre">num_atoms</span></code> is the
+total number of atoms in the training set, and <code class="code docutils literal notranslate"><span class="pre">num_neighs</span></code> is the average number of neighbors
+per atom.</p>
 <p>Mini-batch network training is embarassingly parallel up to the batch size, but currently FitSNAP
 does not support parallelized NN training.</p>
 <section id="gpu-acceleration">
-<h3><span class="section-number">4.4.1. </span>GPU Acceleration<a class="headerlink" href="#gpu-acceleration" title="Permalink to this heading"></a></h3>
+<h3><span class="section-number">5.5.1. </span>GPU Acceleration<a class="headerlink" href="#gpu-acceleration" title="Permalink to this heading"></a></h3>
 <p>FitSNAP supports GPU acceleration via PyTorch. With small batch sizes, however, most of the benefit
 of GPU parallelization comes from evaluating the NN model and calculating gradients. You will not see
 a large benefit of GPUs using a small batch size unless you have a large NN model (e.g. &gt; 1 million
@@ -326,8 +380,8 @@ size.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Run.html" class="btn btn-neutral float-left" title="3. Run FitSNAP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Uncertainty%20Quantification.html" class="btn btn-neutral float-right" title="5. Uncertainty Quantification" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Linear.html" class="btn btn-neutral float-left" title="4. Linear Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Uncertainty%20Quantification.html" class="btn btn-neutral float-right" title="6. Uncertainty Quantification" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
