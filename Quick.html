@@ -16,7 +16,6 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -42,9 +41,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Introduction.html">1. Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Installation.html">2. Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Run.html">3. Run FitSNAP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Linear.html">4. Linear Models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Pytorch.html">5. PyTorch Models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Uncertainty%20Quantification.html">6. Uncertainty Quantification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pytorch.html">4. PyTorch Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Uncertainty%20Quantification.html">5. Uncertainty Quantification</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Programmer Guide</span></p>
 <ul>
@@ -78,23 +76,30 @@
              
   <section id="quick-instructions">
 <h1>Quick Instructions<a class="headerlink" href="#quick-instructions" title="Permalink to this heading"></a></h1>
-<section id="step-1-get-and-install-lammps-with-fitsnap">
-<h2>Step 1: Get and install LAMMPS with FitSNAP<a class="headerlink" href="#step-1-get-and-install-lammps-with-fitsnap" title="Permalink to this heading"></a></h2>
-<p>Here are the steps to setup current LAMMPS with ML fitting capability. You can copy and paste this entire block in your terminal if you please:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># remove current python lammps interface
-
-rm -rf /srv/conda/envs/notebook/lib/python3.8/site-packages/lammps*
-
-# get dependencies
-
-python -m pip install numpy torch scipy virtualenv psutil pandas tabulate mpi4py Cython
-
-# get and install lammps
-
-cd $HOME
-git clone https://github.com/lammps/lammps
-mkdir lammps/build-fitsnap
-cd lammps/build-fitsnap
+<p>Module names may be changed depending on your system, but the general procedure is the same.</p>
+<p>Load modules:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">purge</span>
+<span class="n">module</span> <span class="n">load</span> <span class="n">gcc</span>
+<span class="n">module</span> <span class="n">load</span> <span class="n">cmake</span>
+<span class="n">module</span> <span class="n">load</span> <span class="n">openmpi</span>
+<span class="n">module</span> <span class="n">load</span> <span class="n">intel</span> <span class="c1"># Sometimes this helps mpi4py work</span>
+</pre></div>
+</div>
+<p>Create &amp; activate conda environment with dependencies:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">--</span><span class="n">name</span> <span class="n">fitsnap</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.10</span>
+<span class="n">conda</span> <span class="n">activate</span> <span class="n">fitsnap</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">numpy</span> <span class="n">torch</span> <span class="n">scipy</span> <span class="n">virtualenv</span> <span class="n">psutil</span> <span class="n">pandas</span> <span class="n">tabulate</span> <span class="n">mpi4py</span> <span class="n">Cython</span>
+</pre></div>
+</div>
+<p>Set the following environment variables:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LAMMPS_DIR</span><span class="o">=/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">where</span><span class="o">/</span><span class="n">you</span><span class="o">/</span><span class="n">want</span><span class="o">/</span><span class="n">lammps</span> <span class="c1"># LAMMPS code will be in $LAMMPS_DIR</span>
+<span class="n">FITSNAP_DIR</span><span class="o">=/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">where</span><span class="o">/</span><span class="n">you</span><span class="o">/</span><span class="n">want</span><span class="o">/</span><span class="n">FitSNAP</span> <span class="c1"># FitSNAP code will be in $FitSNAP_DIR</span>
+</pre></div>
+</div>
+<p>Get &amp; build LAMMPS with Python library:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/lammps/lammps $LAMMPS_DIR
+mkdir $LAMMPS_DIR/build-fitsnap
+cd $LAMMPS_DIR/build-fitsnap
 cmake ../cmake -DLAMMPS_EXCEPTIONS=yes \
                -DBUILD_SHARED_LIBS=yes \
                -DMLIAP_ENABLE_PYTHON=yes \
@@ -106,46 +111,25 @@ cmake ../cmake -DLAMMPS_EXCEPTIONS=yes \
                -DPYTHON_EXECUTABLE:FILEPATH=`which python`
 make
 make install-python
-
-# get FitSNAP
-
-cd $HOME
-git clone https://github.com/FitSNAP/FitSNAP
 </pre></div>
 </div>
-<p>Now we have <code class="code docutils literal notranslate"><span class="pre">lammps</span></code> and <code class="code docutils literal notranslate"><span class="pre">FitSNAP</span></code> directories.</p>
-<p>Put these environment variables in your <code class="code docutils literal notranslate"><span class="pre">~/.bashrc</span></code>:</p>
+<p>Get &amp; prepare FitSNAP:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/FitSNAP/FitSNAP $FITSNAP_DIR
+export PYTHONPATH=$FITSNAP_DIR:$PYTHONPATH # So you can run FitSNAP as executable
+</pre></div>
+</div>
+<p>Fit a neural network for tantalum:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $FITSNAP_DIR/examples/Ta_PyTorch_NN
+mpirun -np 2 python -m fitsnap3 Ta-example.in --overwrite
+</pre></div>
+</div>
+<p>Run high-performance MD with this neural network potential:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>SITE_PACKAGES_DIR=`python -c &quot;import site; print(site.getsitepackages()[0])&quot;`
-LAMMPS_DIR=$HOME/lammps
-FITSNAP_DIR=$HOME/FitSNAP
-
 export PYTHONPATH=${SITE_PACKAGES_DIR}:$PYTHONPATH # So that ML-IAP package can find torch for MD
-export PYTHONPATH=${FITSNAP_DIR}:$PYTHONPATH # So that you can run FitSNAP as executable
-export LD_LIBRARY_PATH=${HOME}/lammps/build-fitsnap
+cd MD
+mpirun -np 4 ${LAMMPS_DIR}/fitsnap-build/lmp &lt; in.run
 </pre></div>
 </div>
-<p>Activate your <code class="code docutils literal notranslate"><span class="pre">~/.bashrc</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="o">~/.</span><span class="n">bashrc</span>
-</pre></div>
-</div>
-</section>
-<section id="step-2-fit-neural-network-potential">
-<h2>Step 2: Fit neural network potential<a class="headerlink" href="#step-2-fit-neural-network-potential" title="Permalink to this heading"></a></h2>
-<p>We’ll do a simple example with tantalum; this dataset has crystals, surfaces, and liquids:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">FitSNAP</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">Ta_PyTorch_NN</span>
-<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">fitsnap3</span> <span class="n">Ta</span><span class="o">-</span><span class="n">example</span><span class="o">.</span><span class="ow">in</span> <span class="o">--</span><span class="n">overwrite</span> <span class="c1"># overwrite will overwrite existing fits</span>
-</pre></div>
-</div>
-<p>This creates a <code class="code docutils literal notranslate"><span class="pre">FitTorch_Pytorch.pt</span></code> file that is used by LAMMPS for MD.</p>
-</section>
-<section id="step-3-run-md-with-neural-network-potential">
-<h2>Step 3: Run MD with neural network potential<a class="headerlink" href="#step-3-run-md-with-neural-network-potential" title="Permalink to this heading"></a></h2>
-<p>Run MD with:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $HOME/FitSNAP/examples/Ta_PyTorch_NN/MD
-~/lammps/build-fitsnap/lmp &lt; in.run
-</pre></div>
-</div>
-</section>
 </section>
 
 
