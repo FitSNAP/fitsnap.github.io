@@ -47,17 +47,16 @@
 <li class="toctree-l1"><a class="reference internal" href="Run.html">3. Run FitSNAP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Linear.html">4. Linear Models</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">5. PyTorch Models</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#getting-started">5.1. Getting Started</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#fitting-neural-network-potentials">5.2. Fitting Neural Network Potentials</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#loss-function">5.3. Loss Function</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#outputs-and-error-calculation">5.4. Outputs and Error Calculation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#error-comparison-files">5.4.1. Error/Comparison files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pytorch-model-files">5.4.2. PyTorch model files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#calculate-errors-on-a-test-set">5.4.3. Calculate errors on a test set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fitting-neural-network-potentials">5.1. Fitting Neural Network Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#loss-function">5.2. Loss Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#outputs-and-error-calculation">5.3. Outputs and Error Calculation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#error-comparison-files">5.3.1. Error/Comparison files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pytorch-model-files">5.3.2. PyTorch model files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#calculate-errors-on-a-test-set">5.3.3. Calculate errors on a test set</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#training-performance">5.5. Training Performance</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#gpu-acceleration">5.5.1. GPU Acceleration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#training-performance">5.4. Training Performance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gpu-acceleration">5.4.1. GPU Acceleration</a></li>
 </ul>
 </li>
 </ul>
@@ -100,83 +99,8 @@
 <p>Interfacing with PyTorch allows us to conveniently fit neural network potentials using descriptors
 that exist in LAMMPS. We may then use these neural network models to run high-performance MD
 simulations in LAMMPS. These capabilities are explained below.</p>
-<section id="getting-started">
-<h2><span class="section-number">5.1. </span>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h2>
-<p>First we need a python environment with PyTorch and LAMMPS installed. See <a class="reference external" href="Installation.html#lammps-installation">LAMMPS Installation docs</a>
-for more details on installing LAMMPS. Here we start with a speedy minimal description LAMMPS setup:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Create and activate a new conda environment
-
-conda create --name fitsnap python=3.10
-conda activate fitsnap
-
-# Install dependencies with your conda&#39;s pip
-
-python -m pip install numpy torch scipy virtualenv psutil pandas tabulate mpi4py Cython
-
-# Clone the LAMMPS repo
-
-git clone https://github.com/lammps/lammps
-
-# Make a LAMMPS build specifically for FitSNAP
-
-LAMMPS_DIR=/path/to/lammps
-mkdir $LAMMPS_DIR/build-fitsnap
-cd $LAMMPS_DIR/build-fitsnap
-cmake ../cmake -DLAMMPS_EXCEPTIONS=yes \
-               -DBUILD_SHARED_LIBS=yes \
-               -DMLIAP_ENABLE_PYTHON=yes \
-               -DPKG_PYTHON=yes \
-               -DPKG_ML-SNAP=yes \
-               -DPKG_ML-IAP=yes \
-               -DPKG_ML-PACE=yes \
-               -DPKG_SPIN=yes \
-               -DPYTHON_EXECUTABLE:FILEPATH=`which python`
-make
-make install-python
-</pre></div>
-</div>
-<p>To add these extra <code class="code docutils literal notranslate"><span class="pre">-D</span></code> flags in <code class="code docutils literal notranslate"><span class="pre">ccmake</span></code>, go to the Advanced Options section in
-<code class="code docutils literal notranslate"><span class="pre">ccmake</span></code>.</p>
-<p>Set the following environment variables so that your Python can find LAMMPS:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>LAMMPS_DIR=/path/to/lammps
-export LD_LIBRARY_PATH=$LAMMPS_DIR/build-fitsnap:$LD_LIBRARY_PATH # Use DYLD_LIBRARY_PATH for MacOS
-export PYTHONPATH=$LAMMPS_DIR/python:$PYTHONPATH
-</pre></div>
-</div>
-<p>Alternatively to setting environment variables, symbolic links to these paths are also appropriate.</p>
-<p><strong>Before proceeding, make sure your LAMMPS-Python interface is working</strong> by doing the following in
-your Python interpreter:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lammps</span>
-<span class="n">lmp</span> <span class="o">=</span> <span class="n">lammps</span><span class="o">.</span><span class="n">lammps</span><span class="p">()</span>
-</pre></div>
-</div>
-<p><strong>If this gives no errors, proceed further. Otherwise, please take more time to install LAMMPS with
-Python properly on your system.</strong> See <a class="reference external" href="Installation.html#lammps-installation">LAMMPS Installation docs</a>
-for more info.</p>
-<p>Get FitSNAP with:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">where</span><span class="o">/</span><span class="n">FitSNAP</span><span class="o">/</span><span class="n">will</span><span class="o">/</span><span class="n">be</span>
-<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">FitSNAP</span><span class="o">/</span><span class="n">FitSNAP</span>
-</pre></div>
-</div>
-<p>Fit a neural network for tantalum:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>FITSNAP_DIR=/path/to/FitSNAP
-export PYTHONPATH=$FITSNAP_DIR:$PYTHONPATH # So you can run FitSNAP as executable
-cd $FITSNAP_DIR/examples/Ta_PyTorch_NN
-python -m fitsnap3 Ta-example.in --overwrite
-</pre></div>
-</div>
-<p>Run high-performance MD with this neural network potential:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>SITE_PACKAGES_DIR=`python -c &quot;import site; print(site.getsitepackages()[0])&quot;`
-export PYTHONPATH=${SITE_PACKAGES_DIR}:$PYTHONPATH # So that ML-IAP package can find torch for MD
-cd MD
-mpirun -np 4 ${LAMMPS_DIR}/fitsnap-build/lmp &lt; in.run
-</pre></div>
-</div>
-<p>More details on setting up input scripts for NN fitting are given below. If you want instructions on
-getting set up with a cluster, please see <a class="reference external" href="Quick.html">Quick Instructions</a>.</p>
-</section>
 <section id="fitting-neural-network-potentials">
-<h2><span class="section-number">5.2. </span>Fitting Neural Network Potentials<a class="headerlink" href="#fitting-neural-network-potentials" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">5.1. </span>Fitting Neural Network Potentials<a class="headerlink" href="#fitting-neural-network-potentials" title="Permalink to this heading"></a></h2>
 <p>Similarly to how we fit linear models, we can input descriptors into nonlinear models such as
 neural networks. To do this, we can use the same FitSNAP input script that we use for linear
 models, with some slight changes to the sections. First we must add a <code class="code docutils literal notranslate"><span class="pre">PYTORCH</span></code> section,
@@ -239,7 +163,7 @@ useful for debugging purposes.</p></li>
 </ul>
 </section>
 <section id="loss-function">
-<h2><span class="section-number">5.3. </span>Loss Function<a class="headerlink" href="#loss-function" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">5.2. </span>Loss Function<a class="headerlink" href="#loss-function" title="Permalink to this heading"></a></h2>
 <p>When fitting neural network potentials we minimize the sum of weighted energy and force mean squared
 errors:</p>
 <div class="math notranslate nohighlight">
@@ -288,12 +212,12 @@ themselves might not be meaningful for error analysis, we output model predictio
 energies and forces in separate files after the fit, as explained below.</p>
 </section>
 <section id="outputs-and-error-calculation">
-<h2><span class="section-number">5.4. </span>Outputs and Error Calculation<a class="headerlink" href="#outputs-and-error-calculation" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">5.3. </span>Outputs and Error Calculation<a class="headerlink" href="#outputs-and-error-calculation" title="Permalink to this heading"></a></h2>
 <p>Unlike linear models, PyTorch models do not output statistics in a dataframe. Instead we output
 energy and force comparisons in separate files, along with PyTorch models that can be used to restart
 a fit or even run MD simulations in LAMMPS.</p>
 <section id="error-comparison-files">
-<h3><span class="section-number">5.4.1. </span>Error/Comparison files<a class="headerlink" href="#error-comparison-files" title="Permalink to this heading"></a></h3>
+<h3><span class="section-number">5.3.1. </span>Error/Comparison files<a class="headerlink" href="#error-comparison-files" title="Permalink to this heading"></a></h3>
 <p>After training a potential, FitSNAP produces outputs that can be used to intrepret the quality of a
 fit on the training and/or validation data. The following comparison files are written after a fit:</p>
 <ul class="simple">
@@ -314,7 +238,7 @@ after a fit. For example, in the <a class="reference external" href="https://git
 plot comparisons in energies and forces.</p>
 </section>
 <section id="pytorch-model-files">
-<h3><span class="section-number">5.4.2. </span>PyTorch model files<a class="headerlink" href="#pytorch-model-files" title="Permalink to this heading"></a></h3>
+<h3><span class="section-number">5.3.2. </span>PyTorch model files<a class="headerlink" href="#pytorch-model-files" title="Permalink to this heading"></a></h3>
 <p>FitSNAP outputs two PyTorch <code class="code docutils literal notranslate"><span class="pre">.pt</span></code> models file after fitting. One is used for restarting a fit
 based on an existing model, specifically the model name supplied by the user in the
 <code class="code docutils literal notranslate"><span class="pre">save_state_output</span></code> keyword of the input script. In the <a class="reference external" href="https://github.com/FitSNAP/FitSNAP/tree/master/examples/Ta_PyTorch_NN">Ta_PyTorch_NN example</a>
@@ -326,7 +250,7 @@ name <code class="code docutils literal notranslate"><span class="pre">FitTorch_
 is given for tantalum here: <a class="reference external" href="https://github.com/FitSNAP/FitSNAP/tree/master/examples/Ta_PyTorch_NN/MD">https://github.com/FitSNAP/FitSNAP/tree/master/examples/Ta_PyTorch_NN/MD</a></p>
 </section>
 <section id="calculate-errors-on-a-test-set">
-<h3><span class="section-number">5.4.3. </span>Calculate errors on a test set<a class="headerlink" href="#calculate-errors-on-a-test-set" title="Permalink to this heading"></a></h3>
+<h3><span class="section-number">5.3.3. </span>Calculate errors on a test set<a class="headerlink" href="#calculate-errors-on-a-test-set" title="Permalink to this heading"></a></h3>
 <p>Users may want to use models to calculate errors on a test set that was completely separate from the
 training/validation sets used in fitting. To do this, we change the input script to read an existing
 PyTorch model file, e.g. for Ta:</p>
@@ -352,7 +276,7 @@ the <a class="reference external" href="https://github.com/FitSNAP/FitSNAP/tree/
 </section>
 </section>
 <section id="training-performance">
-<h2><span class="section-number">5.5. </span>Training Performance<a class="headerlink" href="#training-performance" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">5.4. </span>Training Performance<a class="headerlink" href="#training-performance" title="Permalink to this heading"></a></h2>
 <p>As seen in the <code class="code docutils literal notranslate"><span class="pre">Ta_Pytorch_NN</span></code> example, fitting to ~300 configs (each with ~12 atoms) takes
 about ~0.2 s/epoch. The number of epochs required, and therefore total time of your fit, will depend
 on the size of your dataset <em>and</em> the <code class="code docutils literal notranslate"><span class="pre">batch_size</span></code>. For example, the <code class="code docutils literal notranslate"><span class="pre">Ta_Pytorch_NN</span></code> example
@@ -369,7 +293,7 @@ per atom.</p>
 <p>Mini-batch network training is embarassingly parallel up to the batch size, but currently FitSNAP
 does not support parallelized NN training.</p>
 <section id="gpu-acceleration">
-<h3><span class="section-number">5.5.1. </span>GPU Acceleration<a class="headerlink" href="#gpu-acceleration" title="Permalink to this heading"></a></h3>
+<h3><span class="section-number">5.4.1. </span>GPU Acceleration<a class="headerlink" href="#gpu-acceleration" title="Permalink to this heading"></a></h3>
 <p>FitSNAP supports GPU acceleration via PyTorch. With small batch sizes, however, most of the benefit
 of GPU parallelization comes from evaluating the NN model and calculating gradients. You will not see
 a large benefit of GPUs using a small batch size unless you have a large NN model (e.g. &gt; 1 million
