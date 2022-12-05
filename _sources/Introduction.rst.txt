@@ -21,7 +21,7 @@ used directly in `LAMMPS <lammps_>`_ to perform high-performance molecular dynam
 FitSNAP Components
 ------------------
 
-.. figure:: components.png
+.. figure:: ../images/components.png
    :scale: 60 %
 
 Throughout these docs we will use phrases or language particular to our general way of doing
