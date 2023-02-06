@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3.1. Command-line options &mdash; FitSNAP  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.2. Input files" href="Run_input.html" />
+    <link rel="prev" title="3. Run FitSNAP" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html">
+            <img src="../_static/FitSNAP.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">2. Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">3. Run FitSNAP</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.1. Command-line options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Run_input.html">3.2. Input files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Run_outputs.html">3.3. FitSNAP Outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Run_library.html">3.4. Running as library</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Linear.html">4. Linear Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Pytorch.html">5. PyTorch Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Uncertainty%20Quantification.html">6. Uncertainty Quantification</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Programmer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Contributing.html">1. Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Executable.html">2. Executable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Library.html">3. Library</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FitSNAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">3. </span>Run FitSNAP</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">3.1. </span>Command-line options</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/Run/Run_options.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="command-line-options">
+<h1><span class="section-number">3.1. </span>Command-line options<a class="headerlink" href="#command-line-options" title="Permalink to this heading"></a></h1>
+<p>At run time, FitSNAP recognizes command-line options which may be used in any order.
+Either the full word or a one or two letter abbreviation can be used:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#keyword"><span class="std std-ref">-k or –keyword</span></a></p></li>
+<li><p><a class="reference internal" href="#lammpslog"><span class="std std-ref">-l or –lammpslog</span></a></p></li>
+<li><p><a class="reference internal" href="#log"><span class="std std-ref">-l or –log</span></a></p></li>
+<li><p><a class="reference internal" href="#nofit"><span class="std std-ref">-nf or –nofit</span></a></p></li>
+<li><p><a class="reference internal" href="#nscreen"><span class="std std-ref">-ns or –nscreen</span></a></p></li>
+<li><p><a class="reference internal" href="#overwrite"><span class="std std-ref">–overwrite</span></a></p></li>
+<li><p><a class="reference internal" href="#screen"><span class="std std-ref">-sc or –screen</span></a></p></li>
+<li><p><a class="reference internal" href="#pscreen"><span class="std std-ref">-ps or –pscreen</span></a></p></li>
+<li><p><a class="reference internal" href="#relative"><span class="std std-ref">-r or –relative</span></a></p></li>
+<li><p><a class="reference internal" href="#screen"><span class="std std-ref">-sc or –screen</span></a></p></li>
+<li><p><a class="reference internal" href="#screen2file"><span class="std std-ref">-s2f or –screen2file</span></a></p></li>
+<li><p><a class="reference internal" href="#tarball"><span class="std std-ref">-tb or –tarball</span></a></p></li>
+<li><p><a class="reference internal" href="#verbose"><span class="std std-ref">-v or –verbose</span></a></p></li>
+</ul>
+<p>For example, the FitSNAP executable might be launched as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mpirun -np <span class="m">4</span> python -m fitsnap3 input.in --overwrite
+</pre></div>
+</div>
+<hr class="docutils" />
+<p id="keyword"><strong>--keyword GROUP NAME VALUE</strong></p>
+<p>Replace or add input keyword group GROUP, key NAME, with value VALUE. Type carefully; a misspelled
+key name or value may be silently ignored.</p>
+<hr class="docutils" />
+<p id="lammpslog"><strong>--lammpslog</strong></p>
+<p>Writes a LAMMPS log file for descriptor calculations. Since LAMMPS log files get overwritten with
+configuration that we calculate descriptors for, this will give the last log file that occured. This
+is mainly useful if you want to see the LAMMPS outputs and settings that were used to calculate
+descriptors.</p>
+<hr class="docutils" />
+<p id="log"><strong>--log FILE</strong></p>
+<p>Write outputs and warnings from Python’s native logging facility to a file named FILE. We currently
+do not output any information with the logging facility yet, so the capability mainly exists for
+developers and debugging for now.</p>
+<hr class="docutils" />
+<p id="nofit"><strong>--nofit</strong></p>
+<p>This will run FitSNAP without performing a fit. Only descriptors will be calculated. This is useful
+when paired with <a class="reference external" href="Run_input.html#extras">dump_dataframe = 1 in the [EXTRAS] section</a></p>
+<hr class="docutils" />
+<p id="nscreen"><strong>--nscreen</strong></p>
+<p>Print outputs from the Output class for each node.</p>
+<hr class="docutils" />
+<p id="overwrite"><strong>--overwrite</strong></p>
+<p>Overwrite output files. Otherwise, output files will not be overwritten and FitSNAP will error.
+This protects existing fits from being overwritten.</p>
+<hr class="docutils" />
+<p id="pscreen"><strong>--pscreen</strong></p>
+<p>Print outputs from the Output class for each processor.</p>
+<hr class="docutils" />
+<p id="relative"><strong>--relative</strong></p>
+<p>Put output files in the directory of the FitSNAP input file. For example if the FitSNAP input file
+is located at <code class="code docutils literal notranslate"><span class="pre">foo/bar/input.in</span></code>, then running FitSNAP like</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mpirun -np <span class="m">4</span> python -m fitsnap3 foo/bar/input.in --relative
+</pre></div>
+</div>
+<p>will write output files in the directory <code class="code docutils literal notranslate"><span class="pre">foo/bar</span></code>. Without the <code class="code docutils literal notranslate"><span class="pre">--relative</span></code> option, the
+files will be written in the current directory.</p>
+<hr class="docutils" />
+<p id="screen"><strong>--screen</strong></p>
+<p>Print outputs to screen.</p>
+<hr class="docutils" />
+<p id="screen2file"><strong>--screen2file FILE</strong></p>
+<p>Print screen to a file named FILE.</p>
+<hr class="docutils" />
+<p id="tarball"><strong>--tarball</strong></p>
+<p>Package SNAP fit files into a hashed tarball named <code class="code docutils literal notranslate"><span class="pre">fit-&lt;hash&gt;.tar.gz</span></code>. This is only useful
+when fitting with SNAP descriptors since multiple files are used by LAMMPS. The tarball contains
+a SNAP parameter file, a SNAP coefficient file, a <code class="code docutils literal notranslate"><span class="pre">*.mod</span></code> file containing the proper pair
+style to use, and an example LAMMPS input file showing how to use this potential.</p>
+<p>ACE descriptors, on the other hand, only use <code class="code docutils literal notranslate"><span class="pre">*.yace</span></code> files in LAMMPS, therefore no need for a
+tarball.</p>
+<hr class="docutils" />
+<p id="verbose"><strong>--verbose</strong></p>
+<p>Show more detailed information about processing. Currently there are no verbose outputs, so this
+option exists purely for development and testing purposes.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="3. Run FitSNAP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Run_input.html" class="btn btn-neutral float-right" title="3.2. Input files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Sandia Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
