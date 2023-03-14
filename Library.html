@@ -18,6 +18,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="4. Tests" href="Tests.html" />
     <link rel="prev" title="2. Executable" href="Executable.html" /> 
 </head>
 
@@ -48,7 +49,6 @@
 <li class="toctree-l1"><a class="reference internal" href="Run/index.html">3. Run FitSNAP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Linear.html">4. Linear Models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Pytorch.html">5. PyTorch Models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Uncertainty%20Quantification.html">6. Uncertainty Quantification</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Programmer Guide</span></p>
 <ul class="current">
@@ -91,6 +91,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.fitsnap.FitSnap.solver"><code class="docutils literal notranslate"><span class="pre">FitSnap.solver</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.fitsnap.FitSnap.fit"><code class="docutils literal notranslate"><span class="pre">FitSnap.fit</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.fitsnap.FitSnap.delete_data"><code class="docutils literal notranslate"><span class="pre">FitSnap.delete_data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.fitsnap.FitSnap.multinode"><code class="docutils literal notranslate"><span class="pre">FitSnap.multinode</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.fitsnap.FitSnap.perform_fit"><code class="docutils literal notranslate"><span class="pre">FitSnap.perform_fit()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.fitsnap.FitSnap.process_configs"><code class="docutils literal notranslate"><span class="pre">FitSnap.process_configs()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.fitsnap.FitSnap.scrape_configs"><code class="docutils literal notranslate"><span class="pre">FitSnap.scrape_configs()</span></code></a></li>
@@ -125,6 +126,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="Tests.html">4. Tests</a></li>
 </ul>
 
         </div>
@@ -372,6 +374,13 @@ if looping over fits.</p>
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.fitsnap.FitSnap.multinode">
+<span class="sig-name descname"><span class="pre">multinode</span></span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap.multinode" title="Permalink to this definition"></a></dt>
+<dd><p>Make False if don’t want to delete data object.
+Useful for using library to loop over fits.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="fitsnap3lib.fitsnap.FitSnap.perform_fit">
 <span class="sig-name descname"><span class="pre">perform_fit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap.perform_fit" title="Permalink to this definition"></a></dt>
@@ -522,17 +531,22 @@ a Pandas dataframe.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="fitsnap3lib.solvers.pytorch.PYTORCH.evaluate_configs">
-<span class="sig-name descname"><span class="pre">evaluate_configs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardize_bool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float64</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.evaluate_configs" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">evaluate_configs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardize_bool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cpu'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.evaluate_configs" title="Permalink to this definition"></a></dt>
 <dd><p>Evaluates energies and forces on configs for testing purposes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>option</strong> (<em>int</em>) – 1 to evaluate energies/forces for all configs separately, 2 for using
-dataloader/batch procedure. Currently only 1 is implemented.</p></li>
+<li><p><strong>config_idx</strong> (<em>int</em>) – Index of config to evaluate. None if evaluating all configs.</p></li>
 <li><p><strong>standardize_bool</strong> (<em>bool</em>) – True to standardize weights, False otherwise. Useful if
 comparing inputs with a previously standardized model.</p></li>
 <li><p><strong>dtype</strong> (<em>torch.dtype</em>) – Optional override of the global dtype.</p></li>
+<li><p><strong>eval_device</strong> (<em>torch.device</em>) – Optional device to evaluate on, defaults to CPU to
+prevent device mismatch when training on GPU.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple (energy, force) for the config given by <cite>config_idx</cite>. The tuple will contain
+lists of energy/force for each config if <cite>config_idx</cite> is None.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -840,6 +854,7 @@ This only supports softplus as the nonlinear activation function.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Executable.html" class="btn btn-neutral float-left" title="2. Executable" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Tests.html" class="btn btn-neutral float-right" title="4. Tests" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
