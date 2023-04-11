@@ -247,8 +247,9 @@ The first line of this file describes what the columns are:</p>
 <p>More detailed fitting metrics are obtained if the following flags are declared true in the
 <code class="code docutils literal notranslate"><span class="pre">[EXTRAS]</span></code> section:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">EXTRAS</span><span class="p">]</span>
-<span class="n">dump_peratom</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">dump_perconfig</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">dump_peratom</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1"># write per-atom fitting metrics</span>
+<span class="n">dump_perconfig</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># write per-config fitting metrics</span>
+<span class="n">dump_configs</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1"># write a pickled list of Configuration objects</span>
 </pre></div>
 </div>
 <p>The following comparison files are written after a fit:</p>
@@ -266,6 +267,11 @@ The first line of this file describes what the columns are:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Filename</span> <span class="n">Group</span> <span class="n">Natoms</span> <span class="n">Energy_Truth</span> <span class="n">Energy_Pred</span> <span class="n">Testing_Bool</span>
 </pre></div>
 </div>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">configs.pickle</span></code> : Structural, descriptor, and fitting info for each configuration.</p></li>
+</ul>
+<p>This is a pickled list of <a class="reference external" href="https://github.com/FitSNAP/FitSNAP/tree/master/fitsnap3lib/tools/configuration.py">Configuration</a> objects.
+Each item in the list contains all associated information of a configuration.</p>
 </section>
 <section id="pytorch-model-files">
 <h3><span class="section-number">5.3.2. </span>PyTorch model files<a class="headerlink" href="#pytorch-model-files" title="Permalink to this heading"></a></h3>
