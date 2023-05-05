@@ -257,6 +257,23 @@ export PYTHONPATH=$PYTHONPATH:/path/to/where/you/want/FitSNAP
 </div>
 </li>
 </ol>
+<p>Note for infrequent installtion issues: For some versions of OMP, the
+LAMMPS/PYTHON interface may produce errors when running, leading to a
+LAMMPS exception that kills FitSNAP jobs. If your install completes
+successfully and you have problems with the execution of examples in
+the example folder, try recompiling lammps with these alternative
+D flags.</p>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt>Alternative D flags for python/omp errors::</dt><dd><dl class="simple">
+<dt>cmake -D LAMMPS_EXCEPTIONS=on </dt><dd><p>-D PKG_PYTHON=on -D BUILD_SHARED_LIBS=on -D CMAKE_BUILD_TYPE=Debug -D PKG_ML-IAP=on -D PKG_ML-PACE=on -D PKG_ML-SNAP=on -D BUILD_MPI=on -D BUILD_OMP=off -D CMAKE_INSTALL_PREFIX=&lt;$HOME&gt;/.local -D PKG_MOLECULE=on ../cmake/</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+</ol>
+<p>With key changes coming from turning off omp.</p>
 <p>For a summary/review of all these steps, see see <a class="reference external" href="Quick.html">Quick Installation</a>.</p>
 </section>
 </section>
@@ -303,7 +320,7 @@ please build LAMMPS from source as explained in the <a class="reference internal
 </div>
 </li>
 <li><p>Create a new Conda environment:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">fitsnap</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.9</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">fitsnap</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.10</span>
 <span class="n">conda</span> <span class="n">activate</span> <span class="n">fitsnap</span>
 </pre></div>
 </div>
