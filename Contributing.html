@@ -11,7 +11,6 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
@@ -58,7 +57,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Executable.html">2. Executable</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Library.html">3. Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib/index.html">3. Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Tests.html">4. Tests</a></li>
 </ul>
 
@@ -93,18 +92,18 @@ hard-to-read code. We want to find a balance between following a set of rules bu
 easy development. Important points to follow are explained below.</p>
 <section id="style-guide">
 <h2><span class="section-number">1.1. </span>Style Guide<a class="headerlink" href="#style-guide" title="Permalink to this heading"></a></h2>
-<p>Please follow the current style conventions in main FitSNAP files such as <code class="code docutils literal notranslate"><span class="pre">fitsnap3lib/fitsnap.py</span></code>.
-This includes:</p>
+<p>Please follow the current style conventions in main FitSNAP files such as <code class="code docutils literal notranslate"><span class="pre">fitsnap3lib/fitsnap.py</span></code>.</p>
 <ul class="simple">
 <li><p>Indent size is 4 spaces, and use actual spaces (not tabs); set your tab key to equal 4 spaces.</p></li>
-<li><p>Avoid global variables that are declared outside class methods or attributes, except in necessary
-circumstances; sometimes it’s useful, but you need to make sure that it doesn’t affect unrelated
-FitSNAP uses.</p></li>
 <li><p>Maximum line length is 100 characters. Set a vertical ruler in your editor and try to terminate
 lines once they reach 100 characters. This makes code easier to read without horiztonal scrolling.</p></li>
 <li><p>Naming styles: <code class="code docutils literal notranslate"><span class="pre">module_name</span></code>, <code class="code docutils literal notranslate"><span class="pre">package_name</span></code>, <code class="code docutils literal notranslate"><span class="pre">ClassName</span></code>, <code class="code docutils literal notranslate"><span class="pre">method_name</span></code>,
 <code class="code docutils literal notranslate"><span class="pre">ExceptionName</span></code>, <code class="code docutils literal notranslate"><span class="pre">function_name</span></code>, <code class="code docutils literal notranslate"><span class="pre">GLOBAL_CONSTANT_NAME</span></code>, <code class="code docutils literal notranslate"><span class="pre">global_var_name</span></code>,
 <code class="code docutils literal notranslate"><span class="pre">instance_var_name</span></code>, <code class="code docutils literal notranslate"><span class="pre">function_parameter_name</span></code>, <code class="code docutils literal notranslate"><span class="pre">local_var_name</span></code></p></li>
+<li><p>Avoid global variables that are declared outside class methods or attributes, except in necessary
+circumstances; sometimes it’s useful, but you need to make sure that it doesn’t affect unrelated
+FitSNAP uses.</p></li>
+<li><p>Prefer imported functions to new classes with state dependence.</p></li>
 </ul>
 <p>For other style advice, consult Google’s Python style guide when in doubt:
 <a class="reference external" href="https://google.github.io/styleguide/pyguide.html">https://google.github.io/styleguide/pyguide.html</a></p>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3.4. Solver &mdash; FitSNAP  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.5. lib/" href="Lib_lib.html" />
+    <link rel="prev" title="3.3. Calculator" href="Lib_calculator.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/FitSNAP.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">2. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Run/index.html">3. Run FitSNAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Linear.html">4. Linear Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Pytorch.html">5. PyTorch Models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Programmer Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Contributing.html">1. Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Executable.html">2. Executable</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">3. Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Lib_fitsnap.html">3.1. FitSnap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lib_scraper.html">3.2. Scraper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lib_calculator.html">3.3. Calculator</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.4. Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fitsnap3lib.solvers.solver.Solver"><code class="docutils literal notranslate"><span class="pre">Solver</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.solvers.solver.Solver.fit"><code class="docutils literal notranslate"><span class="pre">Solver.fit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.solvers.solver.Solver.error_analysis"><code class="docutils literal notranslate"><span class="pre">Solver.error_analysis()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pytorch">3.4.1. PYTORCH</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.solvers.pytorch.PYTORCH"><code class="docutils literal notranslate"><span class="pre">PYTORCH</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Lib_lib.html">3.5. lib/</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lib_tools.html">3.6. tools/</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tests.html">4. Tests</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FitSNAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">3. </span>Library</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">3.4. </span>Solver</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/Lib/Lib_solver.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="solver">
+<h1><span class="section-number">3.4. </span>Solver<a class="headerlink" href="#solver" title="Permalink to this heading"></a></h1>
+<p>FitSNAP uses a <code class="code docutils literal notranslate"><span class="pre">Solver</span></code> class which is a parent of all the different types of solvers, e.g. SVD and
+ARD for linear regression, <cite>PYTORCH</cite> and <cite>JAX</cite> for neural networks, etc.</p>
+<span class="target" id="module-fitsnap3lib.solvers.solver"></span><dl class="py class">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.solver.Solver">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.solvers.solver.</span></span><span class="sig-name descname"><span class="pre">Solver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linear</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.solver.Solver" title="Permalink to this definition"></a></dt>
+<dd><p>This class declares the method to solve the machine learning problem, e.g. linear regression,
+nonlinear regression, etc.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.solver.Solver.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><a class="headerlink" href="#fitsnap3lib.solvers.solver.Solver.fit" title="Permalink to this definition"></a></dt>
+<dd><p>Numpy array containing coefficients of fit.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.solver.Solver.error_analysis">
+<span class="sig-name descname"><span class="pre">error_analysis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.solver.Solver.error_analysis" title="Permalink to this definition"></a></dt>
+<dd><p>Extracts and stores fitting data, such as descriptor values, truths, and predictions, into
+a Pandas dataframe.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>Specific solvers are inherit from the base <code class="code docutils literal notranslate"><span class="pre">Solver</span></code> class:</p>
+<section id="pytorch">
+<h2><span class="section-number">3.4.1. </span>PYTORCH<a class="headerlink" href="#pytorch" title="Permalink to this heading"></a></h2>
+<p>This class inherits from the <cite>Solver</cite> class, since it is a particular solver option.</p>
+<span class="target" id="module-fitsnap3lib.solvers.pytorch"></span><dl class="py class">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.pytorch.PYTORCH">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.solvers.pytorch.</span></span><span class="sig-name descname"><span class="pre">PYTORCH</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH" title="Permalink to this definition"></a></dt>
+<dd><p>A class to wrap Modules to ensure lammps mliap compatability.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – Name of the solver class.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.pytorch.PYTORCH.optimizer">
+<span class="sig-name descname"><span class="pre">optimizer</span></span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.optimizer" title="Permalink to this definition"></a></dt>
+<dd><p>PyTorch Adam optimization object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.optim.Adam</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.pytorch.PYTORCH.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.model" title="Permalink to this definition"></a></dt>
+<dd><p>Network model that maps descriptors to a per atom quantity
+(e.g. energy).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.nn.Module</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.pytorch.PYTORCH.loss_function">
+<span class="sig-name descname"><span class="pre">loss_function</span></span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.loss_function" title="Permalink to this definition"></a></dt>
+<dd><p>Mean squared error loss function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.loss.MSELoss</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.pytorch.PYTORCH.learning_Rate">
+<span class="sig-name descname"><span class="pre">learning_Rate</span></span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.learning_Rate" title="Permalink to this definition"></a></dt>
+<dd><p>Learning rate for gradient descent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.pytorch.PYTORCH.scheduler">
+<span class="sig-name descname"><span class="pre">scheduler</span></span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.scheduler" title="Permalink to this definition"></a></dt>
+<dd><p>Torch learning rate scheduler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.optim.lr_scheduler.ReduceLROnPlateau</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.pytorch.PYTORCH.device">
+<span class="sig-name descname"><span class="pre">device</span></span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.device" title="Permalink to this definition"></a></dt>
+<dd><p>Torch accelerator device.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.pytorch.PYTORCH.training_data">
+<span class="sig-name descname"><span class="pre">training_data</span></span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.training_data" title="Permalink to this definition"></a></dt>
+<dd><p>Torch dataset for training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.utils.data.Dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.pytorch.PYTORCH.training_loader">
+<span class="sig-name descname"><span class="pre">training_loader</span></span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.training_loader" title="Permalink to this definition"></a></dt>
+<dd><p>Data loader for loading datasets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.utils.data.DataLoader</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.pytorch.PYTORCH.create_datasets">
+<span class="sig-name descname"><span class="pre">create_datasets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.create_datasets" title="Permalink to this definition"></a></dt>
+<dd><p>Creates the dataset to be used for training and the data loader for the batch system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>configs</strong> – Optional list of Configuration objects. If not supplied, we generate a
+configs list using the shared arrays.</p></li>
+<li><p><strong>pt</strong> – Optional ParallelTools instance containing data we want to fit to.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.pytorch.PYTORCH.evaluate_configs">
+<span class="sig-name descname"><span class="pre">evaluate_configs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardize_bool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cpu'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.evaluate_configs" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluates energies and forces on configs for testing purposes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config_idx</strong> (<em>int</em>) – Index of config to evaluate. None if evaluating all configs.</p></li>
+<li><p><strong>standardize_bool</strong> (<em>bool</em>) – True to standardize weights, False otherwise. Useful if
+comparing inputs with a previously standardized model.</p></li>
+<li><p><strong>dtype</strong> (<em>torch.dtype</em>) – Optional override of the global dtype.</p></li>
+<li><p><strong>eval_device</strong> (<em>torch.device</em>) – Optional device to evaluate on, defaults to CPU to
+prevent device mismatch when training on GPU.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple (energy, force) for the config given by <cite>config_idx</cite>. The tuple will contain
+lists of energy/force for each config if <cite>config_idx</cite> is None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.pytorch.PYTORCH.perform_fit">
+<span class="sig-name descname"><span class="pre">perform_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.perform_fit" title="Permalink to this definition"></a></dt>
+<dd><p>Performs PyTorch fitting using previously calculated descriptors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>configs</strong> – Optional list of Configuration objects to perform fitting on.</p></li>
+<li><p><strong>pt</strong> – ParallelTools instance containing shared arrays and data we want
+to fit to.</p></li>
+<li><p><strong>outfile</strong> – Optional output file to write progress to.</p></li>
+<li><p><strong>verbose</strong> – Optional flag to print progress to screen; overrides the verbose CLI.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Lib_calculator.html" class="btn btn-neutral float-left" title="3.3. Calculator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Lib_lib.html" class="btn btn-neutral float-right" title="3.5. lib/" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Sandia Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
