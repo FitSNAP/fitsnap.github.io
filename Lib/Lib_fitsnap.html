@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3.1. FitSnap &mdash; FitSNAP  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.2. Scraper" href="Lib_scraper.html" />
+    <link rel="prev" title="3. Library" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/FitSNAP.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">2. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Run/index.html">3. Run FitSNAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Linear.html">4. Linear Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Pytorch.html">5. PyTorch Models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Programmer Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Contributing.html">1. Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Executable.html">2. Executable</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">3. Library</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.1. FitSnap</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fitsnap3lib.fitsnap.FitSnap"><code class="docutils literal notranslate"><span class="pre">FitSnap</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.fitsnap.FitSnap.pt"><code class="docutils literal notranslate"><span class="pre">FitSnap.pt</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.fitsnap.FitSnap.config"><code class="docutils literal notranslate"><span class="pre">FitSnap.config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.fitsnap.FitSnap.scraper"><code class="docutils literal notranslate"><span class="pre">FitSnap.scraper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.fitsnap.FitSnap.data"><code class="docutils literal notranslate"><span class="pre">FitSnap.data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.fitsnap.FitSnap.calculator"><code class="docutils literal notranslate"><span class="pre">FitSnap.calculator</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.fitsnap.FitSnap.solver"><code class="docutils literal notranslate"><span class="pre">FitSnap.solver</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.fitsnap.FitSnap.perform_fit"><code class="docutils literal notranslate"><span class="pre">FitSnap.perform_fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.fitsnap.FitSnap.process_configs"><code class="docutils literal notranslate"><span class="pre">FitSnap.process_configs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.fitsnap.FitSnap.scrape_configs"><code class="docutils literal notranslate"><span class="pre">FitSnap.scrape_configs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fitsnap3lib.parallel_tools">3.1.1. Parallel Tools</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.parallel_tools.DistributedList"><code class="docutils literal notranslate"><span class="pre">DistributedList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.parallel_tools.GracefulError"><code class="docutils literal notranslate"><span class="pre">GracefulError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.parallel_tools.ParallelTools"><code class="docutils literal notranslate"><span class="pre">ParallelTools</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fitsnap3lib.io.input">3.1.2. Config</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.io.input.Config"><code class="docutils literal notranslate"><span class="pre">Config</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Lib_scraper.html">3.2. Scraper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lib_calculator.html">3.3. Calculator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lib_solver.html">3.4. Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lib_lib.html">3.5. lib/</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lib_tools.html">3.6. tools/</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tests.html">4. Tests</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FitSNAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">3. </span>Library</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">3.1. </span>FitSnap</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/Lib/Lib_fitsnap.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-fitsnap3lib.fitsnap">
+<span id="fitsnap"></span><h1><span class="section-number">3.1. </span>FitSnap<a class="headerlink" href="#module-fitsnap3lib.fitsnap" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="fitsnap3lib.fitsnap.FitSnap">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.fitsnap.</span></span><span class="sig-name descname"><span class="pre">FitSnap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arglist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap" title="Permalink to this definition"></a></dt>
+<dd><p>This classes houses the objects needed for machine learning a potential, start to finish.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input</strong> (<em>str</em>) – Optional dictionary or path to input file when using library mode; defaults to
+None for executable use.</p></li>
+<li><p><strong>comm</strong> – Optional MPI communicator when using library mode; defaults to None.</p></li>
+<li><p><strong>arglist</strong> (<em>list</em>) – Optional list of cmd line args when using library mode.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.fitsnap.FitSnap.pt">
+<span class="sig-name descname"><span class="pre">pt</span></span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap.pt" title="Permalink to this definition"></a></dt>
+<dd><p>Instance of the ParallelTools class for helping MPI
+communication and shared arrays.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">class</span></code> ParallelTools</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.fitsnap.FitSnap.config">
+<span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap.config" title="Permalink to this definition"></a></dt>
+<dd><p>Instance of the Config class for initializing settings,
+initialized with a ParallelTools instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">class</span></code> Config</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.fitsnap.FitSnap.scraper">
+<span class="sig-name descname"><span class="pre">scraper</span></span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap.scraper" title="Permalink to this definition"></a></dt>
+<dd><p>Instance of the Scraper class for gathering configs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">class</span></code> Scraper</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.fitsnap.FitSnap.data">
+<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap.data" title="Permalink to this definition"></a></dt>
+<dd><p>List of dictionaries, where each configuration of atoms has its own
+dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.fitsnap.FitSnap.calculator">
+<span class="sig-name descname"><span class="pre">calculator</span></span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap.calculator" title="Permalink to this definition"></a></dt>
+<dd><p>Instance of the Calculator class for calculating
+descriptors and fitting data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">class</span></code> Calculator</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.fitsnap.FitSnap.solver">
+<span class="sig-name descname"><span class="pre">solver</span></span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap.solver" title="Permalink to this definition"></a></dt>
+<dd><p>Instance of the Solver class for performing a fit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">class</span></code> Solver</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.fitsnap.FitSnap.perform_fit">
+<span class="sig-name descname"><span class="pre">perform_fit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap.perform_fit" title="Permalink to this definition"></a></dt>
+<dd><p>Solve the machine learning problem with descriptors as input and energies/forces/etc as
+targets</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.fitsnap.FitSnap.process_configs">
+<span class="sig-name descname"><span class="pre">process_configs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allgather</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap.process_configs" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate descriptors for all configurations in the <code class="code docutils literal notranslate"><span class="pre">data</span></code> list and stores info in the shared arrays.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Optional list of data dictionaries to calculate descriptors for. If not supplied, we use the list
+owned by this instance.</p></li>
+<li><p><strong>allgather</strong> – Whether to gather distributed lists to all processes to just to head proc. In some cases, such as
+processing configs once and then using that data on multiple procs, we must allgather.</p></li>
+<li><p><strong>delete_data</strong> – Whether the data list is deleted or not after processing.Since <cite>data</cite> can retain unwanted
+memory after processing configs, we delete it in executable mode.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.fitsnap.FitSnap.scrape_configs">
+<span class="sig-name descname"><span class="pre">scrape_configs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delete_scraper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap.scrape_configs" title="Permalink to this definition"></a></dt>
+<dd><p>Scrapes configurations of atoms and creates an instance attribute list of configurations called <cite>data</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>delete_scraper</strong> – Boolean determining whether the scraper object is deleted or not after scraping. Defaults
+to False. Since scraper can retain unwanted memory, we delete it in executable mode.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p><code class="code docutils literal notranslate"><span class="pre">FitSnap</span></code> contains instances of two helper classes that help with MPI communication and
+settings: ParallelTools and Config are explained below.</p>
+<section id="module-fitsnap3lib.parallel_tools">
+<span id="parallel-tools"></span><h2><span class="section-number">3.1.1. </span>Parallel Tools<a class="headerlink" href="#module-fitsnap3lib.parallel_tools" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.DistributedList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.parallel_tools.</span></span><span class="sig-name descname"><span class="pre">DistributedList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proc_length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.DistributedList" title="Permalink to this definition"></a></dt>
+<dd><p>A class to wrap python list to ensure size stays the same allowing collection at end.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.DistributedList._len">
+<span class="sig-name descname"><span class="pre">_len</span></span><a class="headerlink" href="#fitsnap3lib.parallel_tools.DistributedList._len" title="Permalink to this definition"></a></dt>
+<dd><p>length of distributed list held by current proc</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.DistributedList._list">
+<span class="sig-name descname"><span class="pre">_list</span></span><a class="headerlink" href="#fitsnap3lib.parallel_tools.DistributedList._list" title="Permalink to this definition"></a></dt>
+<dd><p>local section of distributed list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.DistributedList.get_list">
+<span class="sig-name descname"><span class="pre">get_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.DistributedList.get_list" title="Permalink to this definition"></a></dt>
+<dd><p>Returns deepcopy of internal list</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.GracefulError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.parallel_tools.</span></span><span class="sig-name descname"><span class="pre">GracefulError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.GracefulError" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.ParallelTools">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.parallel_tools.</span></span><span class="sig-name descname"><span class="pre">ParallelTools</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools" title="Permalink to this definition"></a></dt>
+<dd><p>This classes creates and contains arrays used for fitting, across multiple processors.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.ParallelTools.check_fitsnap_exist">
+<span class="sig-name descname"><span class="pre">check_fitsnap_exist</span></span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.check_fitsnap_exist" title="Permalink to this definition"></a></dt>
+<dd><p>Checks whether fitsnap dictionaries exist before creating a new
+one, set to <cite>False</cite> to allow recreating a dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.ParallelTools.free">
+<span class="sig-name descname"><span class="pre">free</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.free" title="Permalink to this definition"></a></dt>
+<dd><p>Free memory associated with all shared arrays.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.ParallelTools.get_ncpn">
+<span class="sig-name descname"><span class="pre">get_ncpn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nconfigs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.get_ncpn" title="Permalink to this definition"></a></dt>
+<dd><p>Get number of configs per node; return nconfigs if stubs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nconfigs</strong> – integer number of configurations on this process, typically length of list of
+data dictionaries.</p>
+</dd>
+</dl>
+<p>Returns number of configs per node, reduced across procs, or just nconfigs if stubs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.ParallelTools.new_slice_a">
+<span class="sig-name descname"><span class="pre">new_slice_a</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.new_slice_a" title="Permalink to this definition"></a></dt>
+<dd><p>Create array to show which sub a matrix indices belong to which proc.
+For linear solvers, the A matrix may be composed of either summed per-atom descriptors OR
+per-atom descriptors.
+For nonlinear solvers, the A matrix is composed of per-atom quantities like bispectrum
+components, etc.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.ParallelTools.new_slice_b">
+<span class="sig-name descname"><span class="pre">new_slice_b</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.new_slice_b" title="Permalink to this definition"></a></dt>
+<dd><p>Create array to show which sub b matrix indices belong to which proc.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.ParallelTools.new_slice_c">
+<span class="sig-name descname"><span class="pre">new_slice_c</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.new_slice_c" title="Permalink to this definition"></a></dt>
+<dd><p>Create array to show which sub c matrix indices belong to which proc.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.ParallelTools.new_slice_dgrad">
+<span class="sig-name descname"><span class="pre">new_slice_dgrad</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.new_slice_dgrad" title="Permalink to this definition"></a></dt>
+<dd><p>Create array to show which sub dgrad matrix indices belong to which proc.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.ParallelTools.new_slice_neighlist">
+<span class="sig-name descname"><span class="pre">new_slice_neighlist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.new_slice_neighlist" title="Permalink to this definition"></a></dt>
+<dd><p>Create array to show which sub neighlist matrix indices belong to which proc.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.ParallelTools.new_slice_t">
+<span class="sig-name descname"><span class="pre">new_slice_t</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.new_slice_t" title="Permalink to this definition"></a></dt>
+<dd><p>Create array to show which sub types matrix indices belong to which proc.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-fitsnap3lib.io.input">
+<span id="config"></span><h2><span class="section-number">3.1.2. </span>Config<a class="headerlink" href="#module-fitsnap3lib.io.input" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="fitsnap3lib.io.input.Config">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.io.input.</span></span><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_lst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.io.input.Config" title="Permalink to this definition"></a></dt>
+<dd><p>Class for storing input settings in a <cite>config</cite> instance. The <cite>config</cite> instance is first created
+in <cite>io/output.py</cite>. If given a path to an input script, we use Python’s native ConfigParser
+to parse the settings. If given a nested dictionary, the sections are determined from the
+first keys and specific settings from the nested keys.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pt</strong> – A ParallelTools instance.</p></li>
+<li><p><strong>input</strong> – Optional input can either be a filename or a dictionary.</p></li>
+<li><p><strong>arguments_lst</strong> – List of args that can be supplied at the command line.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.io.input.Config.infile">
+<span class="sig-name descname"><span class="pre">infile</span></span><a class="headerlink" href="#fitsnap3lib.io.input.Config.infile" title="Permalink to this definition"></a></dt>
+<dd><p>String for optional input filename. Defaults to None.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.io.input.Config.indict">
+<span class="sig-name descname"><span class="pre">indict</span></span><a class="headerlink" href="#fitsnap3lib.io.input.Config.indict" title="Permalink to this definition"></a></dt>
+<dd><p>Dictionary for optional input dictionary of settings, to replace input file. Defaults
+to None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.io.input.Config.parse_cmdline">
+<span class="sig-name descname"><span class="pre">parse_cmdline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arguments_lst</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.io.input.Config.parse_cmdline" title="Permalink to this definition"></a></dt>
+<dd><p>Parse command line args.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="3. Library" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Lib_scraper.html" class="btn btn-neutral float-right" title="3.2. Scraper" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Sandia Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

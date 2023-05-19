@@ -11,14 +11,13 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="3. Library" href="Library.html" />
+    <link rel="next" title="3. Library" href="Lib/index.html" />
     <link rel="prev" title="1. Contributing" href="Contributing.html" /> 
 </head>
 
@@ -61,7 +60,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#adding-your-own-model-solver">2.5. Adding your own Model/Solver</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Library.html">3. Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib/index.html">3. Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Tests.html">4. Tests</a></li>
 </ul>
 
@@ -100,23 +99,16 @@ with</p>
 <p>There is a certain sequence of functions that is explained here, and coded in
 <code class="code docutils literal notranslate"><span class="pre">fitsnap3/__main__.py</span></code>. Specifically, the <code class="code docutils literal notranslate"><span class="pre">main()</span></code> function uses the FitSNAP library to
 execute the following sequence of functions that perform a fit:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fitsnap3lib.parallel_tools</span> <span class="kn">import</span> <span class="n">ParallelTools</span>
-<span class="n">pt</span> <span class="o">=</span> <span class="n">ParallelTools</span><span class="p">()</span>
-<span class="kn">from</span> <span class="nn">fitsnap3lib.io.input</span> <span class="kn">import</span> <span class="n">Config</span>
-<span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="n">arguments_lst</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;/path/to/FitSNAP/input/script&quot;</span><span class="p">,</span> <span class="s2">&quot;--overwrite&quot;</span><span class="p">])</span>
-<span class="kn">from</span> <span class="nn">fitsnap3lib.fitsnap</span> <span class="kn">import</span> <span class="n">FitSnap</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fitsnap3lib.fitsnap</span> <span class="kn">import</span> <span class="n">FitSnap</span>
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">initialize_fitsnap_run</span><span class="p">()</span>
-        <span class="n">snap</span> <span class="o">=</span> <span class="n">FitSnap</span><span class="p">()</span>
-        <span class="n">snap</span><span class="o">.</span><span class="n">scrape_configs</span><span class="p">()</span>
-        <span class="n">snap</span><span class="o">.</span><span class="n">process_configs</span><span class="p">()</span>
-        <span class="n">pt</span><span class="o">.</span><span class="n">all_barrier</span><span class="p">()</span>
-        <span class="n">snap</span><span class="o">.</span><span class="n">perform_fit</span><span class="p">()</span>
-        <span class="n">snap</span><span class="o">.</span><span class="n">write_output</span><span class="p">()</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">output</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="n">snap</span> <span class="o">=</span> <span class="n">FitSnap</span><span class="p">()</span>
+    <span class="n">snap</span><span class="o">.</span><span class="n">scrape_configs</span><span class="p">(</span><span class="n">delete_scraper</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">snap</span><span class="o">.</span><span class="n">process_configs</span><span class="p">(</span><span class="n">delete_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># Good practice after a large parallel operation is to impose a barrier.</span>
+    <span class="n">snap</span><span class="o">.</span><span class="n">pt</span><span class="o">.</span><span class="n">all_barrier</span><span class="p">()</span>
+    <span class="n">snap</span><span class="o">.</span><span class="n">perform_fit</span><span class="p">()</span>
+    <span class="n">snap</span><span class="o">.</span><span class="n">write_output</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>From the above code, it is seen that we first run the
@@ -139,17 +131,7 @@ tasks outside the usual FitSNAP main program execution are located in
 <h2><span class="section-number">2.1. </span>Data &amp; configuration extraction<a class="headerlink" href="#data-configuration-extraction" title="Permalink to this heading"></a></h2>
 <p>After creating the FitSNAP object in <code class="code docutils literal notranslate"><span class="pre">__main__.py</span></code>, the first step is scraping the configs.
 Then we process the configs (calculate the descriptors) with <code class="code docutils literal notranslate"><span class="pre">snap.process_configs()</span></code>.
-This calls the function in <code class="code docutils literal notranslate"><span class="pre">fitsnap.py</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">process_configs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">calculator</span><span class="o">.</span><span class="n">create_a</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">configuration</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">calculator</span><span class="o">.</span><span class="n">process_configs</span><span class="p">(</span><span class="n">configuration</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">calculator</span><span class="o">.</span><span class="n">collect_distributed_lists</span><span class="p">()</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">calculator</span><span class="o">.</span><span class="n">extras</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>The <code class="code docutils literal notranslate"><span class="pre">Calculator</span></code> class in <code class="code docutils literal notranslate"><span class="pre">calculators/calculator.py</span></code> has a <code class="code docutils literal notranslate"><span class="pre">create_a</span></code> method
+The <code class="code docutils literal notranslate"><span class="pre">Calculator</span></code> class in <code class="code docutils literal notranslate"><span class="pre">calculators/calculator.py</span></code> has a <code class="code docutils literal notranslate"><span class="pre">create_a</span></code> method
 which allocates the size of the <code class="code docutils literal notranslate"><span class="pre">a</span></code> and <code class="code docutils literal notranslate"><span class="pre">b</span></code> matrices, containing data such as
 descriptors and target energies/forces. <code class="code docutils literal notranslate"><span class="pre">calculators/calculator.py</span></code> also has a
 <code class="code docutils literal notranslate"><span class="pre">process_configs</span></code> method which is overwritten by user-defined derived class, e.g.
@@ -224,7 +206,7 @@ script, similar to adding a new Calculator.</p></li>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Contributing.html" class="btn btn-neutral float-left" title="1. Contributing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Library.html" class="btn btn-neutral float-right" title="3. Library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Lib/index.html" class="btn btn-neutral float-right" title="3. Library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

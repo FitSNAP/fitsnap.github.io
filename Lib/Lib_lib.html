@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3.5. lib/ &mdash; FitSNAP  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.6. tools/" href="Lib_tools.html" />
+    <link rel="prev" title="3.4. Solver" href="Lib_solver.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/FitSNAP.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">2. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Run/index.html">3. Run FitSNAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Linear.html">4. Linear Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Pytorch.html">5. PyTorch Models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Programmer Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Contributing.html">1. Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Executable.html">2. Executable</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">3. Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Lib_fitsnap.html">3.1. FitSnap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lib_scraper.html">3.2. Scraper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lib_calculator.html">3.3. Calculator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Lib_solver.html">3.4. Solver</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.5. lib/</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-fitsnap3lib.lib.neural_networks.pytorch">3.5.1. Atom-centered Networks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.lib.neural_networks.pytorch.FitTorch"><code class="docutils literal notranslate"><span class="pre">FitTorch</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.lib.neural_networks.pytorch.create_torch_network"><code class="docutils literal notranslate"><span class="pre">create_torch_network()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fitsnap3lib.lib.neural_networks.pairwise">3.5.2. Pairwise Networks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.lib.neural_networks.pairwise.FitTorch"><code class="docutils literal notranslate"><span class="pre">FitTorch</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.lib.neural_networks.pairwise.create_torch_network"><code class="docutils literal notranslate"><span class="pre">create_torch_network()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Lib_tools.html">3.6. tools/</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tests.html">4. Tests</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FitSNAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">3. </span>Library</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">3.5. </span>lib/</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/Lib/Lib_lib.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="lib">
+<h1><span class="section-number">3.5. </span>lib/<a class="headerlink" href="#lib" title="Permalink to this heading"></a></h1>
+<p>The <code class="code docutils literal notranslate"><span class="pre">fitsnap3lib/lib</span></code> directory contains external code used by FitSNAP, sort of like helper classes
+and functions.</p>
+<section id="module-fitsnap3lib.lib.neural_networks.pytorch">
+<span id="atom-centered-networks"></span><h2><span class="section-number">3.5.1. </span>Atom-centered Networks<a class="headerlink" href="#module-fitsnap3lib.lib.neural_networks.pytorch" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pytorch.FitTorch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.lib.neural_networks.pytorch.</span></span><span class="sig-name descname"><span class="pre">FitTorch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">networks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descriptor_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_element_option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float32</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pytorch.FitTorch" title="Permalink to this definition"></a></dt>
+<dd><p>FitSNAP PyTorch network model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>networks</strong> (<em>list</em>) – List of nn.Sequential network architectures. Each list element is a
+different network type if multi-element option = 2.</p></li>
+<li><p><strong>descriptor_count</strong> (<em>int</em>) – Length of descriptors for an atom.</p></li>
+<li><p><strong>force_bool</strong> (<em>bool</em>) – Boolean telling whether to calculate forces or not.</p></li>
+<li><p><strong>n_elements</strong> (<em>int</em>) – Number of differentiable atoms types</p></li>
+<li><p><strong>multi_element_option</strong> (<em>int</em>) – Option for which multi-element network model to use.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pytorch.FitTorch.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms_per_structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">types</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xd_indx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_j</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float32</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pytorch.FitTorch.forward" title="Permalink to this definition"></a></dt>
+<dd><p>Forward pass through the PyTorch network model, calculating both energies and forces.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>torch.Tensor.float</em>) – Array of descriptors for this batch.</p></li>
+<li><p><strong>xd</strong> (<em>torch.Tensor.float</em>) – Array of descriptor derivatives dDi/dRj for this batch.</p></li>
+<li><p><strong>indices</strong> (<em>torch.Tensor.long</em>) – Array of indices upon which to contract per atom energies,
+for this batch.</p></li>
+<li><p><strong>atoms_per_structure</strong> (<em>torch.Tensor.long</em>) – Number of atoms per configuration for this
+batch.</p></li>
+<li><p><strong>types</strong> (<em>torch.Tensor.long</em>) – Atom types starting from 0, for this batch.</p></li>
+<li><p><strong>xd_indx</strong> (<em>torch.Tensor.long</em>) – Array of indices corresponding to descriptor derivatives,
+for this batch. These are concatenations of the direct LAMMPS dgradflag=1 output; we
+rely on unique_j and unique_i for adjusted indices of this batch
+(see dataloader.torch_collate).</p></li>
+<li><p><strong>unique_j</strong> (<em>torch.Tensor.long</em>) – Array of indices corresponding to unique atoms j in all
+batches of configs. All forces in this batch will be contracted over these indices.</p></li>
+<li><p><strong>unique_i</strong> (<em>torch.Tensor.long</em>) – Array of indices corresponding to unique neighbors i in
+all batches of configs. Forces on atoms j are summed over these neighbors and
+contracted appropriately.</p></li>
+<li><p><strong>dtype</strong> (<em>torch.float32</em>) – Data type used for torch tensors, default is torch.float32 for
+easy training, but we set to torch.float64 for finite difference tests to ensure
+correct force calculations.</p></li>
+<li><p><strong>device</strong> – pytorch accelerator device object</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pytorch.FitTorch.import_wb">
+<span class="sig-name descname"><span class="pre">import_wb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pytorch.FitTorch.import_wb" title="Permalink to this definition"></a></dt>
+<dd><p>Imports weights and bias into FitTorch model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>weights</strong> (<em>list</em><em> of </em><em>numpy array</em><em> of </em><em>floats</em>) – Network weights at each layer.</p></li>
+<li><p><strong>bias</strong> (<em>list</em><em> of </em><em>numpy array</em><em> of </em><em>floats</em>) – Network bias at each layer.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pytorch.FitTorch.load_lammps_torch">
+<span class="sig-name descname"><span class="pre">load_lammps_torch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'FitTorch.pt'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pytorch.FitTorch.load_lammps_torch" title="Permalink to this definition"></a></dt>
+<dd><p>Loads lammps ready pytorch model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – Filename of lammps usable pytorch model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pytorch.FitTorch.write_lammps_torch">
+<span class="sig-name descname"><span class="pre">write_lammps_torch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'FitTorch.pt'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pytorch.FitTorch.write_lammps_torch" title="Permalink to this definition"></a></dt>
+<dd><p>Saves lammps ready pytorch model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – Filename for lammps usable pytorch model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pytorch.create_torch_network">
+<span class="sig-prename descclassname"><span class="pre">fitsnap3lib.lib.neural_networks.pytorch.</span></span><span class="sig-name descname"><span class="pre">create_torch_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer_sizes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pytorch.create_torch_network" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a pytorch network architecture from layer sizes.
+This also performs standarization in the first linear layer.
+This only supports softplus as the nonlinear activation function.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Parameters:</dt><dd><p>layer_sizes (list of ints): Size of each network layers</p>
+</dd>
+<dt>Return:</dt><dd><p>Network Architecture of type neural network sequential</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="module-fitsnap3lib.lib.neural_networks.pairwise">
+<span id="pairwise-networks"></span><h2><span class="section-number">3.5.2. </span>Pairwise Networks<a class="headerlink" href="#module-fitsnap3lib.lib.neural_networks.pairwise" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pairwise.FitTorch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.lib.neural_networks.pairwise.</span></span><span class="sig-name descname"><span class="pre">FitTorch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">networks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descriptor_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_radial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_3body</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_element_option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float32</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pairwise.FitTorch" title="Permalink to this definition"></a></dt>
+<dd><p>FitSNAP PyTorch model for pairwise networks.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pairwise.FitTorch.networks">
+<span class="sig-name descname"><span class="pre">networks</span></span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pairwise.FitTorch.networks" title="Permalink to this definition"></a></dt>
+<dd><p>Description of <cite>attr1</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.nn.Sequential</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pairwise.FitTorch.descriptor_count">
+<span class="sig-name descname"><span class="pre">descriptor_count</span></span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pairwise.FitTorch.descriptor_count" title="Permalink to this definition"></a></dt>
+<dd><p>Number of descriptors for a pair.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pairwise.FitTorch.num_radial">
+<span class="sig-name descname"><span class="pre">num_radial</span></span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pairwise.FitTorch.num_radial" title="Permalink to this definition"></a></dt>
+<dd><p>Number of radial descriptors for a pair.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pairwise.FitTorch.num_3body">
+<span class="sig-name descname"><span class="pre">num_3body</span></span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pairwise.FitTorch.num_3body" title="Permalink to this definition"></a></dt>
+<dd><p>Number of 3-body descriptors for a pair.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pairwise.FitTorch.cutoff">
+<span class="sig-name descname"><span class="pre">cutoff</span></span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pairwise.FitTorch.cutoff" title="Permalink to this definition"></a></dt>
+<dd><p>Radial cutoff for neighlist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pairwise.FitTorch.n_elements">
+<span class="sig-name descname"><span class="pre">n_elements</span></span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pairwise.FitTorch.n_elements" title="Permalink to this definition"></a></dt>
+<dd><p>Number of element types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pairwise.FitTorch.multi_element_option">
+<span class="sig-name descname"><span class="pre">multi_element_option</span></span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pairwise.FitTorch.multi_element_option" title="Permalink to this definition"></a></dt>
+<dd><p>Setting for how to deal with multiple element types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pairwise.FitTorch.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighlist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms_per_structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">types</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_j</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float32</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pairwise.FitTorch.forward" title="Permalink to this definition"></a></dt>
+<dd><p>Forward pass through the PyTorch network model, calculating both energies and forces.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.Tensor.float</span></code>) – Array of positions for this batch</p></li>
+<li><p><strong>(</strong> (<em>neighlist</em>) – obj`torch.Tensor.long`): Sparse neighlist for this batch</p></li>
+<li><p><strong>transform_x</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.Tensor.float</span></code>) – Array of LAMMPS transformed positions of neighbors
+for this batch.</p></li>
+<li><p><strong>indices</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.Tensor.long</span></code>) – Array of configuration indices upon which to
+contract pairwise energies, for this batch.</p></li>
+<li><p><strong>atoms_per_structure</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.Tensor.long</span></code>) – Number of atoms per configuration for
+this batch.</p></li>
+<li><p><strong>types</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.Tensor.long</span></code>) – Atom types starting from 0, for this batch.</p></li>
+<li><p><strong>unique_i</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.Tensor.long</span></code>) – Atoms i for all atoms in this batch indexed
+starting from 0 to (natoms_batch-1)</p></li>
+<li><p><strong>unique_j</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.Tensor.long</span></code>) – Neighbors j for all atoms in this batch indexed
+starting from 0 to (natoms_batch-1)</p></li>
+<li><p><strong>dtype</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.float32</span></code>, optional) – Data type used for torch tensors, default is
+torch.float32 for training, but we set to
+torch.float64 for finite difference tests to
+ensure correct force calculations.</p></li>
+<li><p><strong>device</strong> – pytorch accelerator device object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple of (predicted_energy_total, predicted_forces). First element is predicted energies
+for this batch, second element is predicted forces for this batch.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pairwise.FitTorch.import_wb">
+<span class="sig-name descname"><span class="pre">import_wb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pairwise.FitTorch.import_wb" title="Permalink to this definition"></a></dt>
+<dd><p>Imports weights and bias into FitTorch model</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Parameters:</dt><dd><p>weights (list of numpy array of floats): Network weights at each layer
+bias (list of numpy array of floats): Network bias at each layer</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pairwise.FitTorch.load_lammps_torch">
+<span class="sig-name descname"><span class="pre">load_lammps_torch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'FitTorch.pt'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pairwise.FitTorch.load_lammps_torch" title="Permalink to this definition"></a></dt>
+<dd><p>Loads lammps ready pytorch model.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Parameters:</dt><dd><p>filename (str): Filename of lammps usable pytorch model</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pairwise.FitTorch.write_lammps_torch">
+<span class="sig-name descname"><span class="pre">write_lammps_torch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'FitTorch.pt'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pairwise.FitTorch.write_lammps_torch" title="Permalink to this definition"></a></dt>
+<dd><p>Saves lammps ready pytorch model.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Parameters:</dt><dd><p>filename (str): Filename for lammps usable pytorch model</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fitsnap3lib.lib.neural_networks.pairwise.create_torch_network">
+<span class="sig-prename descclassname"><span class="pre">fitsnap3lib.lib.neural_networks.pairwise.</span></span><span class="sig-name descname"><span class="pre">create_torch_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer_sizes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.lib.neural_networks.pairwise.create_torch_network" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a pytorch network architecture from layer sizes.
+This also performs standarization in the first linear layer.
+This only supports softplus as the nonlinear activation function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>layer_sizes</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – Number of nodes for each layer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Neural network architecture</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.nn.Sequential</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Lib_solver.html" class="btn btn-neutral float-left" title="3.4. Solver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Lib_tools.html" class="btn btn-neutral float-right" title="3.6. tools/" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Sandia Corporation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
