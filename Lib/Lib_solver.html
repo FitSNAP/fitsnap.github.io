@@ -62,9 +62,19 @@
 <li class="toctree-l3"><a class="reference internal" href="#fitsnap3lib.solvers.solver.Solver"><code class="docutils literal notranslate"><span class="pre">Solver</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.solvers.solver.Solver.fit"><code class="docutils literal notranslate"><span class="pre">Solver.fit</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.solvers.solver.Solver.error_analysis"><code class="docutils literal notranslate"><span class="pre">Solver.error_analysis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.solvers.solver.Solver.perform_fit"><code class="docutils literal notranslate"><span class="pre">Solver.perform_fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.solvers.solver.Solver.prepare_data"><code class="docutils literal notranslate"><span class="pre">Solver.prepare_data()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#pytorch">3.4.1. PYTORCH</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#svd">3.4.1. SVD</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.solvers.svd.SVD"><code class="docutils literal notranslate"><span class="pre">SVD</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ridge">3.4.2. RIDGE</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.solvers.ridge.RIDGE"><code class="docutils literal notranslate"><span class="pre">RIDGE</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pytorch">3.4.3. PYTORCH</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.solvers.pytorch.PYTORCH"><code class="docutils literal notranslate"><span class="pre">PYTORCH</span></code></a></li>
 </ul>
 </li>
@@ -119,16 +129,106 @@ nonlinear regression, etc.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="fitsnap3lib.solvers.solver.Solver.error_analysis">
-<span class="sig-name descname"><span class="pre">error_analysis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.solver.Solver.error_analysis" title="Permalink to this definition"></a></dt>
-<dd><p>Extracts and stores fitting data, such as descriptor values, truths, and predictions, into
+<span class="sig-name descname"><span class="pre">error_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.solver.Solver.error_analysis" title="Permalink to this definition"></a></dt>
+<dd><p>If linear fit: extracts and stores fitting data, such as descriptor values, truths, and predictions, into
 a Pandas dataframe.</p>
+<p>If nonlinear fit: evaluate NN on all configurations to get truth values for error calculation.</p>
+<p>The optional arguments are for calculating errors on a given set of inputs. For linear models these inputs are
+A matrix, truth array, weights, and a fs dictionary which contains group info. Care must be taken to ensure that
+these data structures are already processed and lined up properly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> – Optional A matrix numpy array.</p></li>
+<li><p><strong>b</strong> – Optional truth matrix numpy array.</p></li>
+<li><p><strong>w</strong> – Optional weight matrix numpy array.</p></li>
+<li><p><strong>fs_dict</strong> – Optional fs dictionary from a <cite>fs.pt.fitsnap_dict</cite></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.solver.Solver.perform_fit">
+<span class="sig-name descname"><span class="pre">perform_fit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.solver.Solver.perform_fit" title="Permalink to this definition"></a></dt>
+<dd><p>Base class function for performing a fit.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.solver.Solver.prepare_data">
+<span class="sig-name descname"><span class="pre">prepare_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.solver.Solver.prepare_data" title="Permalink to this definition"></a></dt>
+<dd><p>Prepare a, b, w data for fitting by applying weight arrays <cite>w</cite> to the <cite>a</cite> and <cite>b</cite> arrays.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<em>np.array</em>) – design matrix</p></li>
+<li><p><strong>b</strong> (<em>np.array</em>) – truth array</p></li>
+<li><p><strong>w</strong> (<em>np.array</em>) – weight array</p></li>
+<li><p><strong>fs_dict</strong> (<em>dict</em>) – dictionary with <cite>Testing</cite> key of bools for which structures to test on.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
-<p>Specific solvers are inherit from the base <code class="code docutils literal notranslate"><span class="pre">Solver</span></code> class:</p>
+<p>Specific solvers are inherited from the base <code class="code docutils literal notranslate"><span class="pre">Solver</span></code> class.</p>
+<section id="svd">
+<h2><span class="section-number">3.4.1. </span>SVD<a class="headerlink" href="#svd" title="Permalink to this heading"></a></h2>
+<p>This class is for performing SVD fits on linear systems.</p>
+<span class="target" id="module-fitsnap3lib.solvers.svd"></span><dl class="py class">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.svd.SVD">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.solvers.svd.</span></span><span class="sig-name descname"><span class="pre">SVD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.svd.SVD" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.svd.SVD.perform_fit">
+<span class="sig-name descname"><span class="pre">perform_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trainall</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.svd.SVD.perform_fit" title="Permalink to this definition"></a></dt>
+<dd><p>Perform fit on a linear system. If no args are supplied, will use fitting data in <cite>pt.shared_arrays</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<em>np.array</em>) – Optional “A” matrix.</p></li>
+<li><p><strong>b</strong> (<em>np.array</em>) – Optional Truth array.</p></li>
+<li><p><strong>w</strong> (<em>np.array</em>) – Optional Weight array.</p></li>
+<li><p><strong>fs_dict</strong> (<em>dict</em>) – Optional dictionary containing a <cite>Testing</cite> key of which A matrix rows should not be trained.</p></li>
+<li><p><strong>trainall</strong> (<em>bool</em>) – Optional boolean declaring whether to train on all samples in the A matrix.</p></li>
+</ul>
+</dd>
+</dl>
+<p>The fit is stored as a member <cite>fs.solver.fit</cite>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="ridge">
+<h2><span class="section-number">3.4.2. </span>RIDGE<a class="headerlink" href="#ridge" title="Permalink to this heading"></a></h2>
+<p>This class is for performing ridge regression fits on linear systems.</p>
+<span class="target" id="module-fitsnap3lib.solvers.ridge"></span><dl class="py class">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.ridge.RIDGE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.solvers.ridge.</span></span><span class="sig-name descname"><span class="pre">RIDGE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.ridge.RIDGE" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.solvers.ridge.RIDGE.perform_fit">
+<span class="sig-name descname"><span class="pre">perform_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trainall</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.ridge.RIDGE.perform_fit" title="Permalink to this definition"></a></dt>
+<dd><p>Perform fit on a linear system. If no args are supplied, will use fitting data in <cite>pt.shared_arrays</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<em>np.array</em>) – Optional “A” matrix.</p></li>
+<li><p><strong>b</strong> (<em>np.array</em>) – Optional Truth array.</p></li>
+<li><p><strong>w</strong> (<em>np.array</em>) – Optional Weight array.</p></li>
+<li><p><strong>fs_dict</strong> (<em>dict</em>) – Optional dictionary containing a <cite>Testing</cite> key of which A matrix rows should not be trained.</p></li>
+<li><p><strong>trainall</strong> (<em>bool</em>) – Optional boolean declaring whether to train on all samples in the A matrix.</p></li>
+</ul>
+</dd>
+</dl>
+<p>The fit is stored as a member <cite>fs.solver.fit</cite>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="pytorch">
-<h2><span class="section-number">3.4.1. </span>PYTORCH<a class="headerlink" href="#pytorch" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">3.4.3. </span>PYTORCH<a class="headerlink" href="#pytorch" title="Permalink to this heading"></a></h2>
 <p>This class inherits from the <cite>Solver</cite> class, since it is a particular solver option.</p>
 <span class="target" id="module-fitsnap3lib.solvers.pytorch"></span><dl class="py class">
 <dt class="sig sig-object py" id="fitsnap3lib.solvers.pytorch.PYTORCH">

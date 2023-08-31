@@ -72,6 +72,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.parallel_tools.DistributedList"><code class="docutils literal notranslate"><span class="pre">DistributedList</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.parallel_tools.GracefulError"><code class="docutils literal notranslate"><span class="pre">GracefulError</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.parallel_tools.ParallelTools"><code class="docutils literal notranslate"><span class="pre">ParallelTools</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.parallel_tools.SharedArray"><code class="docutils literal notranslate"><span class="pre">SharedArray</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-fitsnap3lib.io.input">3.1.2. Config</a><ul>
@@ -119,7 +120,7 @@
 <span id="fitsnap"></span><h1><span class="section-number">3.1. </span>FitSnap<a class="headerlink" href="#module-fitsnap3lib.fitsnap" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="fitsnap3lib.fitsnap.FitSnap">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.fitsnap.</span></span><span class="sig-name descname"><span class="pre">FitSnap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arglist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.fitsnap.</span></span><span class="sig-name descname"><span class="pre">FitSnap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arglist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap" title="Permalink to this definition"></a></dt>
 <dd><p>This classes houses the objects needed for machine learning a potential, start to finish.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -247,7 +248,14 @@ settings: ParallelTools and Config are explained below.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.DistributedList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.parallel_tools.</span></span><span class="sig-name descname"><span class="pre">DistributedList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proc_length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.DistributedList" title="Permalink to this definition"></a></dt>
-<dd><p>A class to wrap python list to ensure size stays the same allowing collection at end.</p>
+<dd><p>This class is used for distributed memory Python lists. The class to wraps Python’s <cite>list</cite> to ensure size stays the
+same allowing collection at end. This class is normally used like, for example:
+<code class="docutils literal notranslate"><span class="pre">pt.add_2_fitsnap(&quot;Groups&quot;,</span> <span class="pre">DistributedList(nconfigs))</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>proc_length</strong> (<em>int</em>) – Number of elements for the list on current process.</p>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.DistributedList._len">
 <span class="sig-name descname"><span class="pre">_len</span></span><a class="headerlink" href="#fitsnap3lib.parallel_tools.DistributedList._len" title="Permalink to this definition"></a></dt>
@@ -286,7 +294,7 @@ settings: ParallelTools and Config are explained below.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.ParallelTools">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.parallel_tools.</span></span><span class="sig-name descname"><span class="pre">ParallelTools</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools" title="Permalink to this definition"></a></dt>
-<dd><p>This classes creates and contains arrays used for fitting, across multiple processors.</p>
+<dd><p>This class creates and contains arrays used for fitting, across multiple processors.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.ParallelTools.check_fitsnap_exist">
 <span class="sig-name descname"><span class="pre">check_fitsnap_exist</span></span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.check_fitsnap_exist" title="Permalink to this definition"></a></dt>
@@ -295,6 +303,40 @@ one, set to <cite>False</cite> to allow recreating a dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.ParallelTools.add_2_fitsnap">
+<span class="sig-name descname"><span class="pre">add_2_fitsnap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">an_object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.add_2_fitsnap" title="Permalink to this definition"></a></dt>
+<dd><p>Add an object, such as a <cite>DistributedList</cite>, to the <cite>pt.fitsnap_dict</cite> dictionary. This dictionary contains
+configuration information such as group name, filename, testing bools, etc. This function is normally used in
+conjunction with the <cite>DistributedList</cite> class, where a distributed memory list is added with a keyname <cite>name</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Key name of the object being added.</p></li>
+<li><p><strong>an_object</strong> – A Python object to add, usually an instance of our <cite>DistributedList</cite> class.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.ParallelTools.create_shared_array">
+<span class="sig-name descname"><span class="pre">create_shared_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'d'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.create_shared_array" title="Permalink to this definition"></a></dt>
+<dd><p>Create a shared memory array as a key in the <code class="docutils literal notranslate"><span class="pre">pt.shared_array</span></code> dictionary. This function uses the <code class="docutils literal notranslate"><span class="pre">SharedArray</span></code>
+class to instantiate a shared memory array in the supplied dictionary key <code class="docutils literal notranslate"><span class="pre">name</span></code>.</p>
+<p>If the key name already exists, this function will free the memory associated with the existing array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name of the array which will be the key name.</p></li>
+<li><p><strong>size1</strong> (<em>int</em>) – First dimension size.</p></li>
+<li><p><strong>size2</strong> (<em>int</em>) – Optional second dimension size, defaults to 1.</p></li>
+<li><p><strong>dtype</strong> (<em>str</em>) – Optional data type character, defaults to <cite>d</cite> for double.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -365,6 +407,41 @@ components, etc.</p>
 <dd><p>Create array to show which sub types matrix indices belong to which proc.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.ParallelTools.slice_array">
+<span class="sig-name descname"><span class="pre">slice_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.slice_array" title="Permalink to this definition"></a></dt>
+<dd><p>Slices an array using Python’s native <cite>slice</cite> function. Creates an attribute <cite>pt.shared_arrays[name].sliced_array</cite>
+containing the sliced array.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.SharedArray">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.parallel_tools.</span></span><span class="sig-name descname"><span class="pre">SharedArray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'d'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multinode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MPI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.SharedArray" title="Permalink to this definition"></a></dt>
+<dd><p>Instantiating this class will create a shared memory array in the <code class="docutils literal notranslate"><span class="pre">array</span></code> attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>size1</strong> (<em>int</em>) – First dimension of the array.</p></li>
+<li><p><strong>size2</strong> (<em>int</em>) – Optional second dimension of the array, defaults to 1.</p></li>
+<li><p><strong>dtype</strong> (<em>str</em>) – Optional data type, defaults to <cite>d</cite> for double.</p></li>
+<li><p><strong>multinode</strong> (<em>int</em>) – Optional multinode flag used for scalapack purposes.</p></li>
+<li><p><strong>comms</strong> (<em>MPI.Comm</em>) – MPI communicator.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.SharedArray.array">
+<span class="sig-name descname"><span class="pre">array</span></span><a class="headerlink" href="#fitsnap3lib.parallel_tools.SharedArray.array" title="Permalink to this definition"></a></dt>
+<dd><p>Array of numbers that share memory across processes in the communicator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -372,7 +449,7 @@ components, etc.</p>
 <span id="config"></span><h2><span class="section-number">3.1.2. </span>Config<a class="headerlink" href="#module-fitsnap3lib.io.input" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="fitsnap3lib.io.input.Config">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.io.input.</span></span><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_lst</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.io.input.Config" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.io.input.</span></span><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_lst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.io.input.Config" title="Permalink to this definition"></a></dt>
 <dd><p>Class for storing input settings in a <cite>config</cite> instance. The <cite>config</cite> instance is first created
 in <cite>io/output.py</cite>. If given a path to an input script, we use Python’s native ConfigParser
 to parse the settings. If given a nested dictionary, the sections are determined from the
@@ -401,8 +478,8 @@ to None.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="fitsnap3lib.io.input.Config.parse_cmdline">
-<span class="sig-name descname"><span class="pre">parse_cmdline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arguments_lst</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.io.input.Config.parse_cmdline" title="Permalink to this definition"></a></dt>
-<dd><p>Parse command line args.</p>
+<span class="sig-name descname"><span class="pre">parse_cmdline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arguments_lst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.io.input.Config.parse_cmdline" title="Permalink to this definition"></a></dt>
+<dd><p>Parse command line args if using executable mode, or a list if using library mode.</p>
 </dd></dl>
 
 </dd></dl>
