@@ -116,7 +116,13 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Lib/Lib_fitsnap.html#fitsnap3lib.parallel_tools.ParallelTools.add_2_fitsnap">add_2_fitsnap() (fitsnap3lib.parallel_tools.ParallelTools method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Lib/Lib_calculator.html#fitsnap3lib.calculators.calculator.Calculator.allocate_per_config">allocate_per_config() (fitsnap3lib.calculators.calculator.Calculator method)</a>
+</li>
+      <li><a href="Lib/Lib_fitsnap.html#fitsnap3lib.parallel_tools.SharedArray.array">array (fitsnap3lib.parallel_tools.SharedArray attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -136,17 +142,19 @@
 </li>
       <li><a href="Lib/Lib_fitsnap.html#fitsnap3lib.fitsnap.FitSnap.config">config (fitsnap3lib.fitsnap.FitSnap attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Lib/Lib_calculator.html#fitsnap3lib.calculators.calculator.Calculator.create_a">create_a() (fitsnap3lib.calculators.calculator.Calculator method)</a>
 
       <ul>
         <li><a href="Lib/Lib_calculator.html#fitsnap3lib.calculators.lammps_base.LammpsBase.create_a">(fitsnap3lib.calculators.lammps_base.LammpsBase method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Lib/Lib_solver.html#fitsnap3lib.solvers.pytorch.PYTORCH.create_datasets">create_datasets() (fitsnap3lib.solvers.pytorch.PYTORCH method)</a>
 </li>
       <li><a href="Lib/Lib_calculator.html#fitsnap3lib.calculators.calculator.Calculator.create_dicts">create_dicts() (fitsnap3lib.calculators.calculator.Calculator method)</a>
+</li>
+      <li><a href="Lib/Lib_fitsnap.html#fitsnap3lib.parallel_tools.ParallelTools.create_shared_array">create_shared_array() (fitsnap3lib.parallel_tools.ParallelTools method)</a>
 </li>
       <li><a href="Lib/Lib_lib.html#fitsnap3lib.lib.neural_networks.pairwise.create_torch_network">create_torch_network() (in module fitsnap3lib.lib.neural_networks.pairwise)</a>
 
@@ -236,8 +244,6 @@
         <li><a href="Lib/Lib_lib.html#module-fitsnap3lib.lib.neural_networks.pytorch">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     fitsnap3lib.parallel_tools
 
@@ -245,6 +251,8 @@
         <li><a href="Lib/Lib_fitsnap.html#module-fitsnap3lib.parallel_tools">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     fitsnap3lib.scrapers.scrape
 
@@ -260,10 +268,24 @@
 </li>
       </ul></li>
       <li>
+    fitsnap3lib.solvers.ridge
+
+      <ul>
+        <li><a href="Lib/Lib_solver.html#module-fitsnap3lib.solvers.ridge">module</a>
+</li>
+      </ul></li>
+      <li>
     fitsnap3lib.solvers.solver
 
       <ul>
         <li><a href="Lib/Lib_solver.html#module-fitsnap3lib.solvers.solver">module</a>
+</li>
+      </ul></li>
+      <li>
+    fitsnap3lib.solvers.svd
+
+      <ul>
+        <li><a href="Lib/Lib_solver.html#module-fitsnap3lib.solvers.svd">module</a>
 </li>
       </ul></li>
       <li><a href="Lib/Lib_lib.html#fitsnap3lib.lib.neural_networks.pairwise.FitTorch">FitTorch (class in fitsnap3lib.lib.neural_networks.pairwise)</a>
@@ -364,7 +386,11 @@
 </li>
         <li><a href="Lib/Lib_solver.html#module-fitsnap3lib.solvers.pytorch">fitsnap3lib.solvers.pytorch</a>
 </li>
+        <li><a href="Lib/Lib_solver.html#module-fitsnap3lib.solvers.ridge">fitsnap3lib.solvers.ridge</a>
+</li>
         <li><a href="Lib/Lib_solver.html#module-fitsnap3lib.solvers.solver">fitsnap3lib.solvers.solver</a>
+</li>
+        <li><a href="Lib/Lib_solver.html#module-fitsnap3lib.solvers.svd">fitsnap3lib.solvers.svd</a>
 </li>
       </ul></li>
   </ul></td>
@@ -422,11 +448,19 @@
       <ul>
         <li><a href="Lib/Lib_solver.html#fitsnap3lib.solvers.pytorch.PYTORCH.perform_fit">(fitsnap3lib.solvers.pytorch.PYTORCH method)</a>
 </li>
-      </ul></li>
-      <li><a href="Lib/Lib_calculator.html#fitsnap3lib.calculators.lammps_base.LammpsBase.preprocess_allocate">preprocess_allocate() (fitsnap3lib.calculators.lammps_base.LammpsBase method)</a>
+        <li><a href="Lib/Lib_solver.html#fitsnap3lib.solvers.ridge.RIDGE.perform_fit">(fitsnap3lib.solvers.ridge.RIDGE method)</a>
 </li>
+        <li><a href="Lib/Lib_solver.html#fitsnap3lib.solvers.solver.Solver.perform_fit">(fitsnap3lib.solvers.solver.Solver method)</a>
+</li>
+        <li><a href="Lib/Lib_solver.html#fitsnap3lib.solvers.svd.SVD.perform_fit">(fitsnap3lib.solvers.svd.SVD method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Lib/Lib_solver.html#fitsnap3lib.solvers.solver.Solver.prepare_data">prepare_data() (fitsnap3lib.solvers.solver.Solver method)</a>
+</li>
+      <li><a href="Lib/Lib_calculator.html#fitsnap3lib.calculators.lammps_base.LammpsBase.preprocess_allocate">preprocess_allocate() (fitsnap3lib.calculators.lammps_base.LammpsBase method)</a>
+</li>
       <li><a href="Lib/Lib_calculator.html#fitsnap3lib.calculators.lammps_base.LammpsBase.process_configs">process_configs() (fitsnap3lib.calculators.lammps_base.LammpsBase method)</a>
 
       <ul>
@@ -448,6 +482,10 @@
       <li><a href="Lib/Lib_scraper.html#fitsnap3lib.scrapers.scrape.random">random() (in module fitsnap3lib.scrapers.scrape)</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Lib/Lib_solver.html#fitsnap3lib.solvers.ridge.RIDGE">RIDGE (class in fitsnap3lib.solvers.ridge)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="S">S</h2>
@@ -457,13 +495,19 @@
 </li>
       <li><a href="Lib/Lib_fitsnap.html#fitsnap3lib.fitsnap.FitSnap.scrape_configs">scrape_configs() (fitsnap3lib.fitsnap.FitSnap method)</a>
 </li>
+      <li><a href="Lib/Lib_fitsnap.html#fitsnap3lib.fitsnap.FitSnap.scraper">scraper (fitsnap3lib.fitsnap.FitSnap attribute)</a>
+</li>
+      <li><a href="Lib/Lib_fitsnap.html#fitsnap3lib.parallel_tools.SharedArray">SharedArray (class in fitsnap3lib.parallel_tools)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="Lib/Lib_fitsnap.html#fitsnap3lib.fitsnap.FitSnap.scraper">scraper (fitsnap3lib.fitsnap.FitSnap attribute)</a>
+      <li><a href="Lib/Lib_fitsnap.html#fitsnap3lib.parallel_tools.ParallelTools.slice_array">slice_array() (fitsnap3lib.parallel_tools.ParallelTools method)</a>
 </li>
       <li><a href="Lib/Lib_solver.html#fitsnap3lib.solvers.solver.Solver">Solver (class in fitsnap3lib.solvers.solver)</a>
 </li>
       <li><a href="Lib/Lib_fitsnap.html#fitsnap3lib.fitsnap.FitSnap.solver">solver (fitsnap3lib.fitsnap.FitSnap attribute)</a>
+</li>
+      <li><a href="Lib/Lib_solver.html#fitsnap3lib.solvers.svd.SVD">SVD (class in fitsnap3lib.solvers.svd)</a>
 </li>
   </ul></td>
 </tr></table>
