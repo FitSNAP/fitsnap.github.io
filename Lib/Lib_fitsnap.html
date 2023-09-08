@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>3.1. FitSnap &mdash; FitSNAP  documentation</title>
@@ -12,6 +12,9 @@
   <![endif]-->
   
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -26,16 +29,12 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="../index.html">
-            
-              <img src="../_static/FitSNAP.png" class="logo" alt="Logo"/>
+            <a href="../index.html">
+            <img src="../_static/FitSNAP.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -67,14 +66,15 @@
 <li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.fitsnap.FitSnap.scrape_configs"><code class="docutils literal notranslate"><span class="pre">FitSnap.scrape_configs()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-fitsnap3lib.parallel_tools">3.1.1. Parallel Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parallel-tools">3.1.1. Parallel Tools</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.parallel_tools.DistributedList"><code class="docutils literal notranslate"><span class="pre">DistributedList</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.parallel_tools.GracefulError"><code class="docutils literal notranslate"><span class="pre">GracefulError</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.parallel_tools.ParallelTools"><code class="docutils literal notranslate"><span class="pre">ParallelTools</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.parallel_tools.SharedArray"><code class="docutils literal notranslate"><span class="pre">SharedArray</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.parallel_tools.StubsArray"><code class="docutils literal notranslate"><span class="pre">StubsArray</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-fitsnap3lib.io.input">3.1.2. Config</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#config">3.1.2. Config</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#fitsnap3lib.io.input.Config"><code class="docutils literal notranslate"><span class="pre">Config</span></code></a></li>
 </ul>
 </li>
@@ -103,9 +103,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">3. </span>Library</a></li>
-      <li class="breadcrumb-item active"><span class="section-number">3.1. </span>FitSnap</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html"><span class="section-number">3. </span>Library</a> &raquo;</li>
+      <li><span class="section-number">3.1. </span>FitSnap</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/Lib/Lib_fitsnap.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -115,14 +115,23 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-fitsnap3lib.fitsnap">
-<span id="fitsnap"></span><h1><span class="section-number">3.1. </span>FitSnap<a class="headerlink" href="#module-fitsnap3lib.fitsnap" title="Permalink to this heading"></a></h1>
-<dl class="py class">
+  <section id="fitsnap">
+<h1><span class="section-number">3.1. </span>FitSnap<a class="headerlink" href="#fitsnap" title="Permalink to this heading"></a></h1>
+<p>The <code class="code docutils literal notranslate"><span class="pre">FitSnap</span></code> class houses all objects needed for performing a fit. These objects
+are instantiated from other core classes described in the rest of the docs. The two main
+inputs to a <code class="code docutils literal notranslate"><span class="pre">FitSnap</span></code> instance are (1) settings and (2) an MPI communicator. The
+settings can be a nested dictionary as shown in some examples, while the MPI communicator
+is typically the world communicator containing all resources dictated by the <code class="code docutils literal notranslate"><span class="pre">mpirun</span></code>
+command. After instantiating <code class="code docutils literal notranslate"><span class="pre">FitSnap</span></code> with these inputs, the instance will contain
+its own instance of <code class="code docutils literal notranslate"><span class="pre">ParallelTools</span></code> which houses functions and data structures that
+operate on the resources in the input communicator. The settings will be stored in an instance
+of the <code class="code docutils literal notranslate"><span class="pre">Config</span></code> class. The <code class="code docutils literal notranslate"><span class="pre">FitSnap</span></code> class is documented below.</p>
+<span class="target" id="module-fitsnap3lib.fitsnap"></span><dl class="py class">
 <dt class="sig sig-object py" id="fitsnap3lib.fitsnap.FitSnap">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.fitsnap.</span></span><span class="sig-name descname"><span class="pre">FitSnap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arglist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap" title="Permalink to this definition"></a></dt>
 <dd><p>This classes houses the objects needed for machine learning a potential, start to finish.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>input</strong> (<em>str</em>) – Optional dictionary or path to input file when using library mode; defaults to
 None for executable use.</p></li>
@@ -137,7 +146,7 @@ None for executable use.</p></li>
 <dd><p>Instance of the ParallelTools class for helping MPI
 communication and shared arrays.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">class</span></code> ParallelTools</p>
 </dd>
 </dl>
@@ -149,7 +158,7 @@ communication and shared arrays.</p>
 <dd><p>Instance of the Config class for initializing settings,
 initialized with a ParallelTools instance.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">class</span></code> Config</p>
 </dd>
 </dl>
@@ -160,7 +169,7 @@ initialized with a ParallelTools instance.</p>
 <span class="sig-name descname"><span class="pre">scraper</span></span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap.scraper" title="Permalink to this definition"></a></dt>
 <dd><p>Instance of the Scraper class for gathering configs.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">class</span></code> Scraper</p>
 </dd>
 </dl>
@@ -172,7 +181,7 @@ initialized with a ParallelTools instance.</p>
 <dd><p>List of dictionaries, where each configuration of atoms has its own
 dictionary.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></p>
 </dd>
 </dl>
@@ -184,7 +193,7 @@ dictionary.</p>
 <dd><p>Instance of the Calculator class for calculating
 descriptors and fitting data.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">class</span></code> Calculator</p>
 </dd>
 </dl>
@@ -195,7 +204,7 @@ descriptors and fitting data.</p>
 <span class="sig-name descname"><span class="pre">solver</span></span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap.solver" title="Permalink to this definition"></a></dt>
 <dd><p>Instance of the Solver class for performing a fit.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">class</span></code> Solver</p>
 </dd>
 </dl>
@@ -210,10 +219,10 @@ targets</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="fitsnap3lib.fitsnap.FitSnap.process_configs">
-<span class="sig-name descname"><span class="pre">process_configs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allgather</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap.process_configs" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">process_configs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allgather</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap.process_configs" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate descriptors for all configurations in the <code class="code docutils literal notranslate"><span class="pre">data</span></code> list and stores info in the shared arrays.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> – Optional list of data dictionaries to calculate descriptors for. If not supplied, we use the list
 owned by this instance.</p></li>
@@ -231,7 +240,7 @@ memory after processing configs, we delete it in executable mode.</p></li>
 <span class="sig-name descname"><span class="pre">scrape_configs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delete_scraper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.fitsnap.FitSnap.scrape_configs" title="Permalink to this definition"></a></dt>
 <dd><p>Scrapes configurations of atoms and creates an instance attribute list of configurations called <cite>data</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>delete_scraper</strong> – Boolean determining whether the scraper object is deleted or not after scraping. Defaults
 to False. Since scraper can retain unwanted memory, we delete it in executable mode.</p>
 </dd>
@@ -240,18 +249,35 @@ to False. Since scraper can retain unwanted memory, we delete it in executable m
 
 </dd></dl>
 
-<p><code class="code docutils literal notranslate"><span class="pre">FitSnap</span></code> contains instances of two helper classes that help with MPI communication and
-settings: ParallelTools and Config are explained below.</p>
-<section id="module-fitsnap3lib.parallel_tools">
-<span id="parallel-tools"></span><h2><span class="section-number">3.1.1. </span>Parallel Tools<a class="headerlink" href="#module-fitsnap3lib.parallel_tools" title="Permalink to this heading"></a></h2>
-<dl class="py class">
+<p><code class="code docutils literal notranslate"><span class="pre">FitSnap</span></code> contains instances of two classes that help with MPI communication and
+settings; <code class="code docutils literal notranslate"><span class="pre">ParallelTools</span></code> and <code class="code docutils literal notranslate"><span class="pre">Config</span></code>, respectively. These two classes are
+explained below. In addition to these classes, there are other core classes
+<code class="code docutils literal notranslate"><span class="pre">Scraper</span></code>, <code class="code docutils literal notranslate"><span class="pre">Calculator</span></code>, and <code class="code docutils literal notranslate"><span class="pre">Solver</span></code> which are explained in later
+sections.</p>
+<section id="parallel-tools">
+<h2><span class="section-number">3.1.1. </span>Parallel Tools<a class="headerlink" href="#parallel-tools" title="Permalink to this heading"></a></h2>
+<p>Parallel Tools are a collection of data structures and functions for transferring data in
+FitSNAP workflow in a massively parallel fashion.</p>
+<p>The <code class="code docutils literal notranslate"><span class="pre">ParallelTools</span></code> instance <code class="code docutils literal notranslate"><span class="pre">pt</span></code> of a FitSNAP instance <code class="code docutils literal notranslate"><span class="pre">fs</span></code> can be used
+to create shared memory arrays, for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a shared array called `a`.</span>
+<span class="n">fs</span><span class="o">.</span><span class="n">pt</span><span class="o">.</span><span class="n">create_shared_array</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">)</span>
+<span class="c1"># Change the shared array at a rank-dependent element.</span>
+<span class="n">fs</span><span class="o">.</span><span class="n">pt</span><span class="o">.</span><span class="n">shared_arrays</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="n">rank</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">rank</span>
+<span class="c1"># Observe that the change happened on all procs.</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shared array on rank </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">fs</span><span class="o">.</span><span class="n">pt</span><span class="o">.</span><span class="n">shared_arrays</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">array</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Currently these tools reside in a single file <code class="code docutils literal notranslate"><span class="pre">parallel_tools.py</span></code> which houses some
+classes described below.</p>
+<span class="target" id="module-fitsnap3lib.parallel_tools"></span><dl class="py class">
 <dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.DistributedList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.parallel_tools.</span></span><span class="sig-name descname"><span class="pre">DistributedList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proc_length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.DistributedList" title="Permalink to this definition"></a></dt>
 <dd><p>This class is used for distributed memory Python lists. The class to wraps Python’s <cite>list</cite> to ensure size stays the
 same allowing collection at end. This class is normally used like, for example:
 <code class="docutils literal notranslate"><span class="pre">pt.add_2_fitsnap(&quot;Groups&quot;,</span> <span class="pre">DistributedList(nconfigs))</span></code></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>proc_length</strong> (<em>int</em>) – Number of elements for the list on current process.</p>
 </dd>
 </dl>
@@ -260,7 +286,7 @@ same allowing collection at end. This class is normally used like, for example:
 <span class="sig-name descname"><span class="pre">_len</span></span><a class="headerlink" href="#fitsnap3lib.parallel_tools.DistributedList._len" title="Permalink to this definition"></a></dt>
 <dd><p>length of distributed list held by current proc</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -271,7 +297,7 @@ same allowing collection at end. This class is normally used like, for example:
 <span class="sig-name descname"><span class="pre">_list</span></span><a class="headerlink" href="#fitsnap3lib.parallel_tools.DistributedList._list" title="Permalink to this definition"></a></dt>
 <dd><p>local section of distributed list</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>list</p>
 </dd>
 </dl>
@@ -300,7 +326,7 @@ same allowing collection at end. This class is normally used like, for example:
 <dd><p>Checks whether fitsnap dictionaries exist before creating a new
 one, set to <cite>False</cite> to allow recreating a dictionary.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
@@ -313,7 +339,7 @@ one, set to <cite>False</cite> to allow recreating a dictionary.</p>
 configuration information such as group name, filename, testing bools, etc. This function is normally used in
 conjunction with the <cite>DistributedList</cite> class, where a distributed memory list is added with a keyname <cite>name</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<em>str</em>) – Key name of the object being added.</p></li>
 <li><p><strong>an_object</strong> – A Python object to add, usually an instance of our <cite>DistributedList</cite> class.</p></li>
@@ -328,8 +354,9 @@ conjunction with the <cite>DistributedList</cite> class, where a distributed mem
 <dd><p>Create a shared memory array as a key in the <code class="docutils literal notranslate"><span class="pre">pt.shared_array</span></code> dictionary. This function uses the <code class="docutils literal notranslate"><span class="pre">SharedArray</span></code>
 class to instantiate a shared memory array in the supplied dictionary key <code class="docutils literal notranslate"><span class="pre">name</span></code>.</p>
 <p>If the key name already exists, this function will free the memory associated with the existing array.</p>
+<p>If not using MPI, i.e. <code class="docutils literal notranslate"><span class="pre">stubs</span> <span class="pre">==</span> <span class="pre">0</span></code>, we create a <code class="docutils literal notranslate"><span class="pre">StubsArray</span></code>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<em>str</em>) – Name of the array which will be the key name.</p></li>
 <li><p><strong>size1</strong> (<em>int</em>) – First dimension size.</p></li>
@@ -345,7 +372,7 @@ class to instantiate a shared memory array in the supplied dictionary key <code 
 <span class="sig-name descname"><span class="pre">exception</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">err</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.exception" title="Permalink to this definition"></a></dt>
 <dd><p>Gracefully exit with an exception.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>err</strong> (<em>str</em>) – Error message to exit with.</p>
 </dd>
 </dl>
@@ -359,7 +386,7 @@ class to instantiate a shared memory array in the supplied dictionary key <code 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.ParallelTools.gather_fitsnap">
-<span class="sig-name descname"><span class="pre">gather_fitsnap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allgather</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.gather_fitsnap" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">gather_fitsnap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allgather</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.gather_fitsnap" title="Permalink to this definition"></a></dt>
 <dd><p>Gather distributed lists.
 :param allgather: If true then we allgather. When number of procs is large this will use more memory.</p>
 </dd></dl>
@@ -369,7 +396,7 @@ class to instantiate a shared memory array in the supplied dictionary key <code 
 <span class="sig-name descname"><span class="pre">get_ncpn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nconfigs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.ParallelTools.get_ncpn" title="Permalink to this definition"></a></dt>
 <dd><p>Get number of configs per node; return nconfigs if stubs.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>nconfigs</strong> – integer number of configurations on this process, typically length of list of
 data dictionaries.</p>
 </dd>
@@ -431,7 +458,7 @@ containing the sliced array.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.parallel_tools.</span></span><span class="sig-name descname"><span class="pre">SharedArray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'d'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multinode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MPI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.SharedArray" title="Permalink to this definition"></a></dt>
 <dd><p>Instantiating this class will create a shared memory array in the <code class="docutils literal notranslate"><span class="pre">array</span></code> attribute.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>size1</strong> (<em>int</em>) – First dimension of the array.</p></li>
 <li><p><strong>size2</strong> (<em>int</em>) – Optional second dimension of the array, defaults to 1.</p></li>
@@ -446,7 +473,34 @@ containing the sliced array.</p>
 <span class="sig-name descname"><span class="pre">array</span></span><a class="headerlink" href="#fitsnap3lib.parallel_tools.SharedArray.array" title="Permalink to this definition"></a></dt>
 <dd><p>Array of numbers that share memory across processes in the communicator.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.StubsArray">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.parallel_tools.</span></span><span class="sig-name descname"><span class="pre">StubsArray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'d'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.parallel_tools.StubsArray" title="Permalink to this definition"></a></dt>
+<dd><p>Instantiating this class will create a stubs array in the <code class="docutils literal notranslate"><span class="pre">array</span></code> attribute. In plain speak,
+this is just a normal numpy array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>size1</strong> (<em>int</em>) – First dimension of the array.</p></li>
+<li><p><strong>size2</strong> (<em>int</em>) – Optional second dimension of the array, defaults to 1.</p></li>
+<li><p><strong>dtype</strong> (<em>str</em>) – Optional data type, defaults to <cite>d</cite> for double.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fitsnap3lib.parallel_tools.StubsArray.array">
+<span class="sig-name descname"><span class="pre">array</span></span><a class="headerlink" href="#fitsnap3lib.parallel_tools.StubsArray.array" title="Permalink to this definition"></a></dt>
+<dd><p>Array of numbers that share memory across processes in the communicator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>np.ndarray</p>
 </dd>
 </dl>
@@ -455,9 +509,19 @@ containing the sliced array.</p>
 </dd></dl>
 
 </section>
-<section id="module-fitsnap3lib.io.input">
-<span id="config"></span><h2><span class="section-number">3.1.2. </span>Config<a class="headerlink" href="#module-fitsnap3lib.io.input" title="Permalink to this heading"></a></h2>
-<dl class="py class">
+<section id="config">
+<h2><span class="section-number">3.1.2. </span>Config<a class="headerlink" href="#config" title="Permalink to this heading"></a></h2>
+<p>The Config class is used for storing settings associated with a FitSNAP instance. Throughout
+the code and library examples, you may see code snippets like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fs</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="s2">&quot;GROUPS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">group_table</span>
+</pre></div>
+</div>
+<p>where <code class="code docutils literal notranslate"><span class="pre">fs</span></code> is the FitSNAP instance being accessed. In this snippet, the <code class="code docutils literal notranslate"><span class="pre">sections</span></code>
+attribute contains keys, such as <code class="code docutils literal notranslate"><span class="pre">&quot;GROUPS&quot;</span></code>, which contains attributes like the group
+table which we can access. In this regard, <code class="code docutils literal notranslate"><span class="pre">fs.config</span></code> stores all the settings relevant
+to a particular FitSNAP instance or fit, which can then be easily accessed anywhere else
+throughout the code.</p>
+<span class="target" id="module-fitsnap3lib.io.input"></span><dl class="py class">
 <dt class="sig sig-object py" id="fitsnap3lib.io.input.Config">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.io.input.</span></span><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_lst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.io.input.Config" title="Permalink to this definition"></a></dt>
 <dd><p>Class for storing input settings in a <cite>config</cite> instance. The <cite>config</cite> instance is first created
@@ -465,7 +529,7 @@ in <cite>io/output.py</cite>. If given a path to an input script, we use Python�
 to parse the settings. If given a nested dictionary, the sections are determined from the
 first keys and specific settings from the nested keys.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>pt</strong> – A ParallelTools instance.</p></li>
 <li><p><strong>input</strong> – Optional input can either be a filename or a dictionary.</p></li>
