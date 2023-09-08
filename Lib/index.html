@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>3. Library &mdash; FitSNAP  documentation</title>
@@ -12,6 +12,9 @@
   <![endif]-->
   
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -26,16 +29,12 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="../index.html">
-            
-              <img src="../_static/FitSNAP.png" class="logo" alt="Logo"/>
+            <a href="../index.html">
+            <img src="../_static/FitSNAP.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -78,8 +77,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active"><span class="section-number">3. </span>Library</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><span class="section-number">3. </span>Library</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/Lib/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -92,11 +91,18 @@
   <section id="library">
 <h1><span class="section-number">3. </span>Library<a class="headerlink" href="#library" title="Permalink to this heading"></a></h1>
 <p>The FitSNAP library provides a high level connection to FitSNAP methods in external Python scripts.
-The library is designed based on instances of <code class="code docutils literal notranslate"><span class="pre">FitSnap</span></code> objects with some important points:</p>
+The library is designed to provide effective and massively parallel tools for solving atomistic machine
+learning problems. Examples include parallel scraping and calculation of atomistic features to fit
+a potential, or extraction of this data for other unsupervised and supervised learning tasks with
+external libraries. Familiar users can craft custom atomistic machine learning workflows suited to
+their particular needs, such as automated active learning procedures and hyperparameter optimizers.
+The overall goal of the API is to supply tools needed for solving a wide range of atomistic machine
+learning problems in a flexible manner. API use is based on instances of <code class="code docutils literal notranslate"><span class="pre">FitSnap</span></code> objects,
+noting some important points:</p>
 <ul class="simple">
 <li><p>Each <code class="code docutils literal notranslate"><span class="pre">FitSnap</span></code> instance possesses its own settings, such as hyperparameters.</p></li>
 <li><p>Each <code class="code docutils literal notranslate"><span class="pre">FitSnap</span></code> instance possesses its own optional MPI communicator over which appropriate
-operations, such as calculating descriptors, are parallelized.</p></li>
+operations such as calculating descriptors are parallelized, and memory is shared between MPI ranks.</p></li>
 <li><p>All results of collating data, calculating descriptors, and fitting a potential are therefore
 contained within a <code class="code docutils literal notranslate"><span class="pre">FitSnap</span></code> instance; this improves organization of fits and reduces
 confusion about where a trained model came from.</p></li>
@@ -159,21 +165,21 @@ dictionary to perform a fit can be defined like:</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Create an <code class="code docutils literal notranslate"><span class="pre">FitSnap</span></code> instance using these settings with:</p>
+<p>Create an <code class="code docutils literal notranslate"><span class="pre">FitSnap</span></code> instance using these settings like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># The --overwrite command line arg lets us overwrite possible output files.</span>
-<span class="n">instance</span> <span class="o">=</span> <span class="n">FitSnap</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">arglist</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;--overwrite&quot;</span><span class="p">])</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="n">FitSnap</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">arglist</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;--overwrite&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Then use the <em>high level</em> functions for (1) scraping data, (2) calculating descriptors, and (3)
 performing a fit:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scrape fitting data.</span>
-<span class="n">instance</span><span class="o">.</span><span class="n">scrape_configs</span><span class="p">()</span>
+<span class="n">fs</span><span class="o">.</span><span class="n">scrape_configs</span><span class="p">()</span>
 <span class="c1"># Calculate descriptors.</span>
-<span class="n">instance</span><span class="o">.</span><span class="n">process_configs</span><span class="p">()</span>
+<span class="n">fs</span><span class="o">.</span><span class="n">process_configs</span><span class="p">()</span>
 <span class="c1"># Fit the model.</span>
-<span class="n">instance</span><span class="o">.</span><span class="n">perform_fit</span><span class="p">()</span>
+<span class="n">fs</span><span class="o">.</span><span class="n">perform_fit</span><span class="p">()</span>
 <span class="c1"># Observe the errors.</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">errors</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fs</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">errors</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Each <code class="code docutils literal notranslate"><span class="pre">FitSnap</span></code> instance contains its own settings for defining an entire machine learning fit

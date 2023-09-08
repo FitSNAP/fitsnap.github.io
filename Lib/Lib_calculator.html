@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>3.3. Calculator &mdash; FitSNAP  documentation</title>
@@ -12,6 +12,9 @@
   <![endif]-->
   
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -26,16 +29,12 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="../index.html">
-            
-              <img src="../_static/FitSNAP.png" class="logo" alt="Logo"/>
+            <a href="../index.html">
+            <img src="../_static/FitSNAP.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -91,9 +90,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">3. </span>Library</a></li>
-      <li class="breadcrumb-item active"><span class="section-number">3.3. </span>Calculator</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html"><span class="section-number">3. </span>Library</a> &raquo;</li>
+      <li><span class="section-number">3.3. </span>Calculator</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/Lib/Lib_calculator.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -116,7 +115,7 @@
 when doing big A matrix fits (need number of atoms) or nonlinear
 fits.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>data</strong> – List of data dictionaries.</p>
 </dd>
 </dl>
@@ -129,7 +128,7 @@ fits.</p>
 For each distributed list (fitsnap dicts) this will create a concatenated list on the root proc.
 We use this function in fitsnap.py after processing configs.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>allgather</strong> – Whether to gather lists on all nodes or just the head node.</p>
 </dd>
 </dl>
@@ -147,7 +146,7 @@ We use this function in fitsnap.py after processing configs.</p>
 <dd><p>Create dictionaries for certain distributed lists.
 Each list should be of size <cite>nconfigs</cite> of a single proc.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>nconfigs</strong> – int number of configs on this proc.</p>
 </dd>
 </dl>
@@ -171,7 +170,7 @@ Each list should be of size <cite>nconfigs</cite> of a single proc.</p>
 <span class="sig-name descname"><span class="pre">preprocess_allocate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nconfigs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.calculators.lammps_base.LammpsBase.preprocess_allocate" title="Permalink to this definition"></a></dt>
 <dd><p>Allocate arrays to be used by this proc. These arrays have size nconfigs.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>nconfigs</strong> – number of configs on this proc</p>
 </dd>
 </dl>
@@ -183,7 +182,7 @@ Each list should be of size <cite>nconfigs</cite> of a single proc.</p>
 <dd><p>Calculate descriptors for a given configuration.
 Action of this function is altered by certain attributes.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>transpose_trick</strong> – Don’t touch shared arrays in <cite>_collect_lammps()</cite> if true. Instead
 store smaller matrices <cite>self.aw</cite>, <cite>self.bw</cite>.</p>
 </dd>
@@ -195,14 +194,14 @@ store smaller matrices <cite>self.aw</cite>, <cite>self.bw</cite>.</p>
 <span class="sig-name descname"><span class="pre">process_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.calculators.lammps_base.LammpsBase.process_single" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate descriptors on a single configuration without touching the shraed arrays.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> – dictionary of structural and fitting info for a configuration in fitsnap
 data dictionary format.</p></li>
 <li><p><strong>i</strong> – integer index which is optional, mainly for debugging purposes.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p>A matrix of descriptors depending on settings declared in <cite>CALCULATOR</cite>. If
 <cite>bikflag</cite> is 0 (default) then A has 1 and 0s in the first column since it is ready to

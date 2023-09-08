@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>3.4. Solver &mdash; FitSNAP  documentation</title>
@@ -12,6 +12,9 @@
   <![endif]-->
   
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -26,16 +29,12 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="../index.html">
-            
-              <img src="../_static/FitSNAP.png" class="logo" alt="Logo"/>
+            <a href="../index.html">
+            <img src="../_static/FitSNAP.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -99,9 +98,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">3. </span>Library</a></li>
-      <li class="breadcrumb-item active"><span class="section-number">3.4. </span>Solver</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html"><span class="section-number">3. </span>Library</a> &raquo;</li>
+      <li><span class="section-number">3.4. </span>Solver</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/Lib/Lib_solver.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -136,7 +135,7 @@ a Pandas dataframe.</p>
 A matrix, truth array, weights, and a fs dictionary which contains group info. Care must be taken to ensure that
 these data structures are already processed and lined up properly.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>a</strong> – Optional A matrix numpy array.</p></li>
 <li><p><strong>b</strong> – Optional truth matrix numpy array.</p></li>
@@ -158,7 +157,7 @@ these data structures are already processed and lined up properly.</p>
 <span class="sig-name descname"><span class="pre">prepare_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.solver.Solver.prepare_data" title="Permalink to this definition"></a></dt>
 <dd><p>Prepare a, b, w data for fitting by applying weight arrays <cite>w</cite> to the <cite>a</cite> and <cite>b</cite> arrays.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>a</strong> (<em>np.array</em>) – design matrix</p></li>
 <li><p><strong>b</strong> (<em>np.array</em>) – truth array</p></li>
@@ -166,10 +165,10 @@ these data structures are already processed and lined up properly.</p>
 <li><p><strong>fs_dict</strong> (<em>dict</em>) – dictionary with <cite>Testing</cite> key of bools for which structures to test on.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p>design matrix and truth array multiplied by weights.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>aw, bw (np.array)</p>
 </dd>
 </dl>
@@ -189,7 +188,7 @@ these data structures are already processed and lined up properly.</p>
 <span class="sig-name descname"><span class="pre">perform_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trainall</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.svd.SVD.perform_fit" title="Permalink to this definition"></a></dt>
 <dd><p>Perform fit on a linear system. If no args are supplied, will use fitting data in <cite>pt.shared_arrays</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>a</strong> (<em>np.array</em>) – Optional “A” matrix.</p></li>
 <li><p><strong>b</strong> (<em>np.array</em>) – Optional Truth array.</p></li>
@@ -216,7 +215,7 @@ these data structures are already processed and lined up properly.</p>
 <span class="sig-name descname"><span class="pre">perform_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trainall</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.ridge.RIDGE.perform_fit" title="Permalink to this definition"></a></dt>
 <dd><p>Perform fit on a linear system. If no args are supplied, will use fitting data in <cite>pt.shared_arrays</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>a</strong> (<em>np.array</em>) – Optional “A” matrix.</p></li>
 <li><p><strong>b</strong> (<em>np.array</em>) – Optional Truth array.</p></li>
@@ -240,7 +239,7 @@ these data structures are already processed and lined up properly.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fitsnap3lib.solvers.pytorch.</span></span><span class="sig-name descname"><span class="pre">PYTORCH</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH" title="Permalink to this definition"></a></dt>
 <dd><p>A class to wrap Modules to ensure lammps mliap compatability.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>name</strong> – Name of the solver class.</p>
 </dd>
 </dl>
@@ -249,7 +248,7 @@ these data structures are already processed and lined up properly.</p>
 <span class="sig-name descname"><span class="pre">optimizer</span></span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.optimizer" title="Permalink to this definition"></a></dt>
 <dd><p>PyTorch Adam optimization object.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>torch.optim.Adam</p>
 </dd>
 </dl>
@@ -261,7 +260,7 @@ these data structures are already processed and lined up properly.</p>
 <dd><p>Network model that maps descriptors to a per atom quantity
 (e.g. energy).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>torch.nn.Module</p>
 </dd>
 </dl>
@@ -272,7 +271,7 @@ these data structures are already processed and lined up properly.</p>
 <span class="sig-name descname"><span class="pre">loss_function</span></span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.loss_function" title="Permalink to this definition"></a></dt>
 <dd><p>Mean squared error loss function.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>torch.loss.MSELoss</p>
 </dd>
 </dl>
@@ -283,7 +282,7 @@ these data structures are already processed and lined up properly.</p>
 <span class="sig-name descname"><span class="pre">learning_Rate</span></span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.learning_Rate" title="Permalink to this definition"></a></dt>
 <dd><p>Learning rate for gradient descent.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>float</p>
 </dd>
 </dl>
@@ -294,7 +293,7 @@ these data structures are already processed and lined up properly.</p>
 <span class="sig-name descname"><span class="pre">scheduler</span></span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.scheduler" title="Permalink to this definition"></a></dt>
 <dd><p>Torch learning rate scheduler.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>torch.optim.lr_scheduler.ReduceLROnPlateau</p>
 </dd>
 </dl>
@@ -311,7 +310,7 @@ these data structures are already processed and lined up properly.</p>
 <span class="sig-name descname"><span class="pre">training_data</span></span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.training_data" title="Permalink to this definition"></a></dt>
 <dd><p>Torch dataset for training.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>torch.utils.data.Dataset</p>
 </dd>
 </dl>
@@ -322,7 +321,7 @@ these data structures are already processed and lined up properly.</p>
 <span class="sig-name descname"><span class="pre">training_loader</span></span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.training_loader" title="Permalink to this definition"></a></dt>
 <dd><p>Data loader for loading datasets.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>torch.utils.data.DataLoader</p>
 </dd>
 </dl>
@@ -333,7 +332,7 @@ these data structures are already processed and lined up properly.</p>
 <span class="sig-name descname"><span class="pre">create_datasets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.create_datasets" title="Permalink to this definition"></a></dt>
 <dd><p>Creates the dataset to be used for training and the data loader for the batch system.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>configs</strong> – Optional list of Configuration objects. If not supplied, we generate a
 configs list using the shared arrays.</p></li>
@@ -348,7 +347,7 @@ configs list using the shared arrays.</p></li>
 <span class="sig-name descname"><span class="pre">evaluate_configs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardize_bool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cpu'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.evaluate_configs" title="Permalink to this definition"></a></dt>
 <dd><p>Evaluates energies and forces on configs for testing purposes.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>config_idx</strong> (<em>int</em>) – Index of config to evaluate. None if evaluating all configs.</p></li>
 <li><p><strong>standardize_bool</strong> (<em>bool</em>) – True to standardize weights, False otherwise. Useful if
@@ -358,7 +357,7 @@ comparing inputs with a previously standardized model.</p></li>
 prevent device mismatch when training on GPU.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A tuple (energy, force) for the config given by <cite>config_idx</cite>. The tuple will contain
 lists of energy/force for each config if <cite>config_idx</cite> is None.</p>
 </dd>
@@ -367,10 +366,10 @@ lists of energy/force for each config if <cite>config_idx</cite> is None.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="fitsnap3lib.solvers.pytorch.PYTORCH.perform_fit">
-<span class="sig-name descname"><span class="pre">perform_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.perform_fit" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">perform_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitsnap3lib.solvers.pytorch.PYTORCH.perform_fit" title="Permalink to this definition"></a></dt>
 <dd><p>Performs PyTorch fitting using previously calculated descriptors.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>configs</strong> – Optional list of Configuration objects to perform fitting on.</p></li>
 <li><p><strong>pt</strong> – ParallelTools instance containing shared arrays and data we want
